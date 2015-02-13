@@ -1,0 +1,9 @@
+﻿<Window x:Class="DataAnonTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Views="clr-namespace:AnonTool.UI;assembly=AnonTool.UI"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Views:ShellView />
+    </Grid>
+</Window>
