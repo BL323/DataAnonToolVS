@@ -11,7 +11,7 @@
             <RowDefinition Height="40" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
-        <MenuBarViews:MenuBarView />
+
+        <MenuBarViews:MenuBarView DataContext="{Binding MenuBarVm}" />
     </Grid>
 </UserControl>
