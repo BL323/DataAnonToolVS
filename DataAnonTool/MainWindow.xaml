@@ -4,6 +4,6 @@
         xmlns:Views="clr-namespace:AnonTool.UI;assembly=AnonTool.UI"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Views:ShellView />
+        <Views:ShellView x:Name="shellView" />
     </Grid>
 </Window>

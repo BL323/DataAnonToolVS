@@ -114,6 +114,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnonTool.Core\AnonTool.Core.csproj">
+      <Project>{3866f7b4-e26d-4f33-96a8-d16e9fc545ac}</Project>
+      <Name>AnonTool.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnonTool.MVVM\AnonTool.MVVM.csproj">
+      <Project>{c503261f-1a54-41e9-8cbb-73445dd81b58}</Project>
+      <Name>AnonTool.MVVM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AnonTool.UI\AnonTool.UI.csproj">
       <Project>{e2a12eb9-9940-4d86-940c-0a24a4acc71a}</Project>
       <Name>AnonTool.UI</Name>

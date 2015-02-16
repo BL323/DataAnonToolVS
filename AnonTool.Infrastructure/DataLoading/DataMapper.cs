@@ -48,7 +48,7 @@ namespace AnonTool.Infrastructure.DataLoading
             }
         }
 
-        //relational data class
+        //mapper data class for dynamic data table generation
         public DataMapper(List<string> inputHeaders, List<List<string>> inputFields)
         {
             _headers = inputHeaders;
@@ -61,17 +61,7 @@ namespace AnonTool.Infrastructure.DataLoading
             Console.WriteLine(desc);
         }
 
-        public void AlterTypes()
-        {
-            var count = 0;
-            Console.WriteLine("string, int, double, long");
+        
 
-            foreach (var head in _headers)
-            {
-                Console.Write("[{0}] -> {1}... set data type: ", count++, head);
-                _types.Add(Console.ReadLine());
-            }
-
-        }
     }
 }

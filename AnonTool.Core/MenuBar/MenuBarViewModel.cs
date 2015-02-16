@@ -6,6 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
+using System.Windows.Forms;
+using AnonTool.Infrastructure.DataLoading;
+using AnonTool.Core.DataImport;
+using AnonTool.UI.DataImport;
 
 namespace AnonTool.Core.MenuBar
 {
@@ -28,12 +33,33 @@ namespace AnonTool.Core.MenuBar
 
         private void ImportData()
         {
-            throw new NotImplementedException();
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "csv files (*.csv)| *.csv";
+            if(fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var fName = fileDialog.FileName;
+                
+                var dataMapper = DataLoader.LoadCsv(fName);
+
+                UpdateDataTypes(dataMapper);
+
+                //var dataTable = DataLoader.GenerateDataTable(dataMapper);
+                //DataLoader.PopulateDataTable(dataMapper, ref dataTable);
+            }
         }
         private void ExportData()
         {
             throw new NotImplementedException();
         }
+        private void UpdateDataTypes(DataMapper dataMapper)
+        {
 
+            var disvm = new DataImportShellViewModel(dataMapper);
+            var dataImportDialog = new DataImportDialog();
+            dataImportDialog.DataContext = disvm;
+
+            dataImportDialog.ShowDialog();
+           
+        }
     }
 }

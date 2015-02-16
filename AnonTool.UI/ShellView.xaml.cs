@@ -1,5 +1,4 @@
-﻿using AnonTool.Core.Shell;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +23,6 @@ namespace AnonTool.UI
         public ShellView()
         {
             InitializeComponent();
-
-            var shellVm = new ShellViewModel();
-            this.DataContext = shellVm;
         }
     }
 }
