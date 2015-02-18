@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="DataLoading\DataLoader.cs" />
     <Compile Include="DataLoading\DataMapper.cs" />
+    <Compile Include="IdentifierTypes\IdentifierType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

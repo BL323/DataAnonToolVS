@@ -76,56 +76,6 @@ namespace AnonTool.Infrastructure.DataLoading
                 fStream.Close();
             }
 
-            public static DataTable GenerateDataTable(DataMapper relationalData)
-            {
-
-                try
-                {
-                    var dt = new DataTable("TestTabel1");
-                    DataColumn column;
-
-                    //dynamically build data table columns
-                    for (var index = 0; index < relationalData.Headers.Count; index++)
-                    {
-                        column = new DataColumn();
-                        var type = string.Format("System.{0}", relationalData.Types[index]);
-                        column.DataType = System.Type.GetType(type);
-                        column.ColumnName = relationalData.Headers[index];
-                        dt.Columns.Add(column);
-                    }
-                    return dt;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error creating DataTable: " + ex.InnerException.Message);
-                }
-            }
-
-            public static void PopulateDataTable(DataMapper rData, ref DataTable dataTable)
-            {
-                //dynamically populate the table
-                try
-                {
-
-                    for (var rowIndex = 0; rowIndex < rData.Fields[0].Count; rowIndex++)
-                    {
-                        var row = dataTable.NewRow();
-
-                        for (var colIndex = 0; colIndex < rData.Headers.Count; colIndex++)
-                        {
-                            var col = rData.Fields[colIndex];
-                            var data = col[rowIndex];
-                            row[rData.Headers[colIndex]] = data;
-                        }
-                        dataTable.Rows.Add(row);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error populating DataTable: " + ex.InnerException.Message);
-                }
-            }
-
         }
     }
 

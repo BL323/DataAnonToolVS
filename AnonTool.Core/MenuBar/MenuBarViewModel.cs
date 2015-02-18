@@ -11,11 +11,17 @@ using System.Windows.Forms;
 using AnonTool.Infrastructure.DataLoading;
 using AnonTool.Core.DataImport;
 using AnonTool.UI.DataImport;
+using System.Data;
 
 namespace AnonTool.Core.MenuBar
 {
+
+    public delegate void ImportedData(object sender, DataTable importedDataTable);
+    
     public class MenuBarViewModel : UpdateBase
     {
+        //Events
+        public event ImportedData importedData;
         //Private Fields 
         private ICommand _importDataCommand;
         private ICommand _exportDataCommand;
@@ -30,36 +36,39 @@ namespace AnonTool.Core.MenuBar
             get { return _exportDataCommand ?? (_exportDataCommand = new RelayCommand(o => ExportData(), o => true)); }
         }
 
-
         private void ImportData()
         {
             var fileDialog = new OpenFileDialog();
             fileDialog.Filter = "csv files (*.csv)| *.csv";
             if(fileDialog.ShowDialog() == DialogResult.OK)
             {
-                var fName = fileDialog.FileName;
-                
+                var fName = fileDialog.FileName;              
                 var dataMapper = DataLoader.LoadCsv(fName);
 
-                UpdateDataTypes(dataMapper);
-
-                //var dataTable = DataLoader.GenerateDataTable(dataMapper);
-                //DataLoader.PopulateDataTable(dataMapper, ref dataTable);
+                var dataTable = CreateDataTable(dataMapper);
+                importedData(this, dataTable);
             }
         }
         private void ExportData()
         {
             throw new NotImplementedException();
         }
-        private void UpdateDataTypes(DataMapper dataMapper)
-        {
 
+        private DataTable CreateDataTable(DataMapper dataMapper)
+        {
             var disvm = new DataImportShellViewModel(dataMapper);
             var dataImportDialog = new DataImportDialog();
             dataImportDialog.DataContext = disvm;
 
             dataImportDialog.ShowDialog();
-           
+
+            if (dataImportDialog.DialogResult != true)
+                return null;
+            
+            var dataTable = disvm.DataImportVm.GenerateDataTable();
+            disvm.DataImportVm.PopulateDataTable(ref dataTable);
+            return dataTable;
+     
         }
     }
 }

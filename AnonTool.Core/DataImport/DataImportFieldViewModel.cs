@@ -12,6 +12,7 @@ namespace AnonTool.Core.DataImport
     {
         private string _header;
         private string _selectedDataType = "string";
+        private List<string> _data = new List<string>();
         private ObservableCollection<string> _dataTypes = new ObservableCollection<string>() { "string", "int", "decimal", "DateTime" };
 
         public string Header
@@ -35,6 +36,18 @@ namespace AnonTool.Core.DataImport
                 {
                     _selectedDataType = value;
                     RaisePropertyChanged(() => SelectedDataType);
+                }
+            }
+        }
+        public List<string> Data
+        {
+            get { return _data; }
+            set
+            {
+                if(_data != value)
+                {
+                    _data = value;
+                    RaisePropertyChanged(() => Data);
                 }
             }
         }

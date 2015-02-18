@@ -1,8 +1,0 @@
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\bin\Debug\DataAnonTool.exe.config
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\DataAnonTool.csprojResolveAssemblyReference.cache
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\MainWindow.baml
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\MainWindow.g.cs
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\ShellView.g.cs
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\App.g.cs
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\DataAnonTool_MarkupCompile.cache
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool\obj\Debug\DataAnonTool_MarkupCompile.lref

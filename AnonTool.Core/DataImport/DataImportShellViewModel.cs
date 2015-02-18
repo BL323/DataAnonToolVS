@@ -25,7 +25,6 @@ namespace AnonTool.Core.DataImport
                 }
             }
         }
-
         public DataImportShellViewModel(DataMapper dataMapper)
         {
             _dataMapper = dataMapper;

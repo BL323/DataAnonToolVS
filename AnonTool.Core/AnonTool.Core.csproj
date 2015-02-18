@@ -67,6 +67,9 @@
     <Compile Include="DataImport\DataImportShellViewModel.cs" />
     <Compile Include="DataImport\DataImportViewModel.cs" />
     <Compile Include="MenuBar\MenuBarViewModel.cs" />
+    <Compile Include="Preprocessing\PreprocessColumnVm.cs" />
+    <Compile Include="Preprocessing\PreprocessingColumnsVm.cs" />
+    <Compile Include="Preprocessing\PreProcessingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
   </ItemGroup>
