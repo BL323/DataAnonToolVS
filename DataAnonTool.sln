@@ -13,6 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonTool.MVVM", "AnonTool.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonTool.Core", "AnonTool.Core\AnonTool.Core.csproj", "{3866F7B4-E26D-4F33-96A8-D16E9FC545AC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C12EFDE6-F28F-403A-A865-C2345ECBB478}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAnonymisation.Core", "KAnonymisation.Core\KAnonymisation.Core.csproj", "{157E0766-309E-442D-9102-85914C9FA147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAnonymisation.SetBased", "KAnonymisation.SetBased\KAnonymisation.SetBased.csproj", "{C1028692-4D7B-4BF5-B227-7B3822073D5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +102,32 @@ Global
 		{3866F7B4-E26D-4F33-96A8-D16E9FC545AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3866F7B4-E26D-4F33-96A8-D16E9FC545AC}.Release|x64.ActiveCfg = Release|Any CPU
 		{3866F7B4-E26D-4F33-96A8-D16E9FC545AC}.Release|x86.ActiveCfg = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|x86.ActiveCfg = Debug|x86
+		{157E0766-309E-442D-9102-85914C9FA147}.Debug|x86.Build.0 = Debug|x86
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|x64.ActiveCfg = Release|Any CPU
+		{157E0766-309E-442D-9102-85914C9FA147}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|x86.ActiveCfg = Debug|x86
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Debug|x86.Build.0 = Debug|x86
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1028692-4D7B-4BF5-B227-7B3822073D5A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

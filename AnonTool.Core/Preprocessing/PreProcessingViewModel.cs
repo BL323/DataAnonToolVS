@@ -1,19 +1,29 @@
-﻿using AnonTool.Infrastructure.IdentifierTypes;
+﻿using AnonTool.MVVM.Commands;
 using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
+using KAnonymisation.SetBased;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
 {
     public class PreProcessingViewModel : UpdateBase
     {
+        //Private Fields
         private DataTable _inputDataTable;
-        private PreprocessingColumnsVm _columnPreprocessorVm;
+        private PreprocessingColumnsVm _columnPreprocessorVm;       
+        private IKAnonymisation _selectedAnonmymisation;
+        private ObservableCollection<IKAnonymisation> _availableAnonymisations;
+        private ICommand _anonymiseCommand;
 
+        //Public Properties
         public DataTable InputDataTable
         {
             get { return _inputDataTable; }
@@ -38,8 +48,48 @@ namespace AnonTool.Core.Preprocessing
                     RaisePropertyChanged(() => ColumnPreprocessorVm);
                 }
             }
+        }     
+        public IKAnonymisation SelectedAnonymisation { 
+            get { return _selectedAnonmymisation; }
+            set { if(_selectedAnonmymisation != value)
+            {
+                _selectedAnonmymisation = value;
+                RaisePropertyChanged(() => SelectedAnonymisation);
+            }
+            }
+        }
+        public ObservableCollection<IKAnonymisation> AvailableAnonymisations
+        {
+            get { return _availableAnonymisations; }
+            set
+            {
+                if(_availableAnonymisations != value)
+                {
+                    _availableAnonymisations = value;
+                    RaisePropertyChanged(() => AvailableAnonymisations);
+                }
+            }
+        }
+        public ICommand AnonymiseCommand
+        {
+            get { return _anonymiseCommand ?? (_anonymiseCommand = new RelayCommand(o => InvokeAnonymiseDataSet(), o => true)); }
         }
 
+        //Constructor
+        public PreProcessingViewModel()
+        {
+            LoadAnonymisations();
+        }
+
+        //Private Methods
+        private void LoadAnonymisations()
+        {
+            //To be done dynamically in the final version
+            IKAnonymisation defaultSetBasedAnon = new SetBasedAnonymisation();
+
+            SelectedAnonymisation = defaultSetBasedAnon;
+            _availableAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon};
+        }
         private void UpdateColumnInfo()
         {
             _columnPreprocessorVm = new PreprocessingColumnsVm();
@@ -60,6 +110,11 @@ namespace AnonTool.Core.Preprocessing
                 _columnPreprocessorVm.SelectedColumn = _columnPreprocessorVm.Columns.First();
 
             RaisePropertyChanged(() => ColumnPreprocessorVm);
+        }
+        private void InvokeAnonymiseDataSet()
+        {
+            if (SelectedAnonymisation != null && ColumnPreprocessorVm != null)
+                SelectedAnonymisation.Anonymise(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using AnonTool.Infrastructure.IdentifierTypes;
-using AnonTool.MVVM.Updates;
+﻿using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.IdentifierTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,6 +45,26 @@ namespace AnonTool.Core.Preprocessing
         public ObservableCollection<IdentifierType> AvailableAttributeTypes
         {
             get { return _availableAttributeTypes; }
+        }
+
+        public List<ColumnModel> TranslateToColumnModels()
+        {
+            var columnModel = new List<ColumnModel>();
+
+            foreach(var col in Columns)
+            {
+                var colMod = new ColumnModel()
+                {
+                     AttributeType = col.AttributeType,
+                     DataType = col.DataType,
+                     Header = col.Header,
+                     K = col.K
+                };
+
+                columnModel.Add(colMod);
+            }
+
+            return columnModel;
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using AnonTool.MVVM.Updates;
-using KAnonymisation.Core.IdentifierTypes;
+﻿using KAnonymisation.Core.IdentifierTypes;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnonTool.Core.Preprocessing
+namespace KAnonymisation.Core.ColumnInfo
 {
-    public class PreprocessColumnVm : UpdateBase
+    public class ColumnModel
     {
         private int _k = 0;
         private string _header;
@@ -21,10 +19,9 @@ namespace AnonTool.Core.Preprocessing
             get { return _k; }
             set
             {
-                if(_k != value)
+                if (_k != value)
                 {
                     K = _k;
-                    RaisePropertyChanged(() => K);
                 }
             }
         }
@@ -33,10 +30,9 @@ namespace AnonTool.Core.Preprocessing
             get { return _header; }
             set
             {
-                if(_header != value)
+                if (_header != value)
                 {
                     _header = value;
-                    RaisePropertyChanged(() => Header);
                 }
             }
         }
@@ -45,10 +41,9 @@ namespace AnonTool.Core.Preprocessing
             get { return _dataType; }
             set
             {
-                if(_dataType != value)
+                if (_dataType != value)
                 {
                     _dataType = value;
-                    RaisePropertyChanged(() => DataType);
                 }
             }
         }
@@ -57,13 +52,11 @@ namespace AnonTool.Core.Preprocessing
             get { return _attributeType; }
             set
             {
-                if(_attributeType != value)
+                if (_attributeType != value)
                 {
                     _attributeType = value;
-                    RaisePropertyChanged(() => AttributeType);
                 }
             }
         }
-
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnonTool.Infrastructure.IdentifierTypes
+namespace KAnonymisation.Core.IdentifierTypes
 {
     public enum IdentifierType
     {
