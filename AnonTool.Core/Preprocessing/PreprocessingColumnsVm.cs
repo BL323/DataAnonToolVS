@@ -60,7 +60,6 @@ namespace AnonTool.Core.Preprocessing
                      Header = col.Header,
                      K = col.K
                 };
-
                 columnModel.Add(colMod);
             }
 

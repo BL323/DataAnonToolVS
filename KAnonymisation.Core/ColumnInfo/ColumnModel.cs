@@ -21,7 +21,7 @@ namespace KAnonymisation.Core.ColumnInfo
             {
                 if (_k != value)
                 {
-                    K = _k;
+                    _k = value;
                 }
             }
         }

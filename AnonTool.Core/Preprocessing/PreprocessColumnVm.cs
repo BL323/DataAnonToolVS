@@ -11,7 +11,7 @@ namespace AnonTool.Core.Preprocessing
 {
     public class PreprocessColumnVm : UpdateBase
     {
-        private int _k = 0;
+        private int _k = 3;
         private string _header;
         private Type _dataType;
         private IdentifierType _attributeType;

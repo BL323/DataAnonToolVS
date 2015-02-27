@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="DeepPink">
+    <Grid Background="Goldenrod">
         <StackPanel Orientation="Vertical" Margin="10">
             <Label Content="Column Preprocessing" Margin="0,0,0,5" />
             <ComboBox Height="25" Margin="0,0,0,5" ItemsSource="{Binding Columns}" SelectedItem="{Binding SelectedColumn}"
@@ -23,7 +23,7 @@
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                 <Label Content="K =" />
-                <Label Content="{Binding SelectedColumn.K}" />
+                <TextBox Text="{Binding SelectedColumn.K}" Height="25" Width="40"/>
             </StackPanel>
             
             

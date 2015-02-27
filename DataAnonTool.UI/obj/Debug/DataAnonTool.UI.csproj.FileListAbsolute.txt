@@ -1,5 +1,0 @@
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool.UI\obj\Debug\DataAnonTool.UI.csprojResolveAssemblyReference.cache
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool.UI\obj\Debug\MenuBarView.baml
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool.UI\obj\Debug\MenuBarView.g.cs
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool.UI\obj\Debug\DataAnonTool.UI_MarkupCompile.cache
-c:\users\ben\documents\visual studio 2013\Projects\DataAnonTool\DataAnonTool.UI\obj\Debug\DataAnonTool.UI.g.resources
