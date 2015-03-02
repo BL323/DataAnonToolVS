@@ -2,6 +2,8 @@
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
 using KAnonymisation.Core.TypeComparer;
+using KAnonymisation.SetBased.Show.ViewModels;
+using KAnonymisation.SetBased.Show.Views;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,18 +26,11 @@ namespace KAnonymisation.SetBased
         public void Anonymise(DataTable dataTable, List<ColumnModel> columnsInfo)
         {
             //Set all columns to string data type...[11-18] or {12, 16}
-            //dtClone.Columns[columnModel.Header].DataType = typeof(string);
-            //foreach (DataRow dataRow in dataTable.Rows)
-            //    dtClone.ImportRow(dataRow);
-
-           // dataTable = dtClone;
-
             DataTable dtClone = dataTable.Clone();
             foreach(DataColumn column in dataTable.Columns)
                 dtClone.Columns[column.ColumnName].DataType = typeof(string);
             foreach (DataRow row in dataTable.Rows)
                 dtClone.ImportRow(row);
-
             dataTable = dtClone;
 
 
@@ -44,6 +39,13 @@ namespace KAnonymisation.SetBased
                 AnonymiseColumn(column, ref dataTable);
 
             //Display Data
+            var resultVm = new ResultViewModel();
+            resultVm.OutputDataTable = dataTable;
+            var resultDialog = new ResultWindowView();
+            resultDialog.DataContext = resultVm;
+            resultDialog.Show();
+
+            
         }
 
         private void AnonymiseColumn(ColumnModel column, ref DataTable dataTable)
@@ -101,162 +103,47 @@ namespace KAnonymisation.SetBased
             //establish sets from keys that do not meet threshold
             //generate set based on set 
 
-
-            if(columnModel.DataType == typeof(string))
+            if (valsToBeAnonymised.Count < 1)
+                return;
+  
+            if (columnModel.DataType == typeof(string))
             {
                 var clustersToApply = ClusterKMembers<string>(columnModel.K, valsToBeAnonymised);
-                foreach(DataRow row in dataTable.Rows)
-                {
-                    var val = row[columnModel.Header].ToString();
-                    if(valsToBeAnonymised.Contains(val))
-                    {
-                        foreach(var cluster in clustersToApply)
-                        {
-                            row.BeginEdit();
-                            row[columnModel.Header] = string.Join(", ", cluster);
-                            row.EndEdit();
-                            row.AcceptChanges();
-                        }
-                    }
-                }
-            }
-
-            if(columnModel.DataType == typeof(int))
-            {
-                var listIntsToAnonymise = new List<int>();
-
-                foreach (var str in valsToBeAnonymised)
-                    listIntsToAnonymise.Add(int.Parse(str));
-
-                var clustersToApply = ClusterKMembers<int>(columnModel.K, listIntsToAnonymise);
-
-
-
-
                 foreach (DataRow row in dataTable.Rows)
                 {
                     var val = row[columnModel.Header].ToString();
                     if (valsToBeAnonymised.Contains(val))
-                    {
                         foreach (var cluster in clustersToApply)
-                        {
-                            row.BeginEdit();
-                            row[columnModel.Header] = string.Join(", ", cluster);
-                            row.EndEdit();
-                            row.AcceptChanges();
-                        }
-                    }
+                            if(cluster.Contains(val))
+                                EditRow(row, columnModel.Header, string.Join(", ", cluster));
                 }
-                
             }
-
-
-
-        }
-
-
-        #region Depricated Methods
-
-        /*
-        private List<List<string>> ClusterKMembersString(int k, List<string> values)
-        {
-            var clusters = new List<List<string>>();
-            var rand = new Random();
-
-            //shuffle values
-            var shuffledArray = values.OrderBy(val => rand.Next()).ToList();
-
-            var r = shuffledArray.First();
-            shuffledArray.Remove(r);
-
-            while(shuffledArray.Count > k)
+            else if (columnModel.DataType == typeof(int))
             {
-                r = FurthestVal(r, ref shuffledArray);
-                shuffledArray.Remove(r);
+                var listIntsToAnonymise = new List<int>();
+                foreach (var str in valsToBeAnonymised)
+                    listIntsToAnonymise.Add(int.Parse(str));
 
-
-                var cluster = new List<string>();
-                cluster.Add(r);
-
-                //init row
-                while(cluster.Count < k)
+                var clustersToApply = ClusterKMembers<int>(columnModel.K, listIntsToAnonymise);
+                foreach (DataRow row in dataTable.Rows)
                 {
-                    r = NearestVal(r, ref shuffledArray);
-                    if(!cluster.Contains(r))
-                        cluster.Add(r);
-                    shuffledArray.Remove(r);
+                    var val = int.Parse(row[columnModel.Header].ToString());
+                    if (valsToBeAnonymised.Contains(val.ToString()))
+                        foreach (var cluster in clustersToApply)
+                            if(cluster.Contains(val))
+                                EditRow(row, columnModel.Header, string.Join(", ", cluster));
                 }
-                clusters.Add(cluster);
+
             }
-
-            while(shuffledArray.Count > 0)
-            {
-                r = shuffledArray.First();
-                var nearestCluster = NearestCluster(r, ref clusters);
-                if(!nearestCluster.Contains(r))
-                    nearestCluster.Add(r);
-                shuffledArray.Remove(r);
-            }
-
-
-            //Apply Sets
-            return clusters;
-
         }
-        private List<string> NearestCluster(string r, ref List<List<string>> clusters)
+        private void EditRow(DataRow row, string header,string toUpdate)
         {
-            //NB: Not Producing the Closest Cluster
-            var clustAvg = -1.0;
-            var closestClusterIndex = 0;
-
-            for(int clusterIndex = 0; clusterIndex < clusters.Count; clusterIndex++)
-            {
-                var dict = CalcLevenstheinVals(r, clusters[clusterIndex]);
-                var tot = 0.0;
-                for(int i = 0; i < dict.Count; i++)
-                    tot += dict.ElementAt(i).Value;
-
-                if(clustAvg == -1.0)
-                    clustAvg = (double)tot / (double)dict.Count;
-
-                if (clustAvg > (double)tot / (double)dict.Count)
-                {
-                    clustAvg = (double)tot / (double)dict.Count;
-                    closestClusterIndex = clusterIndex;
-                }   
-            }
-
-            var closestCluster = clusters[closestClusterIndex];
-            return closestCluster;
+            row.BeginEdit();
+            row[header] = toUpdate;
+            row.EndEdit();
+            row.AcceptChanges();
         }
-        private Dictionary<String, double> CalcLevenstheinVals(string r, List<string> shuffledArray)
-        {
-            var keyDist = new Dictionary<String, double>();
 
-            foreach (var str in shuffledArray)
-            {
-                if(!keyDist.ContainsKey(str))
-                    keyDist.Add(str, LevenshteinDistance.Compute(r, str));
-            }
-
-            return keyDist;
-        }
-        private string NearestVal(string r, ref List<string> shuffledArray)
-        {
-            var keyDist = CalcLevenstheinVals(r, shuffledArray);
-            var nearestVal = keyDist.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-
-            return nearestVal;
-        }
-        private string FurthestVal(string r, ref List<string> shuffledArray)
-        {
-            var keyDist = CalcLevenstheinVals(r, shuffledArray);
-            var furthestVal = keyDist.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
-
-            return furthestVal;
-        }
-        */
-        #endregion 
 
         private List<List<T>> ClusterKMembers<T>(int k, List<T> values) where T : IComparable
         {
@@ -266,6 +153,9 @@ namespace KAnonymisation.SetBased
             //shuffle vals
 
             var shuffledList = values.OrderBy(val => rand.Next()).ToList();
+            
+            if (shuffledList.Count < 1)
+                return clusters;
 
             var r = shuffledList.First();
             shuffledList.Remove(r);
@@ -302,14 +192,14 @@ namespace KAnonymisation.SetBased
         private T FurthestVal<T>(T r, ref List<T> shuffledArray) where T : IComparable 
         {
             var keyDist = CalcSimilairtyDict(r, shuffledArray);
-            var furthestVal = keyDist.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
+            var furthestVal = keyDist.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             return furthestVal;
         }
         private T NearestVal<T>(T r, ref List<T> shuffledArray) where T : IComparable
         {
             //generate ditionary with measurement of values
             var keyDist = CalcSimilairtyDict<T>(r, shuffledArray);
-            var nearestVal = keyDist.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            var nearestVal = keyDist.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
             return nearestVal;
         }
         private Dictionary<T, double> CalcSimilairtyDict<T>(T r, List<T> shuffledArray)
