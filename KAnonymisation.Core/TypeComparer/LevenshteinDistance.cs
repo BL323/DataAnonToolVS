@@ -8,11 +8,11 @@ namespace KAnonymisation.Core.TypeComparer
 {
     public class LevenshteinDistance
     {
-       public static int Compute(string s, string t)
+       public static double Compute(string s, string t)
        {
 	    int n = s.Length;
 	    int m = t.Length;
-	    int[,] d = new int[n + 1, m + 1];
+        double[,] d = new double[n + 1, m + 1];
 
 	    // Step 1
 	    if (n == 0)
