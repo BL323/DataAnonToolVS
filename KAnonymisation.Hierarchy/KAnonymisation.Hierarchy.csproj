@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{157E0766-309E-442D-9102-85914C9FA147}</ProjectGuid>
+    <ProjectGuid>{3DBA4DE2-5374-4F67-8C96-0A19B4F339E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KAnonymisation.Core</RootNamespace>
-    <AssemblyName>KAnonymisation.Core</AssemblyName>
+    <RootNamespace>KAnonymisation.Hierarchy</RootNamespace>
+    <AssemblyName>KAnonymisation.Hierarchy</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,14 +29,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>bin\x86\Release\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,24 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColumnInfo\ColumnModel.cs" />
-    <Compile Include="Hierarchy\ColumnHierarchy.cs" />
-    <Compile Include="IdentifierTypes\IdentifierType.cs" />
-    <Compile Include="Interfaces\IKAnonymisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeComparer\LevenshteinDistance.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AnonTool.Infrastructure\AnonTool.Infrastructure.csproj">
-      <Project>{bf8d9bc9-a40e-4a02-a868-9772a64d0088}</Project>
-      <Name>AnonTool.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AnonTool.MVVM\AnonTool.MVVM.csproj">
-      <Project>{c503261f-1a54-41e9-8cbb-73445dd81b58}</Project>
-      <Name>AnonTool.MVVM</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

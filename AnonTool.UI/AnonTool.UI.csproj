@@ -73,6 +73,15 @@
     <Compile Include="DataImport\DataImportTypeListView.xaml.cs">
       <DependentUpon>DataImportTypeListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Hierarchy\HierarchyDefinitionOptionsView.xaml.cs">
+      <DependentUpon>HierarchyDefinitionOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hierarchy\HierarchyDefintionDialog.xaml.cs">
+      <DependentUpon>HierarchyDefintionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hierarchy\HierarchyDefintionShellView.xaml.cs">
+      <DependentUpon>HierarchyDefintionShellView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MenuBars\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
@@ -101,6 +110,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataImport\DataImportTypeListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Hierarchy\HierarchyDefinitionOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Hierarchy\HierarchyDefintionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Hierarchy\HierarchyDefintionShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

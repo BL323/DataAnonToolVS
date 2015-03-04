@@ -66,6 +66,10 @@
     <Compile Include="DataImport\DataImportFieldViewModel.cs" />
     <Compile Include="DataImport\DataImportShellViewModel.cs" />
     <Compile Include="DataImport\DataImportViewModel.cs" />
+    <Compile Include="Hierarchy\HierarchyDefintionShellVm.cs" />
+    <Compile Include="Hierarchy\HierarchyDefintionVm.cs" />
+    <Compile Include="Hierarchy\HierarchyDefinitionOptionsVm.cs" />
+    <Compile Include="Hierarchy\StringRedactionHierarchyGenerator.cs" />
     <Compile Include="MenuBar\MenuBarViewModel.cs" />
     <Compile Include="Preprocessing\PreprocessColumnVm.cs" />
     <Compile Include="Preprocessing\PreprocessingColumnsVm.cs" />

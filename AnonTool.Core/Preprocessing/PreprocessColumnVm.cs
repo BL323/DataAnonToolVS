@@ -1,4 +1,6 @@
-﻿using AnonTool.MVVM.Updates;
+﻿using AnonTool.MVVM.Commands;
+using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
 {
@@ -64,6 +67,7 @@ namespace AnonTool.Core.Preprocessing
                 }
             }
         }
+        public ColumnHierarchy ColumnHierarchy { get; set; }
 
     }
 }

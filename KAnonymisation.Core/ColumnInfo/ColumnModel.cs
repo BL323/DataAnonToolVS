@@ -1,4 +1,5 @@
-﻿using KAnonymisation.Core.IdentifierTypes;
+﻿using KAnonymisation.Core.Hierarchy;
+using KAnonymisation.Core.IdentifierTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,5 +59,6 @@ namespace KAnonymisation.Core.ColumnInfo
                 }
             }
         }
+        public ColumnHierarchy ColumnHierarchy { get; set; }
     }
 }

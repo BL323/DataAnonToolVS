@@ -92,7 +92,7 @@ namespace AnonTool.Core.Preprocessing
         }
         private void UpdateColumnInfo()
         {
-            _columnPreprocessorVm = new PreprocessingColumnsVm();
+            _columnPreprocessorVm = new PreprocessingColumnsVm(this);
             foreach (DataColumn column in _inputDataTable.Columns)
             {
                 var colVm = new PreprocessColumnVm()
