@@ -2,6 +2,7 @@
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
+using KAnonymisation.Hierarchy;
 using KAnonymisation.SetBased;
 using System;
 using System.Collections.Generic;
@@ -86,9 +87,10 @@ namespace AnonTool.Core.Preprocessing
         {
             //To be done dynamically in the final version
             IKAnonymisation defaultSetBasedAnon = new SetBasedAnonymisation();
+            IKAnonymisation defaultHierarchyBasedAnon = new HierarchyBasedAnonymisation();
 
-            SelectedAnonymisation = defaultSetBasedAnon;
-            _availableAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon};
+            SelectedAnonymisation = defaultHierarchyBasedAnon;
+            _availableAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon};
         }
         private void UpdateColumnInfo()
         {

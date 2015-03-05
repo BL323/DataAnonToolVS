@@ -30,6 +30,8 @@ namespace AnonTool.Core.Hierarchy
         {
             HierarchyDefinitionVm.HierarchyDefintionOptionsVm.ColumnName = columnName;
             HierarchyDefinitionVm.HierarchyDefintionOptionsVm.UniqueValues = uniqueVals;
+            HierarchyDefinitionVm.GenerateHierarchy();
+
         }
 
         internal KAnonymisation.Core.Hierarchy.ColumnHierarchy ExtractHierarchy()

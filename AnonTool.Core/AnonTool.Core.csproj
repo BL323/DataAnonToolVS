@@ -95,6 +95,10 @@
       <Project>{157e0766-309e-442d-9102-85914c9fa147}</Project>
       <Name>KAnonymisation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KAnonymisation.Hierarchy\KAnonymisation.Hierarchy.csproj">
+      <Project>{3dba4de2-5374-4f67-8c96-0a19b4f339e6}</Project>
+      <Name>KAnonymisation.Hierarchy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KAnonymisation.SetBased\KAnonymisation.SetBased.csproj">
       <Project>{c1028692-4d7b-4bf5-b227-7b3822073d5a}</Project>
       <Name>KAnonymisation.SetBased</Name>
