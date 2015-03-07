@@ -38,19 +38,25 @@
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColumnInfo\ColumnModel.cs" />
+    <Compile Include="Controllers\AnonymisationController.cs" />
     <Compile Include="Hierarchy\ColumnHierarchy.cs" />
     <Compile Include="IdentifierTypes\IdentifierType.cs" />
     <Compile Include="Interfaces\IKAnonymisation.cs" />
+    <Compile Include="Output\ResultsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeComparer\LevenshteinDistance.cs" />
   </ItemGroup>
@@ -62,6 +68,10 @@
     <ProjectReference Include="..\AnonTool.MVVM\AnonTool.MVVM.csproj">
       <Project>{c503261f-1a54-41e9-8cbb-73445dd81b58}</Project>
       <Name>AnonTool.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KAnonymisation.UI\KAnonymisation.UI.csproj">
+      <Project>{34e56753-02a7-4224-ba2f-8e855a08708e}</Project>
+      <Name>KAnonymisation.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

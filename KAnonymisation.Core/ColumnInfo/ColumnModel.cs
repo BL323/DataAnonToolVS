@@ -1,5 +1,6 @@
 ﻿using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace KAnonymisation.Core.ColumnInfo
         private string _header;
         private Type _dataType;
         private IdentifierType _attributeType;
+        private IKAnonymisation _kAnonymisation;
 
         public int K
         {
@@ -60,5 +62,16 @@ namespace KAnonymisation.Core.ColumnInfo
             }
         }
         public ColumnHierarchy ColumnHierarchy { get; set; }
+        public IKAnonymisation KAnonymisation
+        {
+            get { return _kAnonymisation; }
+            set
+            {
+                if(_kAnonymisation != value)
+                {
+                    _kAnonymisation = value;
+                }
+            }
+        }
     }
 }

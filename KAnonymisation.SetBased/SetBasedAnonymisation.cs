@@ -1,9 +1,9 @@
 ﻿using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
+using KAnonymisation.Core.Output;
 using KAnonymisation.Core.TypeComparer;
-using KAnonymisation.SetBased.Show.ViewModels;
-using KAnonymisation.SetBased.Show.Views;
+using KAnonymisation.UI.Output;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,44 +19,24 @@ namespace KAnonymisation.SetBased
         {
             get { return "Default Set Based Anonymisation"; }
         }
+        public bool RequiresHierarchy 
+        { 
+            get { return false; } 
+        }
         public void Show()
         {
             throw new NotImplementedException();
         }
-        public void Anonymise(DataTable dataTable, List<ColumnModel> columnsInfo)
+
+        public void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel)
         {
-            //Set all columns to string data type...[11-18] or {12, 16}
-            DataTable dtClone = dataTable.Clone();
-            foreach(DataColumn column in dataTable.Columns)
-                dtClone.Columns[column.ColumnName].DataType = typeof(string);
-            foreach (DataRow row in dataTable.Rows)
-                dtClone.ImportRow(row);
-            dataTable = dtClone;
-
-
-            //Annonymise Data
-            foreach(var column  in columnsInfo)            
-                AnonymiseColumn(column, ref dataTable);
-
-            //Display Data
-            var resultVm = new ResultViewModel();
-            resultVm.OutputDataTable = dataTable;
-            var resultDialog = new ResultWindowView();
-            resultDialog.DataContext = resultVm;
-            resultDialog.Show();
-
-            
-        }
-
-        private void AnonymiseColumn(ColumnModel column, ref DataTable dataTable)
-        {
-            switch(column.AttributeType)
+            switch (columnModel.AttributeType)
             {
                 case IdentifierType.Explicit:
-                    AnonymiseExplicitIdentifier(column, ref dataTable);
+                    AnonymiseExplicitIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Quasi:
-                    AnonymiseQuasiIdentifier(column, ref dataTable);
+                    AnonymiseQuasiIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Sensitive:
                     break;
@@ -64,6 +44,7 @@ namespace KAnonymisation.SetBased
                     break;
             }
         }
+
         private void AnonymiseExplicitIdentifier(ColumnModel columnModel, ref DataTable dataTable)
         {
             //Replaces all enteries with a * to remove explicit identifiers
@@ -143,7 +124,6 @@ namespace KAnonymisation.SetBased
             row.EndEdit();
             row.AcceptChanges();
         }
-
 
         private List<List<T>> ClusterKMembers<T>(int k, List<T> values) where T : IComparable
         {

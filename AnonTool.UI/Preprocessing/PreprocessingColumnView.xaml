@@ -21,15 +21,21 @@
                 <ComboBox ItemsSource="{Binding AvailableAttributeTypes}" SelectedItem="{Binding SelectedColumn.AttributeType}"/>
             </StackPanel>
             
+
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" >
+                <Label Content="Anonymisation Technique:" VerticalContentAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding AvailableKAnonymisations}" SelectedItem="{Binding SelectedColumn.SelectedAnonymisation}" DisplayMemberPath="Name" Height="25" Width="300"/>             
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Button Content="Define Hierarchy" Command="{Binding DefineHierarchyCommand}" Height="25" Width="100" />
+            </StackPanel>
+
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                 <Label Content="K =" />
                 <TextBox Text="{Binding SelectedColumn.K}" Height="25" Width="40"/>
             </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Button Content="Define Hierarchy" Command="{Binding DefineHierarchyCommand}" Height="25" Width="100" />
-            </StackPanel>
-            
+
         </StackPanel>
     </Grid>
 </UserControl>

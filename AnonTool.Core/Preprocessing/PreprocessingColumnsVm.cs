@@ -4,6 +4,9 @@ using AnonTool.MVVM.Updates;
 using AnonTool.UI.Hierarchy;
 using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
+using KAnonymisation.Hierarchy;
+using KAnonymisation.SetBased;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,10 +21,10 @@ namespace AnonTool.Core.Preprocessing
     public class PreprocessingColumnsVm : UpdateBase
     {
         private PreProcessingViewModel _parentVm;
-
         private PreprocessColumnVm _selectedColumn;
         private ObservableCollection<IdentifierType> _availableAttributeTypes = new ObservableCollection<IdentifierType>() 
             { IdentifierType.NonSensitive, IdentifierType.Sensitive, IdentifierType.Quasi, IdentifierType.Explicit };
+        private ObservableCollection<IKAnonymisation> _availableKAnonymisations;
         private ObservableCollection<PreprocessColumnVm> _columns = new ObservableCollection<PreprocessColumnVm>();
         private ICommand _defineHierarchyCommand;
         
@@ -58,13 +61,35 @@ namespace AnonTool.Core.Preprocessing
         {
             get { return _availableAttributeTypes; }
         }
+        public ObservableCollection<IKAnonymisation> AvailableKAnonymisations
+        {
+            get { return _availableKAnonymisations; }
+            set
+            {
+                if(_availableKAnonymisations != value)
+                {
+                    _availableKAnonymisations = value;
+                    RaisePropertyChanged(() => AvailableKAnonymisations);
+                }
+            }
+        }
 
         //Constructor
         public PreprocessingColumnsVm(PreProcessingViewModel parentVm)
         {
             _parentVm = parentVm;
+            LoadAvailableKAnonymisations();
         }
 
+        private void LoadAvailableKAnonymisations()
+        {
+            //To be done dynamically in the final version
+            IKAnonymisation defaultSetBasedAnon = new SetBasedAnonymisation();
+            IKAnonymisation defaultHierarchyBasedAnon = new HierarchyBasedAnonymisation();
+
+            AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon};
+        
+        }
         private void DefineHierarchy()
         {
             if (SelectedColumn == null)
@@ -81,7 +106,6 @@ namespace AnonTool.Core.Preprocessing
 
             SelectedColumn.ColumnHierarchy = hierarchyDefintionShellVm.ExtractHierarchy();
         }
-
         private ObservableCollection<string> GetUniqueValues(System.Data.DataTable dataTable, PreprocessColumnVm SelectedColumn)
         {
             var uniqueVals = new ObservableCollection<string>();
@@ -108,7 +132,9 @@ namespace AnonTool.Core.Preprocessing
                      DataType = col.DataType,
                      Header = col.Header,
                      K = col.K,
-                     ColumnHierarchy = col.ColumnHierarchy
+                     ColumnHierarchy = col.ColumnHierarchy,
+                     KAnonymisation = col.SelectedAnonymisation
+                      
                 };
                 columnModel.Add(colMod);
             }

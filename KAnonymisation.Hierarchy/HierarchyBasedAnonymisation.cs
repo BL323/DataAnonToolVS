@@ -1,8 +1,8 @@
 ﻿using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
-using KAnonymisation.Hierarchy.Show.ViewModels;
-using KAnonymisation.Hierarchy.Show.Views;
+using KAnonymisation.Core.Output;
+using KAnonymisation.UI.Output;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,43 +18,24 @@ namespace KAnonymisation.Hierarchy
         {
             get { return "Default Hierarchy Based Anonymisation"; }
         }
-
+        public bool RequiresHierarchy
+        {
+            get { return true; }
+        }
         public void Show()
         {
             throw new NotImplementedException();
         }
 
-        public void Anonymise(DataTable dataTable, List<ColumnModel> columnsInfo)
+        public void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel)
         {
-            //Set all columns to string data type...[11-18] or {12, 16}
-            DataTable dtClone = dataTable.Clone();
-            foreach (DataColumn column in dataTable.Columns)
-                dtClone.Columns[column.ColumnName].DataType = typeof(string);
-            foreach (DataRow row in dataTable.Rows)
-                dtClone.ImportRow(row);
-            dataTable = dtClone;
-
-            //Annonymise Data
-            foreach (var column in columnsInfo)
-                AnonymiseColumn(column, ref dataTable);
-
-            //Display Data
-            var resultVm = new ResultViewModel();
-            resultVm.OutputDataTable = dataTable;
-            var resultDialog = new ResultWindowView();
-            resultDialog.DataContext = resultVm;
-            resultDialog.Show();
-       
-        }
-        private void AnonymiseColumn(ColumnModel column, ref DataTable dataTable)
-        {
-            switch (column.AttributeType)
+            switch (columnModel.AttributeType)
             {
                 case IdentifierType.Explicit:
-                    AnonymiseExplicitIdentifier(column, ref dataTable);
+                    AnonymiseExplicitIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Quasi:
-                    AnonymiseQuasiIdentifier(column, ref dataTable);
+                    AnonymiseQuasiIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Sensitive:
                     break;
@@ -62,6 +43,7 @@ namespace KAnonymisation.Hierarchy
                     break;
             }
         }
+
         private void AnonymiseExplicitIdentifier(ColumnModel columnModel, ref DataTable dataTable)
         {
             //Replaces all enteries with a * to remove explicit identifiers
@@ -105,14 +87,6 @@ namespace KAnonymisation.Hierarchy
             }
            // var newAnonValues = AnonymiseValuesToNextLevel(valsToBeAnonymised, ref listOfLinkedLists);
            // ApplyAnonymisedValues(newAnonValues, ref dataTable, columnModel);
-
-           
-
-   
-
-
-
-
         }
 
         private Dictionary<string, string> AnonymiseValuesToNextLevel(List<string> valsToBeAnonymised, ref List<Tuple<string, LinkedList<string>>> listOfLinkedLists)
@@ -138,8 +112,10 @@ namespace KAnonymisation.Hierarchy
                 ldl.Item2.RemoveFirst();
                 listOfLinkedLists.Add(new Tuple<string, LinkedList<string>>(newStr, ldl.Item2));
 
-                if(!result.ContainsKey(curStr))
-                    result.Add(curStr, newStr);
+                if (result.ContainsKey(curStr))
+                    result.Remove(curStr);
+
+                result.Add(curStr, newStr);
             }
 
             return result;
@@ -164,7 +140,8 @@ namespace KAnonymisation.Hierarchy
                 if (item.Value < k)
                 {
                     for (var count = 0; count < item.Value; count++)
-                        valsToBeAnonymised.Add(item.Key);
+                        if(!valsToBeAnonymised.Contains(item.Key))
+                            valsToBeAnonymised.Add(item.Key);
                 }
             }
 

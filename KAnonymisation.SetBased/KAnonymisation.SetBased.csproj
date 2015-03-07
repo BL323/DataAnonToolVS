@@ -63,10 +63,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetBasedAnonymisation.cs" />
-    <Compile Include="Show\ViewModels\ResultViewModel.cs" />
-    <Compile Include="Show\Views\ResultWindowView.xaml.cs">
-      <DependentUpon>ResultWindowView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnonTool.MVVM\AnonTool.MVVM.csproj">
@@ -77,15 +73,13 @@
       <Project>{157e0766-309e-442d-9102-85914c9fa147}</Project>
       <Name>KAnonymisation.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KAnonymisation.UI\KAnonymisation.UI.csproj">
+      <Project>{34e56753-02a7-4224-ba2f-8e855a08708e}</Project>
+      <Name>KAnonymisation.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Anonymise\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Show\Views\ResultWindowView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

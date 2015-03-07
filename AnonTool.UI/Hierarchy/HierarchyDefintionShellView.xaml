@@ -7,17 +7,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition />
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
+        <TabControl Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <TabItem Header="String Hierarchy">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
+                    <DataGrid ItemsSource="{Binding HierarchyStringRedactionDefintions}" AutoGenerateColumns="True" Grid.Row="1" Grid.Column="1" />
+                </Grid>
 
-        <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
-        <DataGrid ItemsSource="{Binding HierarchyDefintions}" AutoGenerateColumns="True" Grid.Row="1" Grid.Column="1" />
+            </TabItem>
+            <TabItem Header="Custom Hierarchy" IsSelected="{Binding IsCustomHierarchySelected}">
+                <Grid>                   
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Button Content="Remove Last Level" Command="{Binding RemoveLastLevelCommand}" Height="25" Margin="5,0,5,0"/>
+                        <Button Content="Append Level" Command="{Binding AppendLastLevelCommand}" Height="25" />
+
+                    </StackPanel>
+                    <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
+                    <DataGrid ItemsSource="{Binding HierarchyCustomDefintions}" AutoGenerateColumns="True" Grid.Row="1" Grid.Column="1" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    
     </Grid>
 </UserControl>

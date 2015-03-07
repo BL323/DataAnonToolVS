@@ -12,10 +12,11 @@ namespace KAnonymisation.Core.Interfaces
     {
         //Properties
         string Name { get; }
-        
+        bool RequiresHierarchy { get; }        
+
         //Methods
         void Show();
-        void Anonymise(DataTable dataTable, List<ColumnModel> columnsInfo);
-
+      //  void Anonymise(DataTable dataTable, List<ColumnModel> columnsInfo);
+        void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel);
     }
 }

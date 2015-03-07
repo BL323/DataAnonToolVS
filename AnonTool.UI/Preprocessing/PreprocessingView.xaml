@@ -17,12 +17,11 @@
             <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Preprocessing View" Grid.Row="0"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" >
-            <Label Content="Anonymisation Technique:" VerticalContentAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding AvailableAnonymisations}" SelectedItem="{Binding SelectedAnonymisation}" DisplayMemberPath="Name" Height="25" Width="300"/>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Preprocessing View" Grid.Row="0"/>
             <Button Content="Anonymise" Command="{Binding AnonymiseCommand}" Height="25" Margin="10,0,0,0"/>
         </StackPanel>
+       
         <DataGrid ItemsSource="{Binding InputDataTable}" AutoGenerateColumns="True" Grid.Row="2"/>
 
         <preprocessingViews:PreprocessingColumnView DataContext="{Binding ColumnPreprocessorVm}" 

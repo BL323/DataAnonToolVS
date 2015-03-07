@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KAnonymisation.SetBased.Show.Views
+namespace KAnonymisation.UI.Output
 {
     /// <summary>
     /// Interaction logic for ResultWindowView.xaml

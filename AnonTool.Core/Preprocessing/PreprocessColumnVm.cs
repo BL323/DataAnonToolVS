@@ -2,6 +2,7 @@
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,7 @@ namespace AnonTool.Core.Preprocessing
         private string _header;
         private Type _dataType;
         private IdentifierType _attributeType;
+        private IKAnonymisation _selectedAnonymisation;
 
         public int K
         {
@@ -68,6 +70,18 @@ namespace AnonTool.Core.Preprocessing
             }
         }
         public ColumnHierarchy ColumnHierarchy { get; set; }
+        public IKAnonymisation SelectedAnonymisation
+        {
+            get { return _selectedAnonymisation; }
+            set
+            {
+                if (_selectedAnonymisation != value)
+                {
+                    _selectedAnonymisation = value;
+                    RaisePropertyChanged(() => SelectedAnonymisation);
+                }
+            }
+        }
 
     }
 }
