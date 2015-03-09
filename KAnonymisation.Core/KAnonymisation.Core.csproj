@@ -56,6 +56,8 @@
     <Compile Include="Hierarchy\ColumnHierarchy.cs" />
     <Compile Include="IdentifierTypes\IdentifierType.cs" />
     <Compile Include="Interfaces\IKAnonymisation.cs" />
+    <Compile Include="Output\PostProcessing\PostProcessingViewModel.cs" />
+    <Compile Include="Output\ResultsShellViewModel.cs" />
     <Compile Include="Output\ResultsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeComparer\LevenshteinDistance.cs" />

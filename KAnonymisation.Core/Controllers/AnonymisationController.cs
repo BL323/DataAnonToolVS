@@ -12,6 +12,15 @@ namespace KAnonymisation.Core.Controllers
 {
     public class AnonymisationController
     {
+        private ResultsShellViewModel _resultShellVm = new ResultsShellViewModel();
+        private ResultsShellView _resultsShellView = new ResultsShellView();
+
+        //Constructor
+        public AnonymisationController()
+        {
+            _resultsShellView.DataContext = _resultShellVm;
+        }
+
         public DataTable InvokeAnonymisation(DataTable dataTable, List<ColumnModel> columnModels)
         {
             DataTable result = null;
@@ -37,9 +46,15 @@ namespace KAnonymisation.Core.Controllers
             //Display Data
             var resultVm = new ResultsViewModel();
             resultVm.OutputDataTable = dataTable;
-            var resultDialog = new ResultWindowView();
-            resultDialog.DataContext = resultVm;
-            resultDialog.Show();
+            resultVm.AnonTitle = String.Format("Anon: {0}", ++_resultShellVm.AnonCount);
+
+            _resultShellVm.Results.Add(resultVm);
+            //update selected anonymisations
+            _resultShellVm.SelectedResult = resultVm;
+            _resultShellVm.PostProcessingVm.SelectedResult = resultVm;
+
+            var resultsShellView = new ResultsShellView() { DataContext = _resultShellVm };
+            resultsShellView.ShowDialog();
         }
         private DataTable AnonymiseDataTable(DataTable dataTable, List<ColumnModel> columnModels)
         {
@@ -47,8 +62,7 @@ namespace KAnonymisation.Core.Controllers
                 AnonymiseColumn(ref dataTable, col);
 
             return dataTable;
-        }
-     
+        }  
         
         //Apply Anon to each col induvidually
         private void AnonymiseColumn(ref DataTable dataTable, ColumnModel columnModel)

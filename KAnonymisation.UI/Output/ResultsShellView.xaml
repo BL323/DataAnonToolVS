@@ -1,0 +1,31 @@
+﻿<Window x:Class="KAnonymisation.UI.Output.ResultsShellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ResultsViews="clr-namespace:KAnonymisation.UI.Output"
+             mc:Ignorable="d"
+             Title="Anonymisation Results / Post Processing"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Results">
+                <TabControl ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedResult}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding AnonTitle}" />
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <ResultsViews:ResultsTableView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Post-Processing">
+                <ResultsViews:ResultsPostProcessingView DataContext="{Binding}"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

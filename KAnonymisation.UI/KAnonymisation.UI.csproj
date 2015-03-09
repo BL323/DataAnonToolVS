@@ -61,13 +61,27 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Output\ResultWindowView.xaml.cs">
-      <DependentUpon>ResultWindowView.xaml</DependentUpon>
+    <Compile Include="Output\ResultsPostProcessingView.xaml.cs">
+      <DependentUpon>ResultsPostProcessingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\ResultsShellView.xaml.cs">
+      <DependentUpon>ResultsShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\ResultTableView.xaml.cs">
+      <DependentUpon>ResultTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Output\ResultWindowView.xaml">
+    <Page Include="Output\ResultsPostProcessingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Output\ResultsShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Output\ResultTableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

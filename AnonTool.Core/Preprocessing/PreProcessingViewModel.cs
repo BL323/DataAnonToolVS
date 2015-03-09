@@ -22,6 +22,7 @@ namespace AnonTool.Core.Preprocessing
         private DataTable _inputDataTable;
         private PreprocessingColumnsVm _columnPreprocessorVm;       
         private ICommand _anonymiseCommand;
+        private AnonymisationController _anonController = new AnonymisationController();
 
         //Public Properties
         public DataTable InputDataTable
@@ -81,10 +82,8 @@ namespace AnonTool.Core.Preprocessing
         }
         private void InvokeAnonymiseDataSet()
         {
-            var anonController = new AnonymisationController();
-
             if(ColumnPreprocessorVm != null)
-                anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
+                _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
         }
     }
 }

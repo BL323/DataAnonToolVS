@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KAnonymisation.UI.Output
 {
     /// <summary>
-    /// Interaction logic for ResultWindowView.xaml
+    /// Interaction logic for ResultsTableView.xaml
     /// </summary>
-    public partial class ResultWindowView : Window
+    public partial class ResultsTableView : UserControl
     {
-        public ResultWindowView()
+        public ResultsTableView()
         {
             InitializeComponent();
         }

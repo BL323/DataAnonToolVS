@@ -10,7 +10,48 @@ namespace KAnonymisation.Core.Output
 {
     public class ResultsViewModel : UpdateBase
     {
+        private string _anonTitle;
+        private string _extractedMeterics;
+        private DataTable _inputDataTable;
         private DataTable _outputDataTable;
+
+        public string AnonTitle
+        {
+            get { return _anonTitle; }
+            set
+            {
+                if(_anonTitle != value)
+                {
+                    _anonTitle = value;
+                    RaisePropertyChanged(() => AnonTitle);
+                }
+            }
+        }
+        public string ExtractedMeterics
+        {
+            get { return _extractedMeterics; }
+            set
+            {
+                if(_extractedMeterics != value)
+                {
+                    _extractedMeterics = value;
+                    RaisePropertyChanged(() => ExtractedMeterics);
+                }
+            }
+        }
+        //input table required to calc meterics
+        public DataTable InputDataTable
+        {
+            get { return _inputDataTable; }
+            set
+            {
+                if(_inputDataTable != value)
+                {
+                    _inputDataTable = value;
+                    RaisePropertyChanged(() => InputDataTable);
+                }
+            }
+        }
         public DataTable OutputDataTable
         {
             get { return _outputDataTable; }
@@ -22,6 +63,13 @@ namespace KAnonymisation.Core.Output
                     RaisePropertyChanged(() => OutputDataTable);
                 }
             }
+        }
+
+
+        //Extract Meterics
+        public void ExtractAnonymisationMeterics() 
+        {
+            ExtractedMeterics = "Extracted\nMeterics";
         }
     }
 }

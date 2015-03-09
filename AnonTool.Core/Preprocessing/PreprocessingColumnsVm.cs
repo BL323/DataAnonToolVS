@@ -41,6 +41,9 @@ namespace AnonTool.Core.Preprocessing
                 if(_selectedColumn != value)
                 {
                     _selectedColumn = value;
+                    if (_selectedColumn.SelectedAnonymisation == null && AvailableKAnonymisations.Count > 0)
+                        _selectedColumn.SelectedAnonymisation = AvailableKAnonymisations.First();
+                        
                     RaisePropertyChanged(() => SelectedColumn);
                 }
             }
@@ -88,7 +91,6 @@ namespace AnonTool.Core.Preprocessing
             IKAnonymisation defaultHierarchyBasedAnon = new HierarchyBasedAnonymisation();
 
             AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon};
-        
         }
         private void DefineHierarchy()
         {
