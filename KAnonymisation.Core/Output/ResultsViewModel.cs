@@ -110,34 +110,54 @@ namespace KAnonymisation.Core.Output
             
             ExtractedMetrics = result;
         }
-
         private void ExtractQueryMeteric(ref string result, QueryViewModel query)
         {
             var occuranceCount = 0;
-            var kvp = new Dictionary<string, string>();
-
-            
-
             var dataTable = (query.SelectedDataTable == "Input DataTable") ? _inputDataTable : _outputDataTable;
             
             //set out criteria for rows
             foreach(DataRow row in dataTable.Rows)
             {
-                //var attribute0Satisfied = (row[query.SelectedAttribute0].ToString() == query.SelectedCriteria0) ? true : false;
-                //var attribute1Satisfied = (row[query.SelectedAttribute1].ToString() == query.SelectedCriteria1) ? true : false;
-                //var attribute2Satisfied = (row[query.SelectedAttribute2].ToString() == query.SelectedCriteria2) ? true : false;
+                var attributesSatisfied = true;
 
-                //handle data
-                //CriteriaSatisfied
+                EvaluateQueryStatement(ref attributesSatisfied, row, query.QueryStatements);
 
-               // if (attribute0Satisfied && attribute1Satisfied && attribute2Satisfied)
-               //     occuranceCount++;
 
+                if (attributesSatisfied)
+                    ++occuranceCount;
             }
 
 
-
             result = string.Format("{0}\n{1}: {2}", result, query.QueryNumberTitle, occuranceCount);
+        }
+
+        ///<summary>
+        /// {} Denotes Set
+        /// [] Denotes Range
+        /// % Wild Card
+        ///</summary>
+        private void EvaluateQueryStatement(ref bool attributesSatisfied, DataRow row, ObservableCollection<QueryStatementViewModel> queryStatements)
+        {
+            //evaluate each statement induvidually
+            foreach(var statement in queryStatements)
+            {
+                //stop unecessary processing
+                if (attributesSatisfied == false)
+                    return;
+
+
+                if (statement.Criteria.Contains("%")) 
+                    WildCardMatch(ref attributesSatisfied, row, statement);
+                else if (row[statement.Attribute].ToString() != statement.Criteria) // extact match
+                    attributesSatisfied = false;
+            }      
+        }
+        private void WildCardMatch(ref bool attributesSatisfied, DataRow row, QueryStatementViewModel statement)
+        {
+            var str = statement.Criteria.Replace("%","");
+
+            if (!row[statement.Attribute].ToString().StartsWith(str))
+                attributesSatisfied = false;
         }
     }
 }

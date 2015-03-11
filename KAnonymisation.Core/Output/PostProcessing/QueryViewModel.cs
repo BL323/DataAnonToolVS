@@ -13,7 +13,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
     public class QueryViewModel : UpdateBase
     {
         private int _queryNumber;
-        private string _selectedDataTable;            
+        private string _selectedDataTable = "OutputTable";            
         private ObservableCollection<string> _availableAttributes = new ObservableCollection<string>();
         private ObservableCollection<QueryStatementViewModel> _queryStatments = new ObservableCollection<QueryStatementViewModel>();
         private ICommand _addQueryStatementCommand;
@@ -84,6 +84,20 @@ namespace KAnonymisation.Core.Output.PostProcessing
         public ICommand RemoveQueryStatementCommand
         {
             get { return _removeQueryStatementCommand ?? (_removeQueryStatementCommand = new RelayCommand(o => RemoveQueryStatement(), o => true)); }
+        }
+
+        //Constructor
+        public QueryViewModel(ObservableCollection<string> inAvailableAttributes)
+        {
+            AvailableAttributes = inAvailableAttributes;
+
+            //Initialise Query with at least one statement
+            var initQueryStatement = new QueryStatementViewModel();
+            initQueryStatement.AvailableAttributes = AvailableAttributes;
+            if (AvailableAttributes != null && AvailableAttributes.Count > 0)
+                initQueryStatement.Attribute = AvailableAttributes.First();
+
+            QueryStatements.Add(initQueryStatement);
         }
 
         private void AddQueryStatement()

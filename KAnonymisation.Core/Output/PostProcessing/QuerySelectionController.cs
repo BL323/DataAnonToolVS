@@ -65,15 +65,13 @@ namespace KAnonymisation.Core.Output.PostProcessing
 
         private void AddQuery()
         {
-            var queryVm = new QueryViewModel() 
-            { QueryNumber = ++_queryCount, AvailableAttributes = _availableAttributes };
-            
+            var queryVm = new QueryViewModel(_availableAttributes) { QueryNumber = ++_queryCount };       
             Queries.Add(queryVm);
         }
         private void RemoveQuery()
         {
-            if (SelectedQuery != null)
-                Queries.Remove(SelectedQuery);
+            if (Queries != null && Queries.Count > 0)
+                Queries.Remove(Queries.Last());
         }
         private void RandomlyGenerateQueries()
         {
