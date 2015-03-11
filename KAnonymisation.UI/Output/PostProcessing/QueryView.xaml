@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="KAnonymisation.UI.Output.PostProcessing.QueryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:PPViews="clr-namespace:KAnonymisation.UI.Output.PostProcessing"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1">
+        <StackPanel Orientation="Vertical" Margin="5">
+            
+            <Label Content="{Binding QueryNumberTitle}" />
+
+            <StackPanel Orientation="Horizontal">
+                    <Label Content="SELECT COUNT" />
+                    <ComboBox ItemsSource="{Binding AvailableDataTables}" SelectedItem="{Binding SelectedDataTable}" Width="100"/>
+                    <Label Content="(*)" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="FROM" />
+                    <Label Content="{Binding SelectedDataTable}" />
+                </StackPanel>
+                <Label Content="WHERE" />
+
+                <ListBox ItemsSource="{Binding QueryStatements}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <PPViews:QueryStatementView DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>            
+                </ListBox>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="+" Command="{Binding AddQueryStatementCommand}" Height="25" Width="25" Margin="0,0,5,0"/>
+                    <Button Content="-" Command="{Binding RemoveQueryStatementCommand}" Height="25" Width="25"/>
+                </StackPanel>
+              
+            
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

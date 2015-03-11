@@ -12,7 +12,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
     public class PostProcessingViewModel : UpdateBase
     {
         private ResultsViewModel _selectedResult;
-        private ICommand _extractMetericsCommand;
+        private ICommand _extractMetricsCommand;
 
         public ResultsViewModel SelectedResult
         {
@@ -26,15 +26,15 @@ namespace KAnonymisation.Core.Output.PostProcessing
                 }
             }
         }
-        public ICommand ExtractMetericsCommand
+        public ICommand ExtractMetricsCommand
         {
-            get { return _extractMetericsCommand ?? (_extractMetericsCommand = new RelayCommand(o => ExtractMeterics(), o => true)); }
+            get { return _extractMetricsCommand ?? (_extractMetricsCommand = new RelayCommand(o => ExtractMetrics(), o => true)); }
         }
 
-        private void ExtractMeterics()
+        private void ExtractMetrics()
         {
             if(SelectedResult != null)
-                SelectedResult.ExtractAnonymisationMeterics();
+                SelectedResult.ExtractAnonymisationMetrics();
         }
     }
 }

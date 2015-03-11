@@ -61,6 +61,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Output\PostProcessing\PostProcessingQueryPlannerView.xaml.cs">
+      <DependentUpon>PostProcessingQueryPlannerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\PostProcessing\QueryStatementView.xaml.cs">
+      <DependentUpon>QueryStatementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Output\PostProcessing\QueryView.xaml.cs">
+      <DependentUpon>QueryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Output\ResultsPostProcessingView.xaml.cs">
       <DependentUpon>ResultsPostProcessingView.xaml</DependentUpon>
     </Compile>
@@ -73,6 +82,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Output\PostProcessing\PostProcessingQueryPlannerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Output\PostProcessing\QueryStatementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Output\PostProcessing\QueryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Output\ResultsPostProcessingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
