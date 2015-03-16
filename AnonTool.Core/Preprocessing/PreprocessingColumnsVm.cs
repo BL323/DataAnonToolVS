@@ -92,6 +92,7 @@ namespace AnonTool.Core.Preprocessing
 
             AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon};
         }
+
         private void DefineHierarchy()
         {
             if (SelectedColumn == null)

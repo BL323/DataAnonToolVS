@@ -24,5 +24,6 @@ namespace KAnonymisation.UI.Output.PostProcessing
         {
             InitializeComponent();
         }
+
     }
 }

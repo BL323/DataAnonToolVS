@@ -53,7 +53,9 @@
   <ItemGroup>
     <Compile Include="ColumnInfo\ColumnModel.cs" />
     <Compile Include="Controllers\AnonymisationController.cs" />
+    <Compile Include="Hierarchy\AnonymisationHierarchy.cs" />
     <Compile Include="Hierarchy\ColumnHierarchy.cs" />
+    <Compile Include="Hierarchy\Node.cs" />
     <Compile Include="IdentifierTypes\IdentifierType.cs" />
     <Compile Include="Interfaces\IKAnonymisation.cs" />
     <Compile Include="Output\PostProcessing\PostProcessingViewModel.cs" />

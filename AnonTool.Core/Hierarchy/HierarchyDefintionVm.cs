@@ -140,6 +140,8 @@ namespace AnonTool.Core.Hierarchy
         {
             InitCustomHierarchy();
             _hierarchyStringRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
+            var result = StringRedactionHierarchyGenerator.GenerateH(_hierarchyDefintionOptionsVm.UniqueValues);
+
             FormatHierarchyStringRedctionForDisplay();
         }
         private void FormatHierarchyStringRedctionForDisplay()

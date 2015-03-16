@@ -8,29 +8,27 @@
              d:DesignHeight="600" d:DesignWidth="600">
     <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition MinWidth="350"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-
 
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch">
                 <ComboBox ItemsSource="{Binding Results}" DisplayMemberPath="AnonTitle" SelectedItem="{Binding PostProcessingVm.SelectedResult}" Height="25" Width="200" Margin="5"/>
                 <Button Content="Extract Metrics" Command="{Binding PostProcessingVm.ExtractMetricsCommand}" Width="100" Height="25" Margin="5"/>
             </StackPanel>
-            <PostProcessingViews:PostProcessingQueryPlannerView Grid.Row="1" DataContext="{Binding PostProcessingVm.SelectedResult.QueryController}" Width="350" HorizontalAlignment="Left" Margin="5" />
+            <PostProcessingViews:PostProcessingQueryPlannerView HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Row="1"
+                                        MinWidth="350" DataContext="{Binding PostProcessingVm.SelectedResult.QueryController}" Margin="5" />
         </Grid>
         
           
-        <StackPanel Orientation="Vertical" Grid.Column="1">
+        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Bottom">
             <Label Content="Results" />
             <TextBox Text="{Binding PostProcessingVm.SelectedResult.ExtractedMetrics}" HorizontalAlignment="Stretch" Margin="5" Height="100"/>
-
         </StackPanel>
     </Grid>
 </UserControl>
