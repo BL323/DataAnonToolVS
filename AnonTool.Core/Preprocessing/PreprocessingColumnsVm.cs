@@ -3,6 +3,7 @@ using AnonTool.MVVM.Commands;
 using AnonTool.MVVM.Updates;
 using AnonTool.UI.Hierarchy;
 using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
 using KAnonymisation.Hierarchy;
@@ -22,6 +23,9 @@ namespace AnonTool.Core.Preprocessing
     {
         private PreProcessingViewModel _parentVm;
         private PreprocessColumnVm _selectedColumn;
+
+        private AnonymisationHierarchy _anonymisationHierarchy;
+
         private ObservableCollection<IdentifierType> _availableAttributeTypes = new ObservableCollection<IdentifierType>() 
             { IdentifierType.NonSensitive, IdentifierType.Sensitive, IdentifierType.Quasi, IdentifierType.Explicit };
         private ObservableCollection<IKAnonymisation> _availableKAnonymisations;
@@ -107,7 +111,7 @@ namespace AnonTool.Core.Preprocessing
             hierarchyDefintionDialog.DataContext = hierarchyDefintionShellVm;
             hierarchyDefintionDialog.ShowDialog();
 
-            SelectedColumn.ColumnHierarchy = hierarchyDefintionShellVm.ExtractHierarchy();
+            SelectedColumn.AnonymisationHierarchy = hierarchyDefintionShellVm.ExtractHierarchy();
         }
         private ObservableCollection<string> GetUniqueValues(System.Data.DataTable dataTable, PreprocessColumnVm SelectedColumn)
         {
@@ -135,7 +139,7 @@ namespace AnonTool.Core.Preprocessing
                      DataType = col.DataType,
                      Header = col.Header,
                      K = col.K,
-                     ColumnHierarchy = col.ColumnHierarchy,
+                     AnonymisationHierarchy = col.AnonymisationHierarchy,
                      KAnonymisation = col.SelectedAnonymisation
                       
                 };

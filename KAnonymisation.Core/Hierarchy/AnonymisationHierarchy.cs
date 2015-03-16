@@ -15,9 +15,7 @@ namespace KAnonymisation.Core.Hierarchy
             var depth = 0;
 
             return depth;
-        }
-       
-        
+        }  
         
         public List<Node> LeafNodes()
         {
@@ -37,7 +35,38 @@ namespace KAnonymisation.Core.Hierarchy
 
             return leafNodes;
         }
+        public Node FindNode(string value)
+        {
+            Node result = null;
 
+            if (RootNode == null)
+                return null;
+
+            if (RootNode.IsLeaf)
+            {
+                if (RootNode.Value == value)
+                    return RootNode;
+            }
+            
+            MatchValues(RootNode, ref result, value);
+            return result;            
+        }
+        private void MatchValues(Node node, ref Node result, string value)
+        {
+            if(node.ChildNodes != null)
+            {
+                foreach(var child in node.ChildNodes)
+                {
+                    if (child.Value == value)
+                    {
+                        result = child;
+                        return;
+                    }
+
+                    MatchValues(child, ref result, value);
+                }
+            }
+        }
         private void FindLeaves(Node node, ref List<Node> leaves)
         {
             if(node.ChildNodes != null)

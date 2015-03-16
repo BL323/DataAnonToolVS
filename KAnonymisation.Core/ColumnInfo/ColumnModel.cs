@@ -61,7 +61,7 @@ namespace KAnonymisation.Core.ColumnInfo
                 }
             }
         }
-        public ColumnHierarchy ColumnHierarchy { get; set; }
+        public AnonymisationHierarchy AnonymisationHierarchy { get; set; }
         public IKAnonymisation KAnonymisation
         {
             get { return _kAnonymisation; }

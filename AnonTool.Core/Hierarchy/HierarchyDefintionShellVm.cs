@@ -1,4 +1,5 @@
 ﻿using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.Hierarchy;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +35,7 @@ namespace AnonTool.Core.Hierarchy
 
         }
 
-        internal KAnonymisation.Core.Hierarchy.ColumnHierarchy ExtractHierarchy()
+        internal AnonymisationHierarchy ExtractHierarchy()
         {
             return HierarchyDefinitionVm.ExtractHierarchy();
         }

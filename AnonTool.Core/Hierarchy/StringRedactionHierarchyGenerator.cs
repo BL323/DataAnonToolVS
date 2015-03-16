@@ -76,10 +76,27 @@ namespace AnonTool.Core.Hierarchy
                 var childStrings = RedactStrings(paddedStrList, level);
                 AddAnonymisationLevel(ref hierarchy , childStrings);
             }
+
+
+            //add original strings
+            var leafNodes = hierarchy.LeafNodes();
+            foreach(var leaf in leafNodes)
+            {
+                var leafStripped = leaf.Value.TrimEnd('*');
+                foreach(var val in values)
+                {
+                    if (val.StartsWith(leafStripped))
+                    {
+                        var node = new Node() { Value = val, ParentNode = leaf };
+                        leaf.AddChild(node);
+                    }
+                }
+            }
+
+
             
             return hierarchy;
         }
-
 
         private static List<string> RedactStrings(List<string> values, int level)
         {

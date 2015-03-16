@@ -17,6 +17,10 @@ namespace AnonTool.Core.Hierarchy
         private bool _isCustomHierarchySelected;
         private DataTable _hierarchyStringRedactionDefintions = new DataTable();
         private DataTable _hierarchyCustomDefintions = new DataTable();
+
+        private AnonymisationHierarchy _hierarchyStrRedaction;
+        private AnonymisationHierarchy _hierarchyCustom;
+
         private Dictionary<string, LinkedList<string>> _hierarchyStringRedaction;
         private Dictionary<string, LinkedList<string>> _hierarchyCustomDefintion;
         private HierarchyDefinitionOptionsVm _hierarchyDefintionOptionsVm = new HierarchyDefinitionOptionsVm();
@@ -139,10 +143,10 @@ namespace AnonTool.Core.Hierarchy
         public void GenerateHierarchy()
         {
             InitCustomHierarchy();
-            _hierarchyStringRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
-            var result = StringRedactionHierarchyGenerator.GenerateH(_hierarchyDefintionOptionsVm.UniqueValues);
+            //_hierarchyStringRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
+            _hierarchyStrRedaction = StringRedactionHierarchyGenerator.GenerateH(_hierarchyDefintionOptionsVm.UniqueValues);
 
-            FormatHierarchyStringRedctionForDisplay();
+            //FormatHierarchyStringRedctionForDisplay();
         }
         private void FormatHierarchyStringRedctionForDisplay()
         {
@@ -185,31 +189,35 @@ namespace AnonTool.Core.Hierarchy
         }
        
         
-        public ColumnHierarchy ExtractHierarchy()
+        //public ColumnHierarchy ExtractHierarchy()
+        //{
+        //    //Selects hierarchy to use
+        //    if(IsCustomHierarchySelected)
+        //    {
+        //        _hierarchyCustomDefintion = CollateCustomHierarchy();
+
+        //        var customHierarchy = new ColumnHierarchy()
+        //        {
+        //            AnonymistionValues = _hierarchyCustomDefintion
+        //        };
+
+        //        return customHierarchy;
+        //    }
+        //    //else string redaction hierarchy
+        //    if (_hierarchyStringRedaction == null)
+        //        return null;
+
+        //    var columnHierarchy = new ColumnHierarchy()
+        //    {
+        //        AnonymistionValues = _hierarchyStringRedaction
+        //    };
+
+        //    return columnHierarchy;
+        //}
+
+        public AnonymisationHierarchy ExtractHierarchy()
         {
-            //Selects hierarchy to use
-            if(IsCustomHierarchySelected)
-            {
-                _hierarchyCustomDefintion = CollateCustomHierarchy();
-
-                var customHierarchy = new ColumnHierarchy()
-                {
-                    AnonymistionValues = _hierarchyCustomDefintion
-                };
-
-                return customHierarchy;
-            }
-            //else string redaction hierarchy
-            if (_hierarchyStringRedaction == null)
-                return null;
-
-            var columnHierarchy = new ColumnHierarchy()
-            {
-                AnonymistionValues = _hierarchyStringRedaction
-            };
-
-            return columnHierarchy;
-
+            return ((IsCustomHierarchySelected) ? _hierarchyCustom : _hierarchyStrRedaction);
         }
 
         private Dictionary<string, LinkedList<string>> CollateCustomHierarchy()
