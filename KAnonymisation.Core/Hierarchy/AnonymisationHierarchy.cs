@@ -1,22 +1,55 @@
-﻿using System;
+﻿using AnonTool.MVVM.Updates;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KAnonymisation.Core.Hierarchy
 {
-    public class AnonymisationHierarchy 
+    public class AnonymisationHierarchy : UpdateBase
     {
-        public Node RootNode { get; set; }
+        private Node _rootNode;
+        public Node RootNode
+        {
+            get { return Nodes.First(); }
+            set
+            {
+                Nodes.Clear();
+                Nodes.Add(value);
+            }
+            //set
+            //{
+            //    if(_rootNode != value)
+            //    {
+            //        _rootNode = value;
+            //        RaisePropertyChanged(() => RootNode);
+            //    }
+            //}
+        }
+        public Node SelectedTreeNode { get; set; }
+
+        private ObservableCollection<Node> _nodes = new ObservableCollection<Node>();
+        public ObservableCollection<Node> Nodes
+        {
+            get { return _nodes; }
+            set
+            {
+                if (_nodes != value)
+                {
+                    _nodes = value;
+                    RaisePropertyChanged(() => Nodes);
+                }
+            }
+        }
  
         public int HierarchyDepth()
         {
             var depth = 0;
 
             return depth;
-        }  
-        
+        }      
         public List<Node> LeafNodes()
         {
             if(RootNode == null)

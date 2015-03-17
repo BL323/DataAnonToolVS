@@ -20,7 +20,11 @@
                     </Grid.ColumnDefinitions>
                     
                     <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
-                    <DataGrid ItemsSource="{Binding HierarchyStringRedactionDefintions}" AutoGenerateColumns="True" Grid.Row="1" Grid.Column="1" />
+
+                    <HierarchyViews:HierarchyTreeView DataContext="{Binding HierarchyStrRedaction}" Grid.Column="1" Grid.Row="1" />
+
+
+
                 </Grid>
 
             </TabItem>
@@ -35,12 +39,26 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <Button Content="Remove Last Level" Command="{Binding RemoveLastLevelCommand}" Height="25" Margin="5,0,5,0"/>
-                        <Button Content="Append Level" Command="{Binding AppendLastLevelCommand}" Height="25" />
-
+                        <Button Content="Add To Edit List" Command="{Binding AddToEditListCommand}" Height="25" Margin="5,0,5,0" />
+                        <Button Content="Clear Edit List" Command="{Binding ClearEditListCommand}" Height="25" Margin="5,0,5,0" />
+                        <Label Content="Node Value:" />
+                        <TextBox Width="150" Height="25" Text="{Binding NewNodeValue}"/>
+                        <Button Content="Insert Node" Command="{Binding InsertNodeCommand}" Height="25" Margin="5,0,5,0" />
+                        <Button Content="Remove Node" Command="{Binding RemoveNodeCommand}" Height="25" Margin="5,0,5,0"/>
                     </StackPanel>
                     <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
-                    <DataGrid ItemsSource="{Binding HierarchyCustomDefintions}" AutoGenerateColumns="True" Grid.Row="1" Grid.Column="1" />
+                    
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    <HierarchyViews:HierarchyTreeView DataContext="{Binding HierarchyCustom}"  Grid.Column="0"  />
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <Label Content="Nodes To Edit:"/>
+                        <ListBox ItemsSource="{Binding EditList}" DisplayMemberPath="Value" />
+                    </StackPanel>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>

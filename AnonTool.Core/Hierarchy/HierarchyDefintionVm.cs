@@ -3,6 +3,7 @@ using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Hierarchy;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -14,18 +15,20 @@ namespace AnonTool.Core.Hierarchy
     public class HierarchyDefintionVm : UpdateBase
     {
         //Private Fields
+        
         private bool _isCustomHierarchySelected;
-        private DataTable _hierarchyStringRedactionDefintions = new DataTable();
+        private string _newNodeValue;
         private DataTable _hierarchyCustomDefintions = new DataTable();
-
         private AnonymisationHierarchy _hierarchyStrRedaction;
-        private AnonymisationHierarchy _hierarchyCustom;
-
-        private Dictionary<string, LinkedList<string>> _hierarchyStringRedaction;
-        private Dictionary<string, LinkedList<string>> _hierarchyCustomDefintion;
+        private AnonymisationHierarchy _hierarchyCustom; 
         private HierarchyDefinitionOptionsVm _hierarchyDefintionOptionsVm = new HierarchyDefinitionOptionsVm();
+        private ObservableCollection<Node> _editList = new ObservableCollection<Node>();
         private ICommand _removeLastLevelCommand;
         private ICommand _appendLastLevelCommand;
+        private ICommand _addToEditListCommand;
+        private ICommand _clearEditListCommand;
+        private ICommand _insertNodeCommand;
+        private ICommand _removeNodeCommand;
 
         // Public Properties
         public bool IsCustomHierarchySelected
@@ -33,34 +36,46 @@ namespace AnonTool.Core.Hierarchy
             get { return _isCustomHierarchySelected; }
             set
             {
-                if(_isCustomHierarchySelected != value)
+                if (_isCustomHierarchySelected != value)
                 {
                     _isCustomHierarchySelected = value;
                     RaisePropertyChanged(() => IsCustomHierarchySelected);
                 }
             }
         }
-        public DataTable HierarchyStringRedactionDefintions
+        public string NewNodeValue
         {
-            get { return _hierarchyStringRedactionDefintions; }
+            get { return _newNodeValue; }
             set
             {
-                if(_hierarchyStringRedactionDefintions != value)
+                if(_newNodeValue != value)
                 {
-                    _hierarchyStringRedactionDefintions = value;
-                    RaisePropertyChanged(() => HierarchyStringRedactionDefintions);
+                    _newNodeValue = value;
+                    RaisePropertyChanged(() => NewNodeValue);
                 }
             }
         }
-        public DataTable HierarchyCustomDefintions
+        public AnonymisationHierarchy HierarchyStrRedaction
         {
-            get { return _hierarchyCustomDefintions; }
+            get { return _hierarchyStrRedaction; }
             set
             {
-                if(_hierarchyCustomDefintions != value)
+                if(_hierarchyStrRedaction != value)
                 {
-                    _hierarchyCustomDefintions = value;
-                    RaisePropertyChanged(() => HierarchyCustomDefintions);
+                    _hierarchyStrRedaction = value;
+                    RaisePropertyChanged(() => HierarchyStrRedaction);
+                }
+            }
+        }
+        public AnonymisationHierarchy HierarchyCustom
+        {
+            get { return _hierarchyCustom; }
+            set
+            {
+                if(_hierarchyCustom != value)
+                {
+                    _hierarchyCustom = value;
+                    RaisePropertyChanged(() => HierarchyCustom);
                 }
             }
         }
@@ -76,6 +91,18 @@ namespace AnonTool.Core.Hierarchy
                 }
             }
         }
+        public ObservableCollection<Node> EditList
+        {
+            get { return _editList; }
+            set
+            {
+                if(_editList != value)
+                {
+                    _editList = value;
+                    RaisePropertyChanged(() => EditList);
+                }
+            }
+        }
         public ICommand RemoveLastLevelCommand
         {
             get { return _removeLastLevelCommand ?? (_removeLastLevelCommand = new RelayCommand(o => RemoveLastLevel(), o => true)); }
@@ -84,168 +111,185 @@ namespace AnonTool.Core.Hierarchy
         {
             get { return _appendLastLevelCommand ?? (_appendLastLevelCommand = new RelayCommand(o => AppendLastLevel(), o => true)); }
         }
+        public ICommand AddToEditListCommand
+        {
+            get { return _addToEditListCommand ?? (_addToEditListCommand = new RelayCommand(o => AddItemToEditList(), o => true)); }
+   
+        }
+        public ICommand ClearEditListCommand
+        {
+            get { return _clearEditListCommand ?? (_clearEditListCommand = new RelayCommand(o => ClearEditList(), o => true)); }
+        }
+        public ICommand RemoveNodeCommand
+        {
+            get { return _removeNodeCommand ?? (_removeNodeCommand = new RelayCommand(o => RemoveNode(), o => true)); }
+        }
+        public ICommand InsertNodeCommand
+        {
+            get {return _insertNodeCommand ?? (_insertNodeCommand = new RelayCommand(o => InsertNode(), o=>true));}
+        }
 
         private void AppendLastLevel()
         {
-            var tempClone = HierarchyCustomDefintions.Clone();
+            if (HierarchyCustom.SelectedTreeNode == null)
+                return;
+            //var tempClone = HierarchyCustomDefintions.Clone();
             
-            var colCount = tempClone.Columns.Count;
-            var columnName = string.Format("Level{0}", colCount);
-            var dataCol = new DataColumn()
-            {
-                ColumnName = columnName,
-                DataType = typeof(string),
-                DefaultValue = "*"
-            };
+            //var colCount = tempClone.Columns.Count;
+            //var columnName = string.Format("Level{0}", colCount);
+            //var dataCol = new DataColumn()
+            //{
+            //    ColumnName = columnName,
+            //    DataType = typeof(string),
+            //    DefaultValue = "*"
+            //};
 
-            tempClone.Columns.Add(dataCol);
+            //tempClone.Columns.Add(dataCol);
   
-            //repopulate data
-            foreach (DataRow row in HierarchyCustomDefintions.Rows)
-                tempClone.ImportRow(row);
+            ////repopulate data
+            //foreach (DataRow row in HierarchyCustomDefintions.Rows)
+            //    tempClone.ImportRow(row);
                 
-            HierarchyCustomDefintions = tempClone;
+            //HierarchyCustomDefintions = tempClone;
         }
-        private void RemoveLastLevel()
-        {
-            var columnCount = HierarchyCustomDefintions.Columns.Count;
 
-            if (columnCount == 1)
+        private void InsertNode()
+        {
+            if (EditList.Count == 0 || NewNodeValue == string.Empty)
                 return;
 
-            var tempClone = HierarchyCustomDefintions.Clone();
-            tempClone.Columns.RemoveAt(columnCount -1);
+            var parent = EditList.First().ParentNode;
+            var newNode = new Node() { Value = NewNodeValue, ParentNode = parent};
+            parent.AddChild(newNode);
 
-            //repopulate data
-            foreach (DataRow row in HierarchyCustomDefintions.Rows)
-                tempClone.ImportRow(row);
-
-            HierarchyCustomDefintions = tempClone;
-        }
-
-        private void InitCustomHierarchy()
-        {
-            var lvl0 = "Level0";
-            HierarchyCustomDefintions.Columns.Add(lvl0, typeof(string));   
-            foreach(var entry in _hierarchyDefintionOptionsVm.UniqueValues)
+            foreach (var leaf in EditList)
             {
-                var row = HierarchyCustomDefintions.NewRow();
-                row.BeginEdit();
-                row[lvl0] = entry;
-                row.EndEdit();
-                HierarchyCustomDefintions.Rows.Add(row);
-                row.AcceptChanges();
-
+                parent.ChildNodes.Remove(leaf);
+                newNode.AddChild(leaf);
+                leaf.ParentNode = newNode;
             }
 
-            HierarchyCustomDefintions.AcceptChanges();
+            EditList.Clear();
+            NewNodeValue = "";
+        }
+        private void RemoveNode()
+        {
+            //stops removing root or altering leafs of the tree
+            if (HierarchyCustom.SelectedTreeNode == null || HierarchyCustom.SelectedTreeNode.ParentNode == null ||
+                HierarchyCustom.SelectedTreeNode.IsLeaf == true)
+                return;
+            var node = HierarchyCustom.SelectedTreeNode;
+            var parentNode = node.ParentNode;
+            var children = node.ChildNodes;
+
+            parentNode.ChildNodes.Remove(node);
+            
+            foreach(var child in children)
+            {
+                child.ParentNode = parentNode;
+                parentNode.AddChild(child);
+            }
+
+        }
+
+
+
+        private void RemoveLastLevel()
+        {
+            if (HierarchyCustom.SelectedTreeNode == null)
+                return;
+            //var columnCount = HierarchyCustomDefintions.Columns.Count;
+
+            //if (columnCount == 1)
+            //    return;
+
+            //var tempClone = HierarchyCustomDefintions.Clone();
+            //tempClone.Columns.RemoveAt(columnCount -1);
+
+            ////repopulate data
+            //foreach (DataRow row in HierarchyCustomDefintions.Rows)
+            //    tempClone.ImportRow(row);
+
+            //HierarchyCustomDefintions = tempClone;
+        }
+        private void AddItemToEditList()
+        {
+            if (HierarchyCustom != null && HierarchyCustom.SelectedTreeNode != null)
+                AddToEditList(HierarchyCustom.SelectedTreeNode);
+        }
+        private void InitCustomHierarchy()
+        {
+            HierarchyCustom = new AnonymisationHierarchy();
+
+            var rootNode = new Node(){Value = "*", LevelDepth = 0};
+            HierarchyCustom.RootNode = rootNode;
+
+            foreach(var val in _hierarchyDefintionOptionsVm.UniqueValues)
+            {
+                var node = new Node() { Value = val, ParentNode = rootNode };
+                rootNode.AddChild(node);
+            }
+
         }
         public void GenerateHierarchy()
         {
             InitCustomHierarchy();
-            //_hierarchyStringRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
             _hierarchyStrRedaction = StringRedactionHierarchyGenerator.GenerateH(_hierarchyDefintionOptionsVm.UniqueValues);
 
-            //FormatHierarchyStringRedctionForDisplay();
         }
-        private void FormatHierarchyStringRedctionForDisplay()
+        public void AddToEditList(Node node)
         {
-            _hierarchyStringRedactionDefintions.TableName = "Hierarchy Defintions";
-            var firstEntry = _hierarchyStringRedaction.First();
-            var linkedList = firstEntry.Value;
+            //Should not edit root
+            if (node.ParentNode == null)
+                return;
 
-            var levels = linkedList.Count;
-            
-            //set columns
-            for(var level = 0; level < levels; level++)
+            if (EditList.Count == 0)
             {
-                var dataColumn = new DataColumn() 
-                {  
-                    ColumnName = string.Format("Level{0}", level),
-                    DataType = typeof(string)           
-                };
-
-                _hierarchyStringRedactionDefintions.Columns.Add(dataColumn);
+                EditList.Add(node);
+                return;
             }
 
-         
-            //add rows
-            foreach(var item in _hierarchyStringRedaction)
-            {
-                linkedList = item.Value;
-                var row = _hierarchyStringRedactionDefintions.NewRow();
-                var nodeVal = linkedList.First;
-                for(var level = 0; level < levels; level++)
-                {
-                    var colRef = string.Format("Level{0}", level);
-                    row[colRef] = nodeVal.Value;
-                    nodeVal = nodeVal.Next;
-                }
-                _hierarchyStringRedactionDefintions.Rows.Add(row);
-            }
-
-            _hierarchyStringRedactionDefintions.AcceptChanges();
-
+            //All must have the same parent
+            var parentNode = EditList.First().ParentNode;
+            if (!EditList.Contains(node) && parentNode == node.ParentNode)
+                EditList.Add(node);
         }
-       
-        
-        //public ColumnHierarchy ExtractHierarchy()
-        //{
-        //    //Selects hierarchy to use
-        //    if(IsCustomHierarchySelected)
-        //    {
-        //        _hierarchyCustomDefintion = CollateCustomHierarchy();
-
-        //        var customHierarchy = new ColumnHierarchy()
-        //        {
-        //            AnonymistionValues = _hierarchyCustomDefintion
-        //        };
-
-        //        return customHierarchy;
-        //    }
-        //    //else string redaction hierarchy
-        //    if (_hierarchyStringRedaction == null)
-        //        return null;
-
-        //    var columnHierarchy = new ColumnHierarchy()
-        //    {
-        //        AnonymistionValues = _hierarchyStringRedaction
-        //    };
-
-        //    return columnHierarchy;
-        //}
+        public void ClearEditList()
+        {
+            EditList.Clear();
+        }
 
         public AnonymisationHierarchy ExtractHierarchy()
         {
             return ((IsCustomHierarchySelected) ? _hierarchyCustom : _hierarchyStrRedaction);
         }
-
         private Dictionary<string, LinkedList<string>> CollateCustomHierarchy()
         {
-            var result = new Dictionary<string, LinkedList<string>>();
+            return null;
+            //var result = new Dictionary<string, LinkedList<string>>();
 
-            if (_hierarchyCustomDefintions == null)
-                return null;
+            //if (_hierarchyCustomDefintions == null)
+            //    return null;
 
-            var anonLevels = _hierarchyCustomDefintions.Columns.Count;
-            foreach(DataRow row in HierarchyCustomDefintions.Rows)
-            {
-                var initVal = row["Level0"].ToString();
-                var linkList = new LinkedList<string>();
-                var node = linkList.AddFirst(initVal);
+            //var anonLevels = _hierarchyCustomDefintions.Columns.Count;
+            //foreach(DataRow row in HierarchyCustomDefintions.Rows)
+            //{
+            //    var initVal = row["Level0"].ToString();
+            //    var linkList = new LinkedList<string>();
+            //    var node = linkList.AddFirst(initVal);
 
 
-                for(int index = 1; index <anonLevels; index++)
-                {
-                    var colName = string.Format("Level{0}", index);
-                    var nextVal = row[colName].ToString();
-                    node = linkList.AddAfter(node, nextVal);
-                }
+            //    for(int index = 1; index <anonLevels; index++)
+            //    {
+            //        var colName = string.Format("Level{0}", index);
+            //        var nextVal = row[colName].ToString();
+            //        node = linkList.AddAfter(node, nextVal);
+            //    }
 
-                result.Add(initVal, linkList);
-            }
+            //    result.Add(initVal, linkList);
+            //}
 
-            return result;
+            //return result;
         }
     }
 }

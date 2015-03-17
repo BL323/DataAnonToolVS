@@ -69,7 +69,6 @@ namespace AnonTool.Core.Preprocessing
                 }
             }
         }
-       // public ColumnHierarchy ColumnHierarchy { get; set; }
         public AnonymisationHierarchy AnonymisationHierarchy { get; set; }
         public IKAnonymisation SelectedAnonymisation
         {

@@ -82,6 +82,9 @@
     <Compile Include="Hierarchy\HierarchyDefintionShellView.xaml.cs">
       <DependentUpon>HierarchyDefintionShellView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Hierarchy\HierarchyTreeView.xaml.cs">
+      <DependentUpon>HierarchyTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MenuBars\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +128,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Hierarchy\HierarchyTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MenuBars\MenuBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +153,10 @@
     <ProjectReference Include="..\AnonTool.MVVM\AnonTool.MVVM.csproj">
       <Project>{c503261f-1a54-41e9-8cbb-73445dd81b58}</Project>
       <Name>AnonTool.MVVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KAnonymisation.Core\KAnonymisation.Core.csproj">
+      <Project>{157e0766-309e-442d-9102-85914c9fa147}</Project>
+      <Name>KAnonymisation.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
