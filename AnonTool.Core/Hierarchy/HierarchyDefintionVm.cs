@@ -23,8 +23,6 @@ namespace AnonTool.Core.Hierarchy
         private AnonymisationHierarchy _hierarchyCustom; 
         private HierarchyDefinitionOptionsVm _hierarchyDefintionOptionsVm = new HierarchyDefinitionOptionsVm();
         private ObservableCollection<Node> _editList = new ObservableCollection<Node>();
-        private ICommand _removeLastLevelCommand;
-        private ICommand _appendLastLevelCommand;
         private ICommand _addToEditListCommand;
         private ICommand _clearEditListCommand;
         private ICommand _insertNodeCommand;
@@ -103,14 +101,6 @@ namespace AnonTool.Core.Hierarchy
                 }
             }
         }
-        public ICommand RemoveLastLevelCommand
-        {
-            get { return _removeLastLevelCommand ?? (_removeLastLevelCommand = new RelayCommand(o => RemoveLastLevel(), o => true)); }
-        }
-        public ICommand AppendLastLevelCommand
-        {
-            get { return _appendLastLevelCommand ?? (_appendLastLevelCommand = new RelayCommand(o => AppendLastLevel(), o => true)); }
-        }
         public ICommand AddToEditListCommand
         {
             get { return _addToEditListCommand ?? (_addToEditListCommand = new RelayCommand(o => AddItemToEditList(), o => true)); }
@@ -127,30 +117,6 @@ namespace AnonTool.Core.Hierarchy
         public ICommand InsertNodeCommand
         {
             get {return _insertNodeCommand ?? (_insertNodeCommand = new RelayCommand(o => InsertNode(), o=>true));}
-        }
-
-        private void AppendLastLevel()
-        {
-            if (HierarchyCustom.SelectedTreeNode == null)
-                return;
-            //var tempClone = HierarchyCustomDefintions.Clone();
-            
-            //var colCount = tempClone.Columns.Count;
-            //var columnName = string.Format("Level{0}", colCount);
-            //var dataCol = new DataColumn()
-            //{
-            //    ColumnName = columnName,
-            //    DataType = typeof(string),
-            //    DefaultValue = "*"
-            //};
-
-            //tempClone.Columns.Add(dataCol);
-  
-            ////repopulate data
-            //foreach (DataRow row in HierarchyCustomDefintions.Rows)
-            //    tempClone.ImportRow(row);
-                
-            //HierarchyCustomDefintions = tempClone;
         }
 
         private void InsertNode()
@@ -190,27 +156,6 @@ namespace AnonTool.Core.Hierarchy
                 parentNode.AddChild(child);
             }
 
-        }
-
-
-
-        private void RemoveLastLevel()
-        {
-            if (HierarchyCustom.SelectedTreeNode == null)
-                return;
-            //var columnCount = HierarchyCustomDefintions.Columns.Count;
-
-            //if (columnCount == 1)
-            //    return;
-
-            //var tempClone = HierarchyCustomDefintions.Clone();
-            //tempClone.Columns.RemoveAt(columnCount -1);
-
-            ////repopulate data
-            //foreach (DataRow row in HierarchyCustomDefintions.Rows)
-            //    tempClone.ImportRow(row);
-
-            //HierarchyCustomDefintions = tempClone;
         }
         private void AddItemToEditList()
         {

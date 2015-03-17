@@ -95,8 +95,12 @@ namespace KAnonymisation.SetBased
                     var val = row[columnModel.Header].ToString();
                     if (valsToBeAnonymised.Contains(val))
                         foreach (var cluster in clustersToApply)
-                            if(cluster.Contains(val))
-                                EditRow(row, columnModel.Header, string.Join(", ", cluster));
+                            if (cluster.Contains(val))
+                            {
+                                var newcluster = string.Join(", ", cluster);
+                                var strCluster = "{" + newcluster + "}";
+                                EditRow(row, columnModel.Header, strCluster);
+                            }
                 }
             }
             else if (columnModel.DataType == typeof(int))
@@ -111,8 +115,13 @@ namespace KAnonymisation.SetBased
                     var val = int.Parse(row[columnModel.Header].ToString());
                     if (valsToBeAnonymised.Contains(val.ToString()))
                         foreach (var cluster in clustersToApply)
-                            if(cluster.Contains(val))
-                                EditRow(row, columnModel.Header, string.Join(", ", cluster));
+                            if (cluster.Contains(val))
+                            {
+                                var newcluster = string.Join(", ", cluster);
+                                var strCluster =  "{" + newcluster + "}";
+                                EditRow(row, columnModel.Header, strCluster);
+
+                            }
                 }
 
             }

@@ -58,7 +58,6 @@ namespace AnonTool.Core.Preprocessing
 
 
         //Private Methods
-
         private void UpdateColumnInfo()
         {
             _columnPreprocessorVm = new PreprocessingColumnsVm(this);

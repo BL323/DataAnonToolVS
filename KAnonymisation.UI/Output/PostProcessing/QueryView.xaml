@@ -14,13 +14,12 @@
 
             <StackPanel Orientation="Horizontal">
                     <Label Content="SELECT COUNT" />
-                    <ComboBox ItemsSource="{Binding AvailableDataTables}" SelectedItem="{Binding SelectedDataTable}" Width="100"/>
                     <Label Content="(*)" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="FROM" />
-                    <Label Content="{Binding SelectedDataTable}" />
+                    <ComboBox ItemsSource="{Binding AvailableDataTables}" SelectedItem="{Binding SelectedDataTable}" Width="100"/>
                 </StackPanel>
                 <Label Content="WHERE" />
 

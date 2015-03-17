@@ -113,7 +113,7 @@ namespace KAnonymisation.Core.Output
         private void ExtractQueryMeteric(ref string result, QueryViewModel query)
         {
             var occuranceCount = 0;
-            var dataTable = (query.SelectedDataTable == "Input DataTable") ? _inputDataTable : _outputDataTable;
+            var dataTable = (query.SelectedDataTable == "Input Table") ? _inputDataTable : _outputDataTable;
             
             //set out criteria for rows
             foreach(DataRow row in dataTable.Rows)
@@ -145,12 +145,40 @@ namespace KAnonymisation.Core.Output
                 if (attributesSatisfied == false)
                     return;
 
-
-                if (statement.Criteria.Contains("%")) 
+                //Output Set
+                if (row[statement.Attribute].ToString().StartsWith("{"))
+                    SetBasedMatch(ref attributesSatisfied, row, statement);
+                else if (statement.Criteria.Contains("%")) 
                     WildCardMatch(ref attributesSatisfied, row, statement);
                 else if (row[statement.Attribute].ToString() != statement.Criteria) // extact match
                     attributesSatisfied = false;
             }      
+        }
+
+        private void SetBasedMatch(ref bool attributesSatisfied, DataRow row, QueryStatementViewModel statement)
+        {
+            var str = row[statement.Attribute].ToString().TrimStart('{');
+            str = str.TrimEnd('}');
+            
+            var items = str.Split(',');
+            var trimItems = new List<string>();
+            foreach (var item in items)
+                trimItems.Add(item.Trim());
+
+            foreach(var item in trimItems)
+            {
+                if (statement.Criteria.Contains("%"))
+                {
+                    var st = statement.Criteria.Replace("%", "");
+                    if (item.StartsWith(st))
+                        return;
+                }
+                else if (statement.Criteria == item) // extact match
+                    return;
+            }
+            
+               attributesSatisfied = false;
+
         }
         private void WildCardMatch(ref bool attributesSatisfied, DataRow row, QueryStatementViewModel statement)
         {

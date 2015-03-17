@@ -24,11 +24,21 @@ namespace KAnonymisation.Core.Controllers
         public DataTable InvokeAnonymisation(DataTable dataTable, List<ColumnModel> columnModels)
         {
             DataTable result = null;
+            DataTable inputTable = CloneInputTable(dataTable);
 
             ConvertTableDataToStrings(ref dataTable);
             //anonymiseDataTable
             result = AnonymiseDataTable(dataTable, columnModels);
-            DisplayResult(result);
+            DisplayResult(result, inputTable);
+
+            return result;
+        }
+
+        private DataTable CloneInputTable(DataTable dataTable)
+        {
+            var result = dataTable.Clone();
+            foreach (DataRow row in dataTable.Rows)
+                result.ImportRow(row);
 
             return result;
         }
@@ -41,11 +51,12 @@ namespace KAnonymisation.Core.Controllers
                 dtClone.ImportRow(row);
             dataTable = dtClone;
         }
-        private void DisplayResult(DataTable dataTable)
+        private void DisplayResult(DataTable dataTable, DataTable inputDataTable)
         {
             //Display Data
             var resultVm = new ResultsViewModel();
             resultVm.OutputDataTable = dataTable;
+            resultVm.InputDataTable = inputDataTable;
             resultVm.AnonTitle = String.Format("Anon: {0}", ++_resultShellVm.AnonCount);
 
             _resultShellVm.Results.Add(resultVm);
