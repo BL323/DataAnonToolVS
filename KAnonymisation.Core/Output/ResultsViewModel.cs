@@ -1,5 +1,8 @@
 ﻿using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.Output.PostProcessing;
+using KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +20,9 @@ namespace KAnonymisation.Core.Output
         private string _extractedMetrics;
         private DataTable _inputDataTable;
         private DataTable _outputDataTable;
+        private List<ColumnModel> _columnModels;
         private QuerySelectionController _queryController;
+        private ILossController _iLossCalcController;
 
         public string AnonTitle
         {
@@ -43,7 +48,6 @@ namespace KAnonymisation.Core.Output
                 }
             }
         }
-        //input table required to calc meterics
         public DataTable InputDataTable
         {
             get { return _inputDataTable; }
@@ -73,6 +77,18 @@ namespace KAnonymisation.Core.Output
                 }
             }
         }
+        public List<ColumnModel> ColumnModels
+        {
+            get { return _columnModels; }
+            set
+            {
+                if(_columnModels != value)
+                {
+                    _columnModels = value;
+                    RaisePropertyChanged(() => ColumnModels);
+                }
+            }
+        }
         public QuerySelectionController QueryController
         {
             get { return _queryController; }
@@ -85,6 +101,18 @@ namespace KAnonymisation.Core.Output
                 }
             }
         }
+        public ILossController ILossCalcController
+        {
+            get { return _iLossCalcController; }
+            set
+            {
+                if(_iLossCalcController != value)
+                {
+                    _iLossCalcController = value;
+                    RaisePropertyChanged(() => ILossCalcController);
+                }
+            }
+        }
 
         private void SetupAttributes()
         {
@@ -94,8 +122,31 @@ namespace KAnonymisation.Core.Output
                 attributes.Add(col.ColumnName);
 
             _queryController = new QuerySelectionController(attributes);
-        }
 
+            var anonAttributeDict = GenerateAnonAttributeDict(attributes, ColumnModels);
+            _iLossCalcController = new ILossController(anonAttributeDict);
+        }
+        private Dictionary<string, AnonymisationHierarchy> GenerateAnonAttributeDict(ObservableCollection<string> attributes, List<ColumnModel> columnModels)
+        {
+            var result = new Dictionary<string, AnonymisationHierarchy>();
+
+            foreach(var att in attributes)
+            {
+                if(!result.ContainsKey(att))
+                    result.Add(att, null);
+            }
+
+            if (ColumnModels != null)
+            {
+                foreach (var col in ColumnModels)
+                {
+                    if (result.ContainsKey(col.Header))
+                        result[col.Header] = col.AnonymisationHierarchy;
+                } 
+            }
+
+            return result;
+        }
         //Extract Meterics
         public void ExtractAnonymisationMetrics() 
         {
@@ -141,6 +192,9 @@ namespace KAnonymisation.Core.Output
             //evaluate each statement induvidually
             foreach(var statement in queryStatements)
             {
+                if (statement.Criteria == null)
+                    break;
+
                 //stop unecessary processing
                 if (attributesSatisfied == false)
                     return;
@@ -154,7 +208,6 @@ namespace KAnonymisation.Core.Output
                     attributesSatisfied = false;
             }      
         }
-
         private void SetBasedMatch(ref bool attributesSatisfied, DataRow row, QueryStatementViewModel statement)
         {
             var str = row[statement.Attribute].ToString().TrimStart('{');

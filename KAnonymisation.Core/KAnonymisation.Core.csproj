@@ -58,6 +58,8 @@
     <Compile Include="Hierarchy\Node.cs" />
     <Compile Include="IdentifierTypes\IdentifierType.cs" />
     <Compile Include="Interfaces\IKAnonymisation.cs" />
+    <Compile Include="Output\PostProcessing\DataBasedEvaluation\ILossCalcViewModel.cs" />
+    <Compile Include="Output\PostProcessing\DataBasedEvaluation\ILossController.cs" />
     <Compile Include="Output\PostProcessing\PostProcessingViewModel.cs" />
     <Compile Include="Output\PostProcessing\QuerySelectionController.cs" />
     <Compile Include="Output\PostProcessing\QueryStatementViewModel.cs" />

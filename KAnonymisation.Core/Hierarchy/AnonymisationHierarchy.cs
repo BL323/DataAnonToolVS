@@ -114,5 +114,29 @@ namespace KAnonymisation.Core.Hierarchy
             }
         }
 
+        public List<Node> GetAllNodes()
+        {
+            var result = new List<Node>();
+
+            if (RootNode == null)
+                return result;
+
+            result.Add(RootNode);
+            FindNodes(RootNode, ref result);
+
+            return result;
+
+        }
+        private void FindNodes(Node node, ref List<Node> nodes)
+        {
+            if(node.ChildNodes != null)
+            {
+                foreach(var child in node.ChildNodes)
+                {
+                    nodes.Add(child);
+                    FindNodes(child, ref nodes);
+                }
+            }
+        }
     }
 }

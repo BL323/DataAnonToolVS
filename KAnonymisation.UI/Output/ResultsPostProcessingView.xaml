@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:PostProcessingViews="clr-namespace:KAnonymisation.UI.Output.PostProcessing"
+             xmlns:DPViews="clr-namespace:KAnonymisation.UI.Output.PostProcessing.DataBasedEvaluation"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="600">
     <Grid Background="LightGray">
@@ -24,11 +25,19 @@
             <PostProcessingViews:PostProcessingQueryPlannerView HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Row="1"
                                         MinWidth="350" DataContext="{Binding PostProcessingVm.SelectedResult.QueryController}" Margin="5" />
         </Grid>
-        
-          
-        <StackPanel Orientation="Vertical" Grid.Column="1" VerticalAlignment="Bottom">
-            <Label Content="Results" />
-            <TextBox Text="{Binding PostProcessingVm.SelectedResult.ExtractedMetrics}" HorizontalAlignment="Stretch" Margin="5" Height="100"/>
-        </StackPanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <DPViews:DataBasedEvaluationPlannerView DataContext="{Binding PostProcessingVm.SelectedResult.ILossCalcController}" />
+            <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Bottom">
+                <Label Content="Results" />
+                <TextBox Text="{Binding PostProcessingVm.SelectedResult.ExtractedMetrics}" HorizontalAlignment="Stretch" Margin="5" Height="350"/>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </UserControl>

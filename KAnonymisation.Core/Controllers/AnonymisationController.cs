@@ -29,7 +29,7 @@ namespace KAnonymisation.Core.Controllers
             ConvertTableDataToStrings(ref dataTable);
             //anonymiseDataTable
             result = AnonymiseDataTable(dataTable, columnModels);
-            DisplayResult(result, inputTable);
+            DisplayResult(result, inputTable, columnModels);
 
             return result;
         }
@@ -51,10 +51,11 @@ namespace KAnonymisation.Core.Controllers
                 dtClone.ImportRow(row);
             dataTable = dtClone;
         }
-        private void DisplayResult(DataTable dataTable, DataTable inputDataTable)
+        private void DisplayResult(DataTable dataTable, DataTable inputDataTable, List<ColumnModel> columnModels)
         {
             //Display Data
             var resultVm = new ResultsViewModel();
+            resultVm.ColumnModels = columnModels;
             resultVm.OutputDataTable = dataTable;
             resultVm.InputDataTable = inputDataTable;
             resultVm.AnonTitle = String.Format("Anon: {0}", ++_resultShellVm.AnonCount);

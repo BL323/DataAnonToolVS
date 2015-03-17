@@ -26,7 +26,7 @@
                  VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <PPViews:QueryView DataContext="{Binding}" />
+                    <PPViews:QueryView DataContext="{Binding}"  HorizontalAlignment="Stretch"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
