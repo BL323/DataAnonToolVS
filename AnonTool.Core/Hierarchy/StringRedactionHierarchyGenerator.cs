@@ -79,7 +79,7 @@ namespace AnonTool.Core.Hierarchy
 
 
             //add original strings
-            var leafNodes = hierarchy.LeafNodes();
+            var leafNodes = hierarchy.LeafNodes(hierarchy.RootNode);
             foreach(var leaf in leafNodes)
             {
                 var leafStripped = leaf.Value.TrimEnd('*');
@@ -117,7 +117,7 @@ namespace AnonTool.Core.Hierarchy
        
         private static void AddAnonymisationLevel(ref AnonymisationHierarchy hierarchy, List<string> children)
         {
-            List<Node> leafNodes = hierarchy.LeafNodes();
+            List<Node> leafNodes = hierarchy.LeafNodes(hierarchy.RootNode);
 
             foreach (var leafNode in leafNodes)
             {

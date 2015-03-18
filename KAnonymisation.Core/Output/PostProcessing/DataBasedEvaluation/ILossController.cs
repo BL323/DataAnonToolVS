@@ -19,6 +19,7 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
         private ICommand _addCalcCommand;
         private ICommand _removeCalcCommand;
         private ICommand _randomlyGenerateCalcsCommand;
+        private ICommand _goCalcCommand;
 
         public ObservableCollection<ILossCalcViewModel> Calculations
         {
@@ -44,6 +45,10 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
         {
             get { return _randomlyGenerateCalcsCommand ?? (_randomlyGenerateCalcsCommand = new RelayCommand(o => RandomlyGenerate(), o => true)); }
         }
+        public ICommand GoCalcCommand
+        {
+            get{return _goCalcCommand ?? (_goCalcCommand = new RelayCommand(o => GoCalc(), o => true));}
+        }
 
         //Constructor
         public ILossController(Dictionary<string, AnonymisationHierarchy> attributeHierarchyDict)
@@ -64,6 +69,24 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
         private void RandomlyGenerate ()
         {
             throw new NotImplementedException();
+        }
+        private void GoCalc()
+        {
+            foreach(var calc in Calculations)
+            {
+                var hierarchy = calc.SelectedHierarchy;
+                var node = hierarchy.FindNode(calc.SelectedValue);
+
+
+                // (Leaf Node Descendents  - 1) / leaf set of attributes A
+                double attributeLeaves = hierarchy.LeafNodes(hierarchy.RootNode).Count;
+                double leafNodeDescendents = (node.IsLeaf) ? 1 : hierarchy.LeafNodes(node).Count;
+
+                var result = (leafNodeDescendents - 1) / attributeLeaves;
+                calc.Result = result.ToString();
+            }
+
+
         }
     }
 }

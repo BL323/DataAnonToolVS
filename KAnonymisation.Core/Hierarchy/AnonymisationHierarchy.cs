@@ -50,24 +50,25 @@ namespace KAnonymisation.Core.Hierarchy
 
             return depth;
         }      
-        public List<Node> LeafNodes()
+        public List<Node> LeafNodes(Node root)
         {
-            if(RootNode == null)
+            if (root == null)
                 return null;
 
             var leafNodes = new List<Node>();
 
-            if (RootNode.IsLeaf)
+            if (root.IsLeaf)
             {
-                leafNodes.Add(RootNode);
+                leafNodes.Add(root);
                 return leafNodes;
             }
 
-            FindLeaves(RootNode, ref leafNodes);
+            FindLeaves(root, ref leafNodes);
 
 
             return leafNodes;
         }
+
         public Node FindNode(string value)
         {
             Node result = null;

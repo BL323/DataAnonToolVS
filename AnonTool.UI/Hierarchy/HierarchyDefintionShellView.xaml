@@ -56,8 +56,15 @@
                     <HierarchyViews:HierarchyTreeView DataContext="{Binding HierarchyCustom}"  Grid.Column="0"  />
                     <StackPanel Orientation="Vertical" Grid.Column="1">
                         <Label Content="Nodes To Edit:"/>
-                        <ListBox ItemsSource="{Binding EditList}" DisplayMemberPath="Value" />
-                    </StackPanel>
+                        <ListBox ItemsSource="{Binding EditList}" DisplayMemberPath="Value" MinHeight="40"/>
+                        <Label Content="Add To Edit (Same Parent Node)" />
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="Begins With:" VerticalAlignment="Center"/>
+                                <TextBox Height="25" Width="100" VerticalContentAlignment="Center" />
+                                <Button Content="Add" Height="25" Width="25" />
+                            </StackPanel>
+                                
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </TabItem>

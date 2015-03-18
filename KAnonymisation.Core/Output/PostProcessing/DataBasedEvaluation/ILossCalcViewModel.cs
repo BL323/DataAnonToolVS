@@ -12,6 +12,7 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
     public class ILossCalcViewModel : UpdateBase
     {
         private int _calcNumber;
+        private string _result = "#";
         private string _selectedAttribute;
         private string _selectedValue;
         private Dictionary<string, AnonymisationHierarchy> _anonDict;
@@ -30,6 +31,18 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 }
             }
         }
+        public string Result
+        {
+            get { return _result; }
+            set
+            {
+                if(_result != value)
+                {
+                    _result = value;
+                    RaisePropertyChanged(() => Result);
+                }
+            }
+        }
         public string SelectedAttribute
         {
             get { return _selectedAttribute; }
@@ -39,6 +52,7 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 {
                     _selectedAttribute = value;
                     UpdateValues(_selectedAttribute);
+                    UpdateSelectedHierarchy();
                     RaisePropertyChanged(() => SelectedAttribute);
                 }
             }
@@ -51,11 +65,22 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 if(_selectedValue != value)
                 {
                     _selectedValue = value;
+
                     RaisePropertyChanged(() => SelectedValue);
                 }
             }
         }
-      
+
+        private void UpdateSelectedHierarchy()
+        {
+            if (_anonDict == null)
+                return;
+
+            if (_anonDict.ContainsKey(_selectedAttribute))
+                SelectedHierarchy = _anonDict[_selectedAttribute];
+            else
+                SelectedHierarchy = null;
+        }
         public ObservableCollection<string> Attribues
         {
             get { return _attributes; }
@@ -80,6 +105,7 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 }
             }
         }
+        public AnonymisationHierarchy SelectedHierarchy { get; set; }
     
         //Constructors
         public ILossCalcViewModel(Dictionary<string, AnonymisationHierarchy> AnonDict)
