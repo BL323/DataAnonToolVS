@@ -18,6 +18,7 @@ namespace AnonTool.Core.Hierarchy
         
         private bool _isCustomHierarchySelected;
         private string _newNodeValue;
+        private string _matchString;
         private DataTable _hierarchyCustomDefintions = new DataTable();
         private AnonymisationHierarchy _hierarchyStrRedaction;
         private AnonymisationHierarchy _hierarchyCustom; 
@@ -27,6 +28,7 @@ namespace AnonTool.Core.Hierarchy
         private ICommand _clearEditListCommand;
         private ICommand _insertNodeCommand;
         private ICommand _removeNodeCommand;
+        private ICommand _addMatchesToEditListCommand;
 
         // Public Properties
         public bool IsCustomHierarchySelected
@@ -50,6 +52,18 @@ namespace AnonTool.Core.Hierarchy
                 {
                     _newNodeValue = value;
                     RaisePropertyChanged(() => NewNodeValue);
+                }
+            }
+        }
+        public string MatchString
+        {
+            get { return _matchString; }
+            set
+            {
+                if(_matchString != value)
+                {
+                    _matchString = value;
+                    RaisePropertyChanged(() => MatchString);
                 }
             }
         }
@@ -118,6 +132,10 @@ namespace AnonTool.Core.Hierarchy
         {
             get {return _insertNodeCommand ?? (_insertNodeCommand = new RelayCommand(o => InsertNode(), o=>true));}
         }
+        public ICommand AddMatchesToEditListCommand
+        {
+            get { return _addMatchesToEditListCommand ?? (_addMatchesToEditListCommand = new RelayCommand(o => AddMatchesToEditList(), o => true)); }
+        }
 
         private void InsertNode()
         {
@@ -175,6 +193,27 @@ namespace AnonTool.Core.Hierarchy
                 rootNode.AddChild(node);
             }
 
+        }
+        private void AddMatchesToEditList()
+        {
+            if (EditList.Count == 0 || MatchString == string.Empty)
+                return;
+
+            //Must have common parent
+            var parentNode = EditList.First().ParentNode;
+
+            var nodeList = _hierarchyCustom.GetAllNodes();
+            //linq statement - find matching items to add in edit list
+            var filteredNodes = nodeList.Where(x => x.ParentNode == parentNode 
+                                && x.Value.StartsWith(MatchString) && !EditList.Contains(x));
+
+            //alter field, to stop binding refreshing each time an item is added
+            foreach (var node in filteredNodes)
+                _editList.Add(node);
+
+            RaisePropertyChanged(() => EditList);
+            MatchString = "";
+                      
         }
         public void GenerateHierarchy()
         {

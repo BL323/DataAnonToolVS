@@ -76,11 +76,9 @@ namespace KAnonymisation.Core.Hierarchy
             if (RootNode == null)
                 return null;
 
-            if (RootNode.IsLeaf)
-            {
-                if (RootNode.Value == value)
-                    return RootNode;
-            }
+            if (RootNode.Value == value)
+                return RootNode;
+            
             
             MatchValues(RootNode, ref result, value);
             return result;            

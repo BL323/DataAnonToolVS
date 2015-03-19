@@ -83,5 +83,10 @@ namespace KAnonymisation.Core.Controllers
             if(columnModel != null && columnModel.KAnonymisation != null)
                 columnModel.KAnonymisation.ApplyAnonymisation(ref dataTable, columnModel);
         }
+        public void DisplayResultsDialog()
+        {
+            var resultsShellview = new ResultsShellView() {DataContext = _resultShellVm};
+            resultsShellview.ShowDialog();
+        }
     }
 }

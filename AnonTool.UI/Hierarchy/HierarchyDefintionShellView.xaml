@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:HierarchyViews="clr-namespace:AnonTool.UI.Hierarchy"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700">
     <Grid>
         <TabControl Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TabItem Header="String Hierarchy">
@@ -20,13 +20,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <HierarchyViews:HierarchyDefinitionOptionsView Grid.Row="1" Grid.Column="0" DataContext="{Binding HierarchyDefintionOptionsVm}" />
-
                     <HierarchyViews:HierarchyTreeView DataContext="{Binding HierarchyStrRedaction}" Grid.Column="1" Grid.Row="1" />
-
-
-
                 </Grid>
-
             </TabItem>
             <TabItem Header="Custom Hierarchy" IsSelected="{Binding IsCustomHierarchySelected}">
                 <Grid>                   
@@ -60,8 +55,8 @@
                         <Label Content="Add To Edit (Same Parent Node)" />
                             <StackPanel Orientation="Horizontal" >
                                 <TextBlock Text="Begins With:" VerticalAlignment="Center"/>
-                                <TextBox Height="25" Width="100" VerticalContentAlignment="Center" />
-                                <Button Content="Add" Height="25" Width="25" />
+                                <TextBox Text="{Binding MatchString}" Height="25" Width="100" VerticalContentAlignment="Center" Margin="5" />
+                                <Button Content="Add" Command="{Binding AddMatchesToEditListCommand}" Height="25" Width="50" />
                             </StackPanel>
                                 
                         </StackPanel>

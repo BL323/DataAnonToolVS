@@ -22,6 +22,7 @@ namespace AnonTool.Core.Preprocessing
         private DataTable _inputDataTable;
         private PreprocessingColumnsVm _columnPreprocessorVm;       
         private ICommand _anonymiseCommand;
+        private ICommand _openResultsDialogCommand;
         private AnonymisationController _anonController = new AnonymisationController();
 
         //Public Properties
@@ -50,10 +51,13 @@ namespace AnonTool.Core.Preprocessing
                 }
             }
         }     
-
         public ICommand AnonymiseCommand
         {
             get { return _anonymiseCommand ?? (_anonymiseCommand = new RelayCommand(o => InvokeAnonymiseDataSet(), o => true)); }
+        }
+        public ICommand OpenResultsDialogCommand
+        {
+            get { return _openResultsDialogCommand ?? (_openResultsDialogCommand = new RelayCommand(o => OpenResultsDialog(), o => true)); }
         }
 
 
@@ -83,6 +87,10 @@ namespace AnonTool.Core.Preprocessing
         {
             if(ColumnPreprocessorVm != null)
                 _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
+        }
+        private void OpenResultsDialog()
+        {
+            _anonController.DisplayResultsDialog();
         }
     }
 }
