@@ -6,16 +6,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            
-            <StackPanel Orientation="Horizontal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+                
+            <StackPanel Orientation="Horizontal" Grid.Row="0">
                 <Label Content="Column Name: " />
                 <Label Content="{Binding ColumnName}" />
             </StackPanel>
             
-            <Label Content="Unique Values:" />
-            <ListView ItemsSource="{Binding UniqueValues}" />
-            
-        </StackPanel>
+            <Label Content="Unique Values:" Grid.Row="1" />
+            <ListView ItemsSource="{Binding UniqueValues}" Grid.Row="2" />
+           
     </Grid>
 </UserControl>

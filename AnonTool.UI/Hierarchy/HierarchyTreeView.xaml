@@ -7,30 +7,25 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
-
-
+            <HierarchicalDataTemplate x:Key="ChildTemplate" ItemsSource="{Binding Path=ChildNodes}">
+                <TextBlock FontStyle="Italic" Text="{Binding Path=Value}" />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="NameTemplate" ItemsSource="{Binding Path=ChildNodes}" ItemTemplate="{StaticResource ChildTemplate}">
+                <HierarchicalDataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsOpen}" Value="true" >
+                        <Setter Property="TreeViewItem.IsExpanded" Value="true" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsOpen}" Value="false">
+                        <Setter Property="TreeViewItem.IsExpanded" Value="false" />
+                    </DataTrigger>
+                </HierarchicalDataTemplate.Triggers>
+                <TextBlock Text="{Binding Path=Value}" FontWeight="Bold" />
+            </HierarchicalDataTemplate>
         </Grid.Resources>
-
-        <StackPanel x:Name="LayoutRoot" Background="White">
-            <StackPanel.Resources>
-                <HierarchicalDataTemplate x:Key="ChildTemplate" ItemsSource="{Binding Path=ChildNodes}">
-                    <TextBlock FontStyle="Italic" Text="{Binding Path=Value}" />
-                </HierarchicalDataTemplate>
-                <HierarchicalDataTemplate x:Key="NameTemplate" ItemsSource="{Binding Path=ChildNodes}" ItemTemplate="{StaticResource ChildTemplate}">
-                    <HierarchicalDataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsOpen}" Value="true" >
-                            <Setter Property="TreeViewItem.IsExpanded" Value="true" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsOpen}" Value="false">
-                            <Setter Property="TreeViewItem.IsExpanded" Value="false" />
-                        </DataTrigger>
-                    </HierarchicalDataTemplate.Triggers>
-                    <TextBlock Text="{Binding Path=Value}" FontWeight="Bold" />                   
-                </HierarchicalDataTemplate>
-            </StackPanel.Resources>
-            <TreeView Width="400"  Height="300" ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource NameTemplate}"
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+            <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource NameTemplate}"
                       SelectedItemChanged="myTreeView_SelectedItemChanged" x:Name="myTreeView" />
-        </StackPanel>
-
     </Grid>
 </UserControl>

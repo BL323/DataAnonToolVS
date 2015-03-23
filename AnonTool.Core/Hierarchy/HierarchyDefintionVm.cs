@@ -14,8 +14,7 @@ namespace AnonTool.Core.Hierarchy
 {
     public class HierarchyDefintionVm : UpdateBase
     {
-        //Private Fields
-        
+        //Private Fields    
         private bool _isCustomHierarchySelected;
         private string _newNodeValue;
         private string _matchString;

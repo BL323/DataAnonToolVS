@@ -9,6 +9,7 @@
     <Grid Background="Goldenrod">
         <Grid.Resources>
             <Converters:AttributeTypeToVisibilityConverter x:Key="attTypeToVisConv" />
+            <Converters:BoolToVisibilityConverter x:Key="boolToVisConv" />
         </Grid.Resources>
         <StackPanel Orientation="Vertical" Margin="10">
             <Label Content="Column Preprocessing" Margin="0,0,0,5" />
@@ -31,11 +32,12 @@
                 <ComboBox ItemsSource="{Binding AvailableKAnonymisations}" SelectedItem="{Binding SelectedColumn.SelectedAnonymisation}" DisplayMemberPath="Name" Height="25" Width="300"/>             
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
-                <Button Content="Define Hierarchy" Command="{Binding DefineHierarchyCommand}" Height="25" Width="100" />
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
+                <Button Content="Define Hierarchy" Command="{Binding DefineHierarchyCommand}" Height="25" Width="100" Margin="5,0,0,0"
+                        Visibility="{Binding SelectedColumn.SelectedAnonymisation.RequiresHierarchy, Converter={StaticResource boolToVisConv}}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
+            <StackPanel Orientation="Horizontal" Margin="5,0,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
                 <Label Content="K =" />
                 <TextBox Text="{Binding SelectedColumn.K}" Height="25" Width="40"/>
             </StackPanel>

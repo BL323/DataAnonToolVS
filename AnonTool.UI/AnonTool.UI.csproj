@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\AttributeTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="DataImport\DataImportDialog.xaml.cs">
       <DependentUpon>DataImportDialog.xaml</DependentUpon>
     </Compile>
