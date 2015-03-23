@@ -1,4 +1,6 @@
-﻿using AnonTool.MVVM.Updates;
+﻿using AnonTool.Infrastructure.DataLoading;
+using AnonTool.MVVM.Commands;
+using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.Output.PostProcessing;
@@ -10,6 +12,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace KAnonymisation.Core.Output
 {
@@ -23,6 +27,7 @@ namespace KAnonymisation.Core.Output
         private List<ColumnModel> _columnModels;
         private QuerySelectionController _queryController;
         private ILossController _iLossCalcController;
+        private ICommand _exportDataCommand;
 
         public string AnonTitle
         {
@@ -56,6 +61,7 @@ namespace KAnonymisation.Core.Output
                 if(_inputDataTable != value)
                 {
                     _inputDataTable = value;
+                    _queryController.InputTable = _inputDataTable;
                     RaisePropertyChanged(() => InputDataTable);
                 }
             }
@@ -113,7 +119,33 @@ namespace KAnonymisation.Core.Output
                 }
             }
         }
+        public ICommand ExportDataCommand
+        {
+            get { return _exportDataCommand ?? (_exportDataCommand = new RelayCommand(o => ExportData(), o => true)); }
+        }
 
+        private void ExportData()
+        {
+            try
+            {
+
+                var fileName = "";
+                var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                saveFileDialog.DefaultExt = ".csv";
+                saveFileDialog.FileName = "ExportedCsvData";
+
+                Nullable<bool> result = saveFileDialog.ShowDialog();
+
+                if (result != true)
+                    return;
+
+                fileName = saveFileDialog.FileName;
+                DataLoader.ExportToCsv(fileName, OutputDataTable);
+            }catch(Exception ex)
+            {
+                var msgBox = MessageBox.Show(ex.Message, "Error Writing to File");
+            }
+        }
         private void SetupAttributes()
         {
             var attributes = new ObservableCollection<string>();
@@ -210,7 +242,6 @@ namespace KAnonymisation.Core.Output
                     attributesSatisfied = false;
             }      
         }
-
         private void MatchAnonymisedValue(ref bool attributesSatisfied, string tblVal, string statmentCriteria)
         {
             var strippedTblVal = tblVal.TrimEnd('*');

@@ -68,7 +68,51 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
         }
         private void RandomlyGenerate ()
         {
-            throw new NotImplementedException();
+            Calculations.Clear();
+            var rand = new Random();
+
+            var hierarchies = _attributeAnonDict.Where(x => x.Value != null).ToDictionary(x => x.Key, x => x.Value);
+            if (hierarchies == null)
+                return;
+
+            foreach(var hier in hierarchies)
+            {
+                var anonHier = hier.Value;
+                var nodes = anonHier.GetAllNodes();
+                var nodeList = new List<Node>();
+
+                var rootNode = anonHier.RootNode;
+                var rootICalc = new ILossCalcViewModel(_attributeAnonDict);
+                rootICalc.SelectedAttribute = hier.Key;
+                rootICalc.SelectedHierarchy = hier.Value;
+                rootICalc.SelectedValue = rootNode.Value;
+                Calculations.Add(rootICalc);
+
+
+                if(nodes.Count > 3)
+                {
+                    while (nodeList.Count < 3)
+                    {
+                        var selectedNode = nodes[rand.Next(0, nodes.Count - 1)];
+                        if (!nodeList.Contains(selectedNode))
+                            nodeList.Add(selectedNode);
+                    }
+
+                    foreach(var node in nodeList)
+                    {
+                        var iCalc = new ILossCalcViewModel(_attributeAnonDict);
+                        iCalc.SelectedAttribute = hier.Key;
+                        iCalc.SelectedHierarchy = hier.Value;
+                        iCalc.SelectedValue = node.Value;
+                        Calculations.Add(iCalc);
+                    }
+
+                }
+            }
+            
+
+            
+
         }
         private void GoCalc()
         {
@@ -78,7 +122,6 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 if (hierarchy == null)
                     return;
                 var node = hierarchy.FindNode(calc.SelectedValue);
-
 
                 // (Leaf Node Descendents  - 1) / leaf set of attributes A
                 double attributeLeaves = hierarchy.LeafNodes(hierarchy.RootNode).Count;

@@ -24,37 +24,33 @@ namespace AnonTool.Core.MenuBar
         public event ImportedData importedData;
         //Private Fields 
         private ICommand _importDataCommand;
-        private ICommand _exportDataCommand;
 
         //Public Properties
         public ICommand ImportDataCommand
         {
             get { return _importDataCommand ?? (_importDataCommand = new RelayCommand(o => ImportData(), o => true)); }
         }
-        public ICommand ExportDataCommand
-        {
-            get { return _exportDataCommand ?? (_exportDataCommand = new RelayCommand(o => ExportData(), o => true)); }
-        }
 
         private void ImportData()
         {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "csv files (*.csv)| *.csv";
-            if(fileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                var fName = fileDialog.FileName;              
-                var dataMapper = DataLoader.LoadCsv(fName);
+                var fileDialog = new OpenFileDialog();
+                fileDialog.Filter = "csv files (*.csv)| *.csv";
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var fName = fileDialog.FileName;
+                    var dataMapper = DataLoader.LoadCsv(fName);
 
-                var dataTable = CreateDataTable(dataMapper);
-                importedData(this, dataTable);
+                    var dataTable = CreateDataTable(dataMapper);
+                    importedData(this, dataTable);
+                }
+            }catch(Exception ex)
+            {
+                var msgBox = System.Windows.MessageBox.Show(ex.Message, "Error Importing Data");
             }
         }
-        private void ExportData()
-        {
-            throw new NotImplementedException();
-        }
- 
-
+     
         private DataTable CreateDataTable(DataMapper dataMapper)
         {
             var disvm = new DataImportShellViewModel(dataMapper);

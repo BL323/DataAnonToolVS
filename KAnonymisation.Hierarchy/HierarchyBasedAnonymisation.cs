@@ -61,6 +61,9 @@ namespace KAnonymisation.Hierarchy
 
         private void AnonymiseQuasiIdentifierTEMP(ColumnModel columnModel, ref DataTable dataTable)
         {
+            if (columnModel.AnonymisationHierarchy == null)
+                throw new Exception("No valid anonymisation hierarchy has been defined.");
+
             //count occurances of each key
             var valueLookup = new Dictionary<string, int>();
 
@@ -94,7 +97,7 @@ namespace KAnonymisation.Hierarchy
 
             foreach(var node in nodes)
             {
-                if(!result.ContainsKey(node.Value))
+                if(result != null && !result.ContainsKey(node.Value))
                     result.Add(node.Value, node.ParentNode.Value);
             }
 

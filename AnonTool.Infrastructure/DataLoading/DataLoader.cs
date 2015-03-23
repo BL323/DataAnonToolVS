@@ -11,7 +11,7 @@ namespace AnonTool.Infrastructure.DataLoading
 {
     public static class DataLoader
     {
-            public static DataMapper LoadCsv(string fName)
+        public static DataMapper LoadCsv(string fName)
             {
                 var init = false;
 
@@ -48,8 +48,7 @@ namespace AnonTool.Infrastructure.DataLoading
                 var relationData = new DataMapper(fieldNames, fields);
                 return relationData;
             }
-
-            public static void WriteCsv(string fName, DataMapper relationData)
+        public static void WriteCsv(string fName, DataMapper relationData)
             {
                 var fStream = new FileStream(fName, FileMode.Create);
                 var textWriter = new StreamWriter(fStream);
@@ -76,8 +75,31 @@ namespace AnonTool.Infrastructure.DataLoading
                 fStream.Close();
             }
 
-        }
+        public static void ExportToCsv(string fName, DataTable dataTable)
+        {
+            var fStream = new FileStream(fName, FileMode.Create);
+            var textWriter = new StreamWriter(fStream);
+            var csv = new CsvWriter(textWriter);
+
+            //write headers
+            foreach (DataColumn header in dataTable.Columns)
+                csv.WriteField(header.ColumnName);
+
+            csv.NextRecord();
+
+            foreach(DataRow row in dataTable.Rows)
+            {
+                for (var index = 0; index < dataTable.Columns.Count; index++)
+                    csv.WriteField(row[index]);
+
+                csv.NextRecord();
+            }
+
+            textWriter.Close();
+            fStream.Close();
+        }        
     }
+}
 
 
 

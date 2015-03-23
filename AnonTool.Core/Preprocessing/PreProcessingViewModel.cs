@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
@@ -85,8 +86,15 @@ namespace AnonTool.Core.Preprocessing
         }
         private void InvokeAnonymiseDataSet()
         {
-            if(ColumnPreprocessorVm != null)
-                _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
+            try
+            {
+
+                if (ColumnPreprocessorVm != null)
+                    _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
+            }catch(Exception ex)
+            {
+                var msgBox = MessageBox.Show(ex.Message, "Error Processing Data");
+            }
         }
         private void OpenResultsDialog()
         {

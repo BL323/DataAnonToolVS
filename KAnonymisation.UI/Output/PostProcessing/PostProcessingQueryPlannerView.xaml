@@ -13,7 +13,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         
-        <Label Content="Query => Task Based Evaluation" />
+        <Label Content="Task Based Evaluation" />
         
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <Button Content="+" Command="{Binding AddQueryCommand}" Width="25" Height="25" Margin="5" />

@@ -3,6 +3,7 @@ using AnonTool.MVVM.Updates;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
         private ObservableCollection<string> _availableAttributes;
         private ObservableCollection<QueryViewModel> _queries = new ObservableCollection<QueryViewModel>();
 
+        public DataTable InputTable { get; set; }
         public ICommand AddQueryCommand
         {
             get { return _addQueryCommand ?? (_addQueryCommand = new RelayCommand(o => AddQuery(), o => true)); }
@@ -75,7 +77,53 @@ namespace KAnonymisation.Core.Output.PostProcessing
         }
         private void RandomlyGenerateQueries()
         {
-            throw new NotImplementedException();
+            DataRow dataRow = null;
+            Queries.Clear();
+            var rand = new Random();
+            var queryList = new List<QueryViewModel>();
+
+            var queryVmInput = new QueryViewModel(_availableAttributes) { QueryNumber = ++_queryCount, SelectedDataTable = "Input Table" };
+            var queryVmOutput = new QueryViewModel(_availableAttributes){ QueryNumber = ++_queryCount, SelectedDataTable = "OutputTable" };
+            queryVmOutput.QueryStatements.Clear();
+            queryVmInput.QueryStatements.Clear();
+
+            var attList = new List<string>();
+            if (_availableAttributes.Count > 0)
+            {
+                while (attList.Count < 2)
+                {
+                    var att = _availableAttributes[rand.Next(0, _availableAttributes.Count - 1)];
+                    if (!attList.Contains(att))
+                        attList.Add(att);
+                }
+
+                foreach (var stat in attList)
+                {
+                    var queryStatementVmOut = new QueryStatementViewModel();
+                    var queryStatementVmIn = new QueryStatementViewModel();
+
+                    var rowData = InputTable.Rows;
+                    if(dataRow == null)
+                        dataRow = rowData[rand.Next(0, rowData.Count - 1)];
+
+                    var data = dataRow[stat].ToString();
+
+                    queryStatementVmOut.AvailableAttributes = _availableAttributes;
+                    queryStatementVmOut.Attribute = stat;
+                    queryStatementVmOut.Criteria = data;
+                    queryVmOutput.QueryStatements.Add(queryStatementVmOut);
+
+                    queryStatementVmIn.AvailableAttributes = _availableAttributes;
+                    queryStatementVmIn.Attribute = stat;
+                    queryStatementVmIn.Criteria = data;
+                    queryVmInput.QueryStatements.Add(queryStatementVmIn);
+                }
+
+            }
+
+            Queries.Add(queryVmInput);
+            Queries.Add(queryVmOutput);
         }
+
     }
 }
