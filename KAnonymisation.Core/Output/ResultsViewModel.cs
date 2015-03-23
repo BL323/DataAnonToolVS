@@ -132,6 +132,7 @@ namespace KAnonymisation.Core.Output
                 var fileName = "";
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                 saveFileDialog.DefaultExt = ".csv";
+                saveFileDialog.Filter = "CSV | *.csv";
                 saveFileDialog.FileName = "ExportedCsvData";
 
                 Nullable<bool> result = saveFileDialog.ShowDialog();

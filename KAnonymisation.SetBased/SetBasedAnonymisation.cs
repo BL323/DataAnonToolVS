@@ -23,10 +23,6 @@ namespace KAnonymisation.SetBased
         { 
             get { return false; } 
         }
-        public void Show()
-        {
-            throw new NotImplementedException();
-        }
 
         public void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel)
         {
@@ -125,6 +121,27 @@ namespace KAnonymisation.SetBased
                 }
 
             }
+            else if(columnModel.DataType == typeof(double))
+            {
+                var listIntsToAnonymise = new List<double>();
+                foreach (var str in valsToBeAnonymised)
+                    listIntsToAnonymise.Add(double.Parse(str));
+
+                var clustersToApply = ClusterKMembers<double>(columnModel.K, listIntsToAnonymise);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    var val = double.Parse(row[columnModel.Header].ToString());
+                    if (valsToBeAnonymised.Contains(val.ToString()))
+                        foreach (var cluster in clustersToApply)
+                            if (cluster.Contains(val))
+                            {
+                                var newcluster = string.Join(", ", cluster);
+                                var strCluster = "{" + newcluster + "}";
+                                EditRow(row, columnModel.Header, strCluster);
+
+                            }
+                }
+            }
         }
         private void EditRow(DataRow row, string header,string toUpdate)
         {
@@ -199,10 +216,30 @@ namespace KAnonymisation.SetBased
                 result = CalcLevenstheinVals<T>(r, shuffledArray);
             else if (typeof(T) == typeof(int))
                 result = CalcIntVals<T>(r, shuffledArray);
+            else if(typeof(T) == typeof(double))
+                result = CalcDoubleVals<T>(r, shuffledArray);
             else
                 throw new NotSupportedException();          
 
             return result;
+        }
+
+        private Dictionary<T, double> CalcDoubleVals<T>(object r, List<T> shuffledArray)
+        {
+            var keyDist = new Dictionary<T, double>();
+
+            foreach (var num in shuffledArray)
+            {
+                if (!keyDist.ContainsKey(num))
+                {
+                    double rDec = double.Parse(r.ToString());
+                    double numDec = double.Parse(num.ToString());
+                    keyDist.Add(num, Math.Abs(rDec - numDec));
+                }
+
+            }
+
+            return keyDist;
         }
         private Dictionary<T, double> CalcIntVals<T>(T r, List<T> shuffledArray)
         {

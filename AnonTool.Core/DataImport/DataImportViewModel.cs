@@ -49,8 +49,8 @@ namespace AnonTool.Core.DataImport
             _dataTypeMapperDict = new Dictionary<string, Type>();
             _dataTypeMapperDict.Add("string", typeof(string));
             _dataTypeMapperDict.Add("int", typeof(int));
-            _dataTypeMapperDict.Add("decimal", typeof(decimal));
-            _dataTypeMapperDict.Add("DateTime", typeof(string));
+            _dataTypeMapperDict.Add("double", typeof(double));
+            //_dataTypeMapperDict.Add("DateTime", typeof(string));
         }
         public DataTable GenerateDataTable()
         {

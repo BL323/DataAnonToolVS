@@ -12,9 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
@@ -90,13 +93,54 @@ namespace AnonTool.Core.Preprocessing
 
         private void LoadAvailableKAnonymisations()
         {
-            //To be done dynamically in the final version
+            //Defaults hard coded to load
             IKAnonymisation defaultSetBasedAnon = new SetBasedAnonymisation();
             IKAnonymisation defaultHierarchyBasedAnon = new HierarchyBasedAnonymisation();
+            AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon };
 
-            AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon};
+            try
+            {
+                //Dynamically load anonymisation plugins
+                List<IKAnonymisation> pluginAnons = DynamicallyLoadAnonymisationPlugins();
+                foreach (var iKAnon in pluginAnons)
+                    AvailableKAnonymisations.Add(iKAnon);
+            }
+            catch(Exception ex)
+            {
+                var msgBox = MessageBox.Show(ex.Message, "Error Dynamically Loading Anonymisation Plugins");
+            }
+
         }
+        private List<IKAnonymisation> DynamicallyLoadAnonymisationPlugins()
+        {
+            var result = new List<IKAnonymisation>();
 
+            var curDir = Directory.GetCurrentDirectory();
+            var baseDir = Application.StartupPath;
+            var pPath = "\\Plugins";
+            var fullPath = string.Format("{0}{1}", baseDir, pPath);
+
+            string[] plugins = Directory.GetFiles(fullPath, "*.DLL");
+
+            foreach(var plugin in plugins)
+            {
+                var assembly = Assembly.LoadFile(plugin);
+                if(assembly != null)
+                {
+                    var type = typeof(IKAnonymisation);
+                    var types = assembly.GetTypes();
+                    foreach(var t in  types)
+                    {
+                        if (type.IsAssignableFrom(t))
+                            result.Add((IKAnonymisation)Activator.CreateInstance(t));
+                    }
+                }
+            }
+
+
+
+            return result;
+        }
         private void DefineHierarchy()
         {
             if (SelectedColumn == null)

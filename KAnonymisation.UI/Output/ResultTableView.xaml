@@ -7,14 +7,15 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition />
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Export Data" Command="{Binding ExportDataCommand}" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Center" />
-        </StackPanel>
+        <DataGrid ItemsSource="{Binding OutputDataTable}" AutoGenerateColumns="True" Grid.Row="0" />
         
-        <DataGrid ItemsSource="{Binding OutputDataTable}" AutoGenerateColumns="True" Grid.Row="1" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Content="Export Data" Command="{Binding ExportDataCommand}" Height="25" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>   
+        
     </Grid>
 </UserControl>

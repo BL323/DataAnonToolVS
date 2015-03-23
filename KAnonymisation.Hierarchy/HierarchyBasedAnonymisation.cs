@@ -23,10 +23,6 @@ namespace KAnonymisation.Hierarchy
         {
             get { return true; }
         }
-        public void Show()
-        {
-            throw new NotImplementedException();
-        }
 
         public void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel)
         {
