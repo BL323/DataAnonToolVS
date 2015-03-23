@@ -75,6 +75,8 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
             foreach(var calc in Calculations)
             {
                 var hierarchy = calc.SelectedHierarchy;
+                if (hierarchy == null)
+                    return;
                 var node = hierarchy.FindNode(calc.SelectedValue);
 
 

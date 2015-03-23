@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Converters="clr-namespace:AnonTool.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="Goldenrod">
+        <Grid.Resources>
+            <Converters:AttributeTypeToVisibilityConverter x:Key="attTypeToVisConv" />
+        </Grid.Resources>
         <StackPanel Orientation="Vertical" Margin="10">
             <Label Content="Column Preprocessing" Margin="0,0,0,5" />
             <ComboBox Height="25" Margin="0,0,0,5" ItemsSource="{Binding Columns}" SelectedItem="{Binding SelectedColumn}"
@@ -20,18 +24,18 @@
                 <Label Content="Attribute Type:"/>
                 <ComboBox ItemsSource="{Binding AvailableAttributeTypes}" SelectedItem="{Binding SelectedColumn.AttributeType}"/>
             </StackPanel>
-            
 
-            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" >
+
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
                 <Label Content="Anonymisation Technique:" VerticalContentAlignment="Center"/>
                 <ComboBox ItemsSource="{Binding AvailableKAnonymisations}" SelectedItem="{Binding SelectedColumn.SelectedAnonymisation}" DisplayMemberPath="Name" Height="25" Width="300"/>             
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
                 <Button Content="Define Hierarchy" Command="{Binding DefineHierarchyCommand}" Height="25" Width="100" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Visibility="{Binding SelectedColumn.AttributeType, Converter={StaticResource attTypeToVisConv}}">
                 <Label Content="K =" />
                 <TextBox Text="{Binding SelectedColumn.K}" Height="25" Width="40"/>
             </StackPanel>

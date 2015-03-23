@@ -23,7 +23,7 @@ namespace AnonTool.Core.Preprocessing
     {
         private PreProcessingViewModel _parentVm;
         private PreprocessColumnVm _selectedColumn;
-
+        private HierarchyDefintionShellVm _hierarchyDefintionShellVm;
         private AnonymisationHierarchy _anonymisationHierarchy;
 
         private ObservableCollection<IdentifierType> _availableAttributeTypes = new ObservableCollection<IdentifierType>() 
@@ -104,14 +104,16 @@ namespace AnonTool.Core.Preprocessing
 
             var uniqueVals = GetUniqueValues(_parentVm.InputDataTable, SelectedColumn);
 
-            var hierarchyDefintionShellVm = new HierarchyDefintionShellVm(SelectedColumn.Header, uniqueVals);
+            if(_hierarchyDefintionShellVm == null)
+                _hierarchyDefintionShellVm = new HierarchyDefintionShellVm(SelectedColumn.Header, uniqueVals);
+            
             var hierarchyDefintionDialog = new HierarchyDefintionDialog();
 
 
-            hierarchyDefintionDialog.DataContext = hierarchyDefintionShellVm;
+            hierarchyDefintionDialog.DataContext = _hierarchyDefintionShellVm;
             hierarchyDefintionDialog.ShowDialog();
 
-            SelectedColumn.AnonymisationHierarchy = hierarchyDefintionShellVm.ExtractHierarchy();
+            SelectedColumn.AnonymisationHierarchy = _hierarchyDefintionShellVm.ExtractHierarchy();
         }
         private ObservableCollection<string> GetUniqueValues(System.Data.DataTable dataTable, PreprocessColumnVm SelectedColumn)
         {

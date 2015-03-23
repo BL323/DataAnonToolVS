@@ -199,14 +199,31 @@ namespace KAnonymisation.Core.Output
                 if (attributesSatisfied == false)
                     return;
 
-                //Output Set
-                if (row[statement.Attribute].ToString().StartsWith("{"))
+                var tblVal = row[statement.Attribute].ToString();
+                if (tblVal.EndsWith("*"))
+                    MatchAnonymisedValue(ref attributesSatisfied, tblVal, statement.Criteria);                        
+                else if (row[statement.Attribute].ToString().StartsWith("{"))
                     SetBasedMatch(ref attributesSatisfied, row, statement);
                 else if (statement.Criteria.Contains("%")) 
                     WildCardMatch(ref attributesSatisfied, row, statement);
                 else if (row[statement.Attribute].ToString() != statement.Criteria) // extact match
                     attributesSatisfied = false;
             }      
+        }
+
+        private void MatchAnonymisedValue(ref bool attributesSatisfied, string tblVal, string statmentCriteria)
+        {
+            var strippedTblVal = tblVal.TrimEnd('*');
+
+            var statementVal = statmentCriteria;
+            if (statementVal.Contains('%'))
+            {
+                statementVal = statementVal.TrimEnd('%');
+                if (!statementVal.StartsWith(strippedTblVal))
+                    attributesSatisfied = false;
+            }
+            else if (!statementVal.StartsWith(strippedTblVal))
+                attributesSatisfied = false;
         }
         private void SetBasedMatch(ref bool attributesSatisfied, DataRow row, QueryStatementViewModel statement)
         {
