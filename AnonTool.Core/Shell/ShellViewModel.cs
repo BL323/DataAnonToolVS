@@ -43,7 +43,7 @@ namespace AnonTool.Core.Shell
         public ShellViewModel()
         {
             _menuBarVm = new MenuBarViewModel();
-            _preprocessingVm = new PreProcessingViewModel();
+            _preprocessingVm = new PreProcessingViewModel(true);
 
             _menuBarVm.importedData += _menuBarVm_importedData;
         }

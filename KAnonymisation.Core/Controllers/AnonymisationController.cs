@@ -21,7 +21,7 @@ namespace KAnonymisation.Core.Controllers
             _resultsShellView.DataContext = _resultShellVm;
         }
 
-        public DataTable InvokeAnonymisation(DataTable dataTable, List<ColumnModel> columnModels)
+        public DataTable InvokeAnonymisation(DataTable dataTable, List<ColumnModel> columnModels, bool displayResults)
         {
             DataTable result = null;
             DataTable inputTable = CloneInputTable(dataTable);
@@ -29,7 +29,9 @@ namespace KAnonymisation.Core.Controllers
             ConvertTableDataToStrings(ref dataTable);
             //anonymiseDataTable
             result = AnonymiseDataTable(dataTable, columnModels);
-            DisplayResult(result, inputTable, columnModels);
+
+            if(displayResults)
+                DisplayResult(result, inputTable, columnModels);
 
             return result;
         }

@@ -24,6 +24,7 @@ namespace AnonTool.Core.Preprocessing
 {
     public class PreprocessingColumnsVm : UpdateBase
     {
+        private bool _loadPluginAnonymisations = false;
         private PreProcessingViewModel _parentVm;
         private PreprocessColumnVm _selectedColumn;
         private HierarchyDefintionShellVm _hierarchyDefintionShellVm;
@@ -85,9 +86,10 @@ namespace AnonTool.Core.Preprocessing
         }
 
         //Constructor
-        public PreprocessingColumnsVm(PreProcessingViewModel parentVm)
+        public PreprocessingColumnsVm(PreProcessingViewModel parentVm, bool loadPluginAnons)
         {
             _parentVm = parentVm;
+            _loadPluginAnonymisations = loadPluginAnons;
             LoadAvailableKAnonymisations();
         }
 
@@ -97,6 +99,9 @@ namespace AnonTool.Core.Preprocessing
             IKAnonymisation defaultSetBasedAnon = new SetBasedAnonymisation();
             IKAnonymisation defaultHierarchyBasedAnon = new HierarchyBasedAnonymisation();
             AvailableKAnonymisations = new ObservableCollection<IKAnonymisation>() { defaultSetBasedAnon, defaultHierarchyBasedAnon };
+
+            if (!_loadPluginAnonymisations)
+                return;
 
             try
             {

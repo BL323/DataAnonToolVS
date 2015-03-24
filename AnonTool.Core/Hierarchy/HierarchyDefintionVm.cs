@@ -217,7 +217,7 @@ namespace AnonTool.Core.Hierarchy
         public void GenerateHierarchy()
         {
             InitCustomHierarchy();
-            _hierarchyStrRedaction = StringRedactionHierarchyGenerator.GenerateH(_hierarchyDefintionOptionsVm.UniqueValues);
+            _hierarchyStrRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
 
         }
         public void AddToEditList(Node node)

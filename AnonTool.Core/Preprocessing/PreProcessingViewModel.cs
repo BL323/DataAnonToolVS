@@ -20,6 +20,7 @@ namespace AnonTool.Core.Preprocessing
     public class PreProcessingViewModel : UpdateBase
     {
         //Private Fields
+        private bool _displayResults;
         private DataTable _inputDataTable;
         private PreprocessingColumnsVm _columnPreprocessorVm;       
         private ICommand _anonymiseCommand;
@@ -40,6 +41,7 @@ namespace AnonTool.Core.Preprocessing
                 }
             }
         }
+        public DataTable OutputDataTableTester { get; set; }
         public PreprocessingColumnsVm ColumnPreprocessorVm
         {
             get { return _columnPreprocessorVm; }
@@ -61,11 +63,16 @@ namespace AnonTool.Core.Preprocessing
             get { return _openResultsDialogCommand ?? (_openResultsDialogCommand = new RelayCommand(o => OpenResultsDialog(), o => true)); }
         }
 
+        //Constructor
+        public PreProcessingViewModel(bool displayResults)
+        {
+            _displayResults = displayResults;
+        }
 
         //Private Methods
         private void UpdateColumnInfo()
         {
-            _columnPreprocessorVm = new PreprocessingColumnsVm(this);
+            _columnPreprocessorVm = new PreprocessingColumnsVm(this,_displayResults);
             foreach (DataColumn column in _inputDataTable.Columns)
             {
                 var colVm = new PreprocessColumnVm()
@@ -90,7 +97,7 @@ namespace AnonTool.Core.Preprocessing
             {
 
                 if (ColumnPreprocessorVm != null)
-                    _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels());
+                    OutputDataTableTester = _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels(), _displayResults);
             }catch(Exception ex)
             {
                 var msgBox = MessageBox.Show(ex.Message, "Error Processing Data");

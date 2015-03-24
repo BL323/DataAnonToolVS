@@ -164,7 +164,7 @@ namespace KAnonymisation.SetBased
                 return clusters;
 
             var r = shuffledList.First();
-            shuffledList.Remove(r);
+           // shuffledList.Remove(r);
 
             while (shuffledList.Count > k)
             {
@@ -272,6 +272,13 @@ namespace KAnonymisation.SetBased
         }
         private List<T> NearestCluster<T>(T r, ref List<List<T>> clusters) where T : IComparable 
         {
+            if(clusters.Count == 0)
+            {
+                var cluster = new List<T>();
+                clusters.Add(cluster);
+                return cluster;
+            }
+
             var clusterAvg = -1.0;
             var closestClusterIndex = 0;
 
