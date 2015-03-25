@@ -169,6 +169,59 @@ namespace DataAnonTool.Tests
         }
 
         [TestMethod]
+        public void DefaultQuasiSetBasedAnonymisationNonKMatchingItemsTest()
+        {
+            var colName = "Test Header";
+            var columnVm = new PreprocessColumnVm();
+            columnVm.Header = colName;
+            //SetBased Anonymisation
+            columnVm.SelectedAnonymisation = _preprocessorVm.ColumnPreprocessorVm.AvailableKAnonymisations[0];
+            _preprocessorVm.ColumnPreprocessorVm.Columns.Add(columnVm);
+
+            var dataTable = new DataTable();
+            dataTable.Columns.Add(new DataColumn() { ColumnName = colName, DataType = typeof(string) });
+
+            var row = dataTable.NewRow();
+            row[colName] = 1;
+            dataTable.Rows.Add(row);
+
+            row = dataTable.NewRow();
+            row[colName] = 1;
+            dataTable.Rows.Add(row);
+
+            row = dataTable.NewRow();
+            row[colName] = 99;
+            dataTable.Rows.Add(row);
+
+            row = dataTable.NewRow();
+            row[colName] = 70;
+            dataTable.Rows.Add(row);
+
+            row = dataTable.NewRow();
+            row[colName] = 85;
+            dataTable.Rows.Add(row);
+
+            _preprocessorVm.InputDataTable = dataTable;
+            _preprocessorVm.ColumnPreprocessorVm.Columns[0].K = 3;
+            _preprocessorVm.ColumnPreprocessorVm.Columns[0].AttributeType = KAnonymisation.Core.IdentifierTypes.IdentifierType.Quasi;
+            _preprocessorVm.ColumnPreprocessorVm.Columns[0].DataType = typeof(int);
+
+            _preprocessorVm.AnonymiseCommand.Execute(null);
+            var outputDataTable = _preprocessorVm.OutputDataTableTester;
+
+            var row0 = outputDataTable.Rows[0][colName];
+            Assert.IsTrue(row0.ToString().Contains("1") && row0.ToString().Contains("70") && row0.ToString().Contains("85") && row0.ToString().Contains("99"));
+            var row1 = outputDataTable.Rows[1][colName];
+            Assert.IsTrue(row1.ToString().Contains("1") && row1.ToString().Contains("70") && row1.ToString().Contains("85") && row1.ToString().Contains("99"));
+            var row2 = outputDataTable.Rows[2][colName];
+            Assert.IsTrue(row2.ToString().Contains("1") && row2.ToString().Contains("70") && row2.ToString().Contains("85") && row2.ToString().Contains("99"));
+            var row3 = outputDataTable.Rows[3][colName];
+            Assert.IsTrue(row3.ToString().Contains("1") && row3.ToString().Contains("70") && row3.ToString().Contains("85") && row3.ToString().Contains("99"));
+            var row4 = outputDataTable.Rows[4][colName];
+            Assert.IsTrue(row4.ToString().Contains("1") && row4.ToString().Contains("70") && row4.ToString().Contains("85") && row4.ToString().Contains("99"));
+        }
+
+        [TestMethod]
         public void DefaultQuasiHierarchyAnonymisationTest()
         {
             var colName = "Test Header";

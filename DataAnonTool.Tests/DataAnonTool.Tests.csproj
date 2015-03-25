@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HierarchyGenerationTests.cs" />
     <Compile Include="MVVMTests.cs" />
+    <Compile Include="PostProcessingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnonTool.Core\AnonTool.Core.csproj">
