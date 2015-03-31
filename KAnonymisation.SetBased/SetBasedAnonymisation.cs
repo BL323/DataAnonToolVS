@@ -55,6 +55,11 @@ namespace KAnonymisation.SetBased
         }
         private void AnonymiseQuasiIdentifier(ColumnModel columnModel, ref DataTable dataTable)
         {
+            var numRows = dataTable.Rows.Count;
+
+            if (columnModel.K > numRows)
+                throw new Exception("Error - K level cannot be greater than number of data entries.");
+
             //count occurances of each key
             var valueLookup = new Dictionary<string, int>();
             foreach (DataRow row in dataTable.Rows)

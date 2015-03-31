@@ -67,7 +67,7 @@ namespace KAnonymisation.Hierarchy
 
             //count occurances and measure valsToBeAnonymised
             valueLookup = CountOccurances(dataTable, columnModel);
-            valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K);
+            valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K, columnModel.AnonymisationHierarchy);
             if (valsToBeAnonymised.Count < 1)
                 return;
 
@@ -77,7 +77,7 @@ namespace KAnonymisation.Hierarchy
                 ApplyAnonymisedValues(newAnonValues, ref dataTable, columnModel);
 
                 valueLookup = CountOccurances(dataTable, columnModel);
-                valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K);
+                valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K, columnModel.AnonymisationHierarchy);
             }
 
         }
@@ -87,14 +87,22 @@ namespace KAnonymisation.Hierarchy
             var result = new Dictionary<string, string>();
 
             var nodes = new List<Node>();
+
+            if (valsToBeAnonymised == null || anonymisationHierarchy == null)
+                Console.WriteLine();
+
             foreach(var val in valsToBeAnonymised)
                 nodes.Add(anonymisationHierarchy.FindNode(val));
 
 
             foreach(var node in nodes)
             {
-                if(result != null && !result.ContainsKey(node.Value))
-                    result.Add(node.Value, node.ParentNode.Value);
+                if (result != null && !result.ContainsKey(node.Value))
+                {
+                    var parentValue = (node.ParentNode == null) ? null : node.ParentNode.Value;
+                    result.Add(node.Value, parentValue);
+
+                }
             }
 
             return result;
@@ -176,16 +184,17 @@ namespace KAnonymisation.Hierarchy
             }
 
         }
-        private List<string> FindValuesToBeAnonymised(Dictionary<string, int> valueLookup, int k)
+        private List<string> FindValuesToBeAnonymised(Dictionary<string, int> valueLookup, int k, AnonymisationHierarchy anonHierarchy)
         {
             var valsToBeAnonymised = new List<string>();
+            var rootVal = anonHierarchy.RootNode.Value;
 
             foreach (var item in valueLookup)
             {
                 if (item.Value < k)
                 {
                     for (var count = 0; count < item.Value; count++)
-                        if(!valsToBeAnonymised.Contains(item.Key))
+                        if(!valsToBeAnonymised.Contains(item.Key) && !item.Key.Equals(rootVal))
                             valsToBeAnonymised.Add(item.Key);
                 }
             }

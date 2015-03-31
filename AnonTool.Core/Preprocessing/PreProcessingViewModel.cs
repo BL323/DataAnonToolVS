@@ -80,7 +80,7 @@ namespace AnonTool.Core.Preprocessing
                        Header = column.ColumnName,
                        DataType = column.DataType,
                        AttributeType = IdentifierType.NonSensitive,
-                       K = 0
+                       K = 3
                 };
 
                 _columnPreprocessorVm.Columns.Add(colVm);
