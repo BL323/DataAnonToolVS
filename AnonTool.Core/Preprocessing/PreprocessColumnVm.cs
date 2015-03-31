@@ -82,6 +82,5 @@ namespace AnonTool.Core.Preprocessing
                 }
             }
         }
-
     }
 }

@@ -5,7 +5,7 @@ using KAnonymisation.Core.TypeComparer;
 namespace DataAnonTool.Tests
 {
     [TestClass]
-    public class LevenshtienDistanceTests
+    public class LevenshteinDistanceTests
     {
         [TestMethod]
         public void EqualStringsTests()
