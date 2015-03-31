@@ -27,6 +27,7 @@ namespace AnonTool.Infrastructure.DataLoading
                 {
                     if (!init)
                     {
+                        //First line is attribute headers
                         var headers = csv.FieldHeaders;
                         foreach (var header in headers)
                         {
@@ -37,9 +38,7 @@ namespace AnonTool.Infrastructure.DataLoading
                     }
 
                     for (var fieldNo = 0; fieldNo < fieldNames.Count; fieldNo++)
-                    {
-                        fields[fieldNo].Add((csv.GetField(fieldNo)).Trim());
-                    }
+                        fields[fieldNo].Add((csv.GetField(fieldNo)).Trim());                    
                 }
 
                 textReader.Close();

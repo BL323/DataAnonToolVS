@@ -10,22 +10,17 @@
             <HierarchicalDataTemplate x:Key="ChildTemplate" ItemsSource="{Binding Path=ChildNodes}">
                 <TextBlock FontStyle="Italic" Text="{Binding Path=Value}" />
             </HierarchicalDataTemplate>
-            <HierarchicalDataTemplate x:Key="NameTemplate" ItemsSource="{Binding Path=ChildNodes}" ItemTemplate="{StaticResource ChildTemplate}">
-                <HierarchicalDataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding IsOpen}" Value="true" >
-                        <Setter Property="TreeViewItem.IsExpanded" Value="true" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding IsOpen}" Value="false">
-                        <Setter Property="TreeViewItem.IsExpanded" Value="false" />
-                    </DataTrigger>
-                </HierarchicalDataTemplate.Triggers>
-                <TextBlock Text="{Binding Path=Value}" FontWeight="Bold" />
+            <HierarchicalDataTemplate x:Key="RootTemplate" ItemsSource="{Binding Path=ChildNodes}" ItemTemplate="{StaticResource ChildTemplate}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Path=Value}" FontWeight="Bold" />
+                    <TextBlock Text="NonLeaf" />
+                </StackPanel>
             </HierarchicalDataTemplate>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-            <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource NameTemplate}"
-                      SelectedItemChanged="myTreeView_SelectedItemChanged" x:Name="myTreeView" />
+        <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource RootTemplate}"
+                      SelectedItemChanged="hierarchyTreeView_SelectedItemChanged" x:Name="hierarchyTreeView" />
     </Grid>
 </UserControl>

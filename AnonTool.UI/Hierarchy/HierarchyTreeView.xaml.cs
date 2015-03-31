@@ -26,11 +26,11 @@ namespace AnonTool.UI.Hierarchy
             InitializeComponent();
         }
 
-        private void myTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void hierarchyTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var dataContext = (AnonymisationHierarchy) this.DataContext;
 
-            dataContext.SelectedTreeNode = (Node)myTreeView.SelectedItem;           
+            dataContext.SelectedTreeNode = (Node)hierarchyTreeView.SelectedItem;           
         }
     }
 }
