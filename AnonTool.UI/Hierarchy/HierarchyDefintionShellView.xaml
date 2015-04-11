@@ -11,6 +11,7 @@
             <TabItem Header="String Hierarchy">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -18,8 +19,12 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Direction:" VerticalContentAlignment="Center"/>
+                        <ComboBox Width="150" Height="25" ItemsSource="{Binding AvialableRedactionsDirections}" SelectedItem="{Binding SelectedRedactionDirection}"/>
+                    </StackPanel>
                     <HierarchyViews:HierarchyDefinitionOptionsView DataContext="{Binding HierarchyDefintionOptionsVm}"
-                                                    VerticalAlignment="Stretch"  Grid.Row="0" Grid.Column="0"/>
+                                                    VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="0"/>
                     <HierarchyViews:HierarchyTreeView DataContext="{Binding HierarchyStrRedaction}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" />
                 </Grid>
             </TabItem>

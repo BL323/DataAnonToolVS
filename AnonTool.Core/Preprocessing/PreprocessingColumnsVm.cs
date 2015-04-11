@@ -28,6 +28,7 @@ namespace AnonTool.Core.Preprocessing
         private PreProcessingViewModel _parentVm;
         private PreprocessColumnVm _selectedColumn;
         private HierarchyDefintionShellVm _hierarchyDefintionShellVm;
+        private Dictionary<string, HierarchyDefintionShellVm> _hierarchyDefintionDict = new Dictionary<string, HierarchyDefintionShellVm>();
         private AnonymisationHierarchy _anonymisationHierarchy;
 
         private ObservableCollection<IdentifierType> _availableAttributeTypes = new ObservableCollection<IdentifierType>() 
@@ -153,8 +154,14 @@ namespace AnonTool.Core.Preprocessing
 
             var uniqueVals = GetUniqueValues(_parentVm.InputDataTable, SelectedColumn);
 
-            if(_hierarchyDefintionShellVm == null)
+            if(_hierarchyDefintionDict.ContainsKey(SelectedColumn.Header))
+            {
+                _hierarchyDefintionShellVm = _hierarchyDefintionDict[SelectedColumn.Header];
+            }else
+            {
                 _hierarchyDefintionShellVm = new HierarchyDefintionShellVm(SelectedColumn.Header, uniqueVals);
+                _hierarchyDefintionDict.Add(SelectedColumn.Header, _hierarchyDefintionShellVm);
+            }
             
             var hierarchyDefintionDialog = new HierarchyDefintionDialog();
 

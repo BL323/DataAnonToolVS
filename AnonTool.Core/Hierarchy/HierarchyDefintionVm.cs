@@ -18,6 +18,7 @@ namespace AnonTool.Core.Hierarchy
         private bool _isCustomHierarchySelected;
         private string _newNodeValue;
         private string _matchString;
+        private string _selectedRedactionDirection = "Right to Left";
         private DataTable _hierarchyCustomDefintions = new DataTable();
         private AnonymisationHierarchy _hierarchyStrRedaction;
         private AnonymisationHierarchy _hierarchyCustom; 
@@ -66,6 +67,20 @@ namespace AnonTool.Core.Hierarchy
                 }
             }
         }
+        public string SelectedRedactionDirection
+        {
+            get{return _selectedRedactionDirection;}
+            set
+            {
+                if(_selectedRedactionDirection != value)
+                {
+                    _selectedRedactionDirection = value;
+                    GenerateHierarchies();
+                    RaisePropertyChanged(() => SelectedRedactionDirection);
+                    RaisePropertyChanged(() => HierarchyStrRedaction);
+                }
+            }
+        }
         public AnonymisationHierarchy HierarchyStrRedaction
         {
             get { return _hierarchyStrRedaction; }
@@ -101,6 +116,10 @@ namespace AnonTool.Core.Hierarchy
                     RaisePropertyChanged(() => HierarchyDefintionOptionsVm);
                 }
             }
+        }
+        public ObservableCollection<String> AvialableRedactionsDirections
+        {
+            get { return new ObservableCollection<string>(){"Right to Left", "Left to Right"}; }
         }
         public ObservableCollection<Node> EditList
         {
@@ -217,9 +236,16 @@ namespace AnonTool.Core.Hierarchy
         public void GenerateHierarchy()
         {
             InitCustomHierarchy();
-            _hierarchyStrRedaction = StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues);
-
+            GenerateHierarchies();
         }
+
+        private void GenerateHierarchies()
+        {
+            _hierarchyStrRedaction = (_selectedRedactionDirection.Equals("Right to Left")) ? StringRedactionHierarchyGenerator.Generate(_hierarchyDefintionOptionsVm.UniqueValues) :
+                                                              StringRedactionHierarchyGenerator.GenerateLeftToRight(_hierarchyDefintionOptionsVm.UniqueValues);
+        }
+
+
         public void AddToEditList(Node node)
         {
             //Should not edit root
@@ -246,7 +272,7 @@ namespace AnonTool.Core.Hierarchy
         {
             return ((IsCustomHierarchySelected) ? _hierarchyCustom : _hierarchyStrRedaction);
         }
-        private Dictionary<string, LinkedList<string>> CollateCustomHierarchy()
+       /* private Dictionary<string, LinkedList<string>> CollateCustomHierarchy()
         {
             return null;
             //var result = new Dictionary<string, LinkedList<string>>();
@@ -274,5 +300,6 @@ namespace AnonTool.Core.Hierarchy
 
             //return result;
         }
+        */
     }
 }
