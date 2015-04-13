@@ -32,7 +32,7 @@ namespace KAnonymisation.Hierarchy
                     AnonymiseExplicitIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Quasi:
-                    AnonymiseQuasiIdentifierTEMP(columnModel, ref dataTable);
+                    AnonymiseQuasiIdentifier(columnModel, ref dataTable);
                     break;
                 case IdentifierType.Sensitive:
                     break;
@@ -41,6 +41,14 @@ namespace KAnonymisation.Hierarchy
             }
         }
 
+        private void EditRow(DataRow row, string header, string toUpdate)
+        {
+            row.BeginEdit();
+            row[header] = toUpdate;
+            row.EndEdit();
+            row.AcceptChanges();
+        }
+        
         private void AnonymiseExplicitIdentifier(ColumnModel columnModel, ref DataTable dataTable)
         {
             //Replaces all enteries with a * to remove explicit identifiers
@@ -53,9 +61,7 @@ namespace KAnonymisation.Hierarchy
             }
 
         }
-
-
-        private void AnonymiseQuasiIdentifierTEMP(ColumnModel columnModel, ref DataTable dataTable)
+        private void AnonymiseQuasiIdentifier(ColumnModel columnModel, ref DataTable dataTable)
         {
             if (columnModel.AnonymisationHierarchy == null)
                 throw new Exception("No valid anonymisation hierarchy has been defined.");
@@ -81,8 +87,51 @@ namespace KAnonymisation.Hierarchy
             }
 
         }
+        private void ApplyAnonymisedValues(Dictionary<string, string> newAnonValues, ref DataTable dataTable, ColumnModel columnModel)
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                var val = row[columnModel.Header].ToString();
+                if (newAnonValues.ContainsKey(val))
+                    row[columnModel.Header] = newAnonValues[val];
+            }
 
-        private Dictionary<string, string> ApplyNextLevelAnonymisation(List<string> valsToBeAnonymised, Core.Hierarchy.AnonymisationHierarchy anonymisationHierarchy)
+        }
+
+        private List<string> FindValuesToBeAnonymised(Dictionary<string, int> valueLookup, int k, AnonymisationHierarchy anonHierarchy)
+        {
+            var valsToBeAnonymised = new List<string>();
+            var rootVal = anonHierarchy.RootNode.Value;
+
+            foreach (var item in valueLookup)
+            {
+                if (item.Value < k)
+                {
+                    for (var count = 0; count < item.Value; count++)
+                        if (!valsToBeAnonymised.Contains(item.Key) && !item.Key.Equals(rootVal))
+                            valsToBeAnonymised.Add(item.Key);
+                }
+            }
+
+            return valsToBeAnonymised;
+        }
+
+        private Dictionary<string, int> CountOccurances(DataTable dataTable, ColumnModel columnModel)
+        {
+            var valueLookup = new Dictionary<string, int>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                var val = row[columnModel.Header].ToString();
+                if (valueLookup.ContainsKey(val))
+                    valueLookup[val]++;
+                else
+                    valueLookup.Add(val, 1);
+            }
+
+            return valueLookup;
+        }
+        private Dictionary<string, string> ApplyNextLevelAnonymisation(List<string> valsToBeAnonymised, AnonymisationHierarchy anonymisationHierarchy)
         {
             var result = new Dictionary<string, string>();
 
@@ -107,152 +156,7 @@ namespace KAnonymisation.Hierarchy
 
             return result;
         }
+     
 
-
-        private void AnonymiseQuasiIdentifier(ColumnModel columnModel, ref DataTable dataTable)
-        {
-            return;
-           // var listOfLinkedLists = new List<Tuple<string, LinkedList<string>>>();
-           // foreach(var ll in columnModel.ColumnHierarchy.AnonymistionValues)
-           //     listOfLinkedLists.Add(new Tuple<string, LinkedList<string>>(ll.Key, ll.Value));
-            
-
-           // //count occurances of each key
-           // var valueLookup = new Dictionary<string, int>();
-
-
-           // var valsToBeAnonymised = new List<string>();
-
-
-           // //count occurances and measure valsToBeAnonymised
-           // valueLookup = CountOccurances(dataTable, columnModel);
-           // valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K);
-           // if (valsToBeAnonymised.Count < 1)
-           //     return;
-
-           // while (valsToBeAnonymised.Count > 0)
-           // {
-           //     var newAnonValues = AnonymiseValuesToNextLevel(valsToBeAnonymised, ref listOfLinkedLists);
-           //     ApplyAnonymisedValues(newAnonValues, ref dataTable, columnModel);
-                
-           //     valueLookup = CountOccurances(dataTable, columnModel);
-           //     valsToBeAnonymised = FindValuesToBeAnonymised(valueLookup, columnModel.K);
-           // }
-           //// var newAnonValues = AnonymiseValuesToNextLevel(valsToBeAnonymised, ref listOfLinkedLists);
-           //// ApplyAnonymisedValues(newAnonValues, ref dataTable, columnModel);
-        }
-
-        private Dictionary<string, string> AnonymiseValuesToNextLevel(List<string> valsToBeAnonymised, ref List<Tuple<string, LinkedList<string>>> listOfLinkedLists)
-        {
-            //dict old val and new val
-            var result = new Dictionary<string, string>();
-
-            for (var index = 0; index < valsToBeAnonymised.Count; index++)
-            {
-                var ldl = listOfLinkedLists.Find(x => x.Item2.First() == valsToBeAnonymised[index]);
-                if (ldl == null)
-                    ldl = listOfLinkedLists.Find(x => x.Item2.First().Contains(valsToBeAnonymised[index]));
-
-                listOfLinkedLists.Remove(ldl);
-
-                var firstNode = ldl.Item2.First;
-                var curStr = ldl.Item1;
-                var newNode = firstNode.Next;
-                var newStr = newNode.Value;
-
-                valsToBeAnonymised[index] = newStr;
-
-                ldl.Item2.RemoveFirst();
-                listOfLinkedLists.Add(new Tuple<string, LinkedList<string>>(newStr, ldl.Item2));
-
-                if (result.ContainsKey(curStr))
-                    result.Remove(curStr);
-
-                result.Add(curStr, newStr);
-            }
-
-            return result;
-        }
-
-        private void ApplyAnonymisedValues(Dictionary<string, string> newAnonValues, ref DataTable dataTable, ColumnModel columnModel)
-        {
-            foreach(DataRow row in dataTable.Rows)
-            {
-                var val = row[columnModel.Header].ToString();
-                if (newAnonValues.ContainsKey(val))
-                    row[columnModel.Header] = newAnonValues[val];
-            }
-
-        }
-        private List<string> FindValuesToBeAnonymised(Dictionary<string, int> valueLookup, int k, AnonymisationHierarchy anonHierarchy)
-        {
-            var valsToBeAnonymised = new List<string>();
-            var rootVal = anonHierarchy.RootNode.Value;
-
-            foreach (var item in valueLookup)
-            {
-                if (item.Value < k)
-                {
-                    for (var count = 0; count < item.Value; count++)
-                        if(!valsToBeAnonymised.Contains(item.Key) && !item.Key.Equals(rootVal))
-                            valsToBeAnonymised.Add(item.Key);
-                }
-            }
-
-            return valsToBeAnonymised;
-        }
-        private Dictionary<string, int> CountOccurances(DataTable dataTable, ColumnModel columnModel)
-        {
-            var valueLookup = new Dictionary<string, int>();
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                var val = row[columnModel.Header].ToString();
-                if (valueLookup.ContainsKey(val))
-                    valueLookup[val]++;
-                else
-                    valueLookup.Add(val, 1);
-            }
-
-            return valueLookup;
-        }
-        private Dictionary<string, string> AnonymiseValuesToNextLevel(List<string> valsToBeAnonymised, ref List<LinkedList<string>> listOfLinkedLists)
-        {
-            //dict old val and new val
-            var result = new Dictionary<string, string>();
-
-            for(var index = 0; index < valsToBeAnonymised.Count; index++)
-            {
-                var ldl = listOfLinkedLists.Find(x => x.First() == valsToBeAnonymised[index]);
-                if (ldl == null)
-                    ldl = listOfLinkedLists.Find(x => x.First().Contains(valsToBeAnonymised[index]));
-
-                listOfLinkedLists.Remove(ldl);
-
-                var firstNode = ldl.First;
-                var curStr = firstNode.Value;
-                var newNode = firstNode.Next;
-                var newStr = newNode.Value;
-
-                valsToBeAnonymised[index] = newStr;
-
-                ldl.RemoveFirst();
-                listOfLinkedLists.Add(ldl);
-
-                result.Add(curStr, newStr);
-            }
-
-            return result;
-        }
-
-
-        //helper methods
-        private void EditRow(DataRow row, string header, string toUpdate)
-        {
-            row.BeginEdit();
-            row[header] = toUpdate;
-            row.EndEdit();
-            row.AcceptChanges();
-        }
     }
 }

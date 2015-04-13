@@ -147,6 +147,32 @@ namespace KAnonymisation.SetBased
                             }
                 }
             }
+            else if(columnModel.DataType == typeof(DateTime))
+            {
+                var listDatesToAnonyise = new List<DateTime>();
+                foreach (var str in valsToBeAnonymised)
+                    listDatesToAnonyise.Add(DateTime.Parse(str));
+
+                var clustersToApply = ClusterKMembers<DateTime>(columnModel.K, listDatesToAnonyise);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    var val = DateTime.Parse(row[columnModel.Header].ToString());
+                    if (valsToBeAnonymised.Contains(val.ToString()))
+                        foreach (var cluster in clustersToApply)
+                            if (cluster.Contains(val))
+                            {
+                                var strs = new List<string>();
+                                foreach(var d in cluster)
+                                    strs.Add(d.ToShortDateString());   
+
+                                var newcluster = string.Join(", ", strs);
+                                var strCluster = "{" + newcluster + "}";
+                                EditRow(row, columnModel.Header, strCluster);
+
+                            }
+                }
+
+            }
         }
         private void EditRow(DataRow row, string header,string toUpdate)
         {
@@ -221,8 +247,10 @@ namespace KAnonymisation.SetBased
                 result = CalcLevenstheinVals<T>(r, shuffledArray);
             else if (typeof(T) == typeof(int))
                 result = CalcIntVals<T>(r, shuffledArray);
-            else if(typeof(T) == typeof(double))
+            else if (typeof(T) == typeof(double))
                 result = CalcDoubleVals<T>(r, shuffledArray);
+            else if (typeof(T) == typeof(DateTime))
+                result = CalcDateVals<T>(r, shuffledArray);
             else
                 throw new NotSupportedException();          
 
@@ -273,6 +301,25 @@ namespace KAnonymisation.SetBased
                         keyDist.Add(str, LevenshteinDistance.Compute(r.ToString(), str.ToString()));
             }
 
+            return keyDist;
+        }
+        private Dictionary<T, double> CalcDateVals<T>(T r, List<T> shuffledArray)
+        {
+            var keyDist = new Dictionary<T, double>();
+
+            foreach (var d in shuffledArray)
+            {
+                if (!keyDist.ContainsKey(d))
+                {
+                    var rDate = DateTime.Parse(r.ToString());
+                    var date = DateTime.Parse(d.ToString());
+
+                    var res = (rDate - date).TotalDays;
+                    var absRes = Math.Abs(res);
+
+                    keyDist.Add(d, absRes);
+                }
+            }
             return keyDist;
         }
         private List<T> NearestCluster<T>(T r, ref List<List<T>> clusters) where T : IComparable 

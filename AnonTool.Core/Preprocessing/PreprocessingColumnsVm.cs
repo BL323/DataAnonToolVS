@@ -142,11 +142,10 @@ namespace AnonTool.Core.Preprocessing
                     }
                 }
             }
-
-
-
             return result;
         }
+
+
         private void DefineHierarchy()
         {
             if (SelectedColumn == null)

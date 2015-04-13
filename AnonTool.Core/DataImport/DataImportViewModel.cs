@@ -50,7 +50,7 @@ namespace AnonTool.Core.DataImport
             _dataTypeMapperDict.Add("string", typeof(string));
             _dataTypeMapperDict.Add("int", typeof(int));
             _dataTypeMapperDict.Add("double", typeof(double));
-            //_dataTypeMapperDict.Add("DateTime", typeof(string));
+            _dataTypeMapperDict.Add("date", typeof(DateTime));
         }
         public DataTable GenerateDataTable()
         {
@@ -63,9 +63,17 @@ namespace AnonTool.Core.DataImport
                 for (var index = 0; index < DataFields.Count; index++)
                 {
                     var sysType = _dataTypeMapperDict[DataFields[index].SelectedDataType];
+                    
+                    //hack around for DateTime format
+                    if (sysType == typeof(DateTime))
+                        sysType = typeof(string);
+
                     column = new DataColumn(DataFields[index].Header, sysType);
+               
                     dataTable.Columns.Add(column);
                 }
+
+                
                 return dataTable;
             }
             catch (Exception ex)
@@ -86,6 +94,10 @@ namespace AnonTool.Core.DataImport
                     {
                         var colName = DataFields[colIndex].Header;
                         var data = DataFields[colIndex].Data[rowIndex];
+
+                        if(DataFields[colIndex].SelectedDataType.Equals("date"))
+                            data = DateTime.Parse(data).ToShortDateString();
+
                         row[colName] = data;
                     }
                     dataTable.Rows.Add(row);
