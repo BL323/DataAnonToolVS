@@ -73,6 +73,7 @@ namespace AnonTool.Core.Preprocessing
         private void UpdateColumnInfo()
         {
             _columnPreprocessorVm = new PreprocessingColumnsVm(this,_displayResults);
+
             foreach (DataColumn column in _inputDataTable.Columns)
             {
                 var colVm = new PreprocessColumnVm()
@@ -83,8 +84,15 @@ namespace AnonTool.Core.Preprocessing
                        K = 3
                 };
 
+                if (column.Caption == "Date")
+                    colVm.DataType = typeof(DateTime);
+
+
                 _columnPreprocessorVm.Columns.Add(colVm);
             }
+
+
+ 
 
             if (_columnPreprocessorVm.Columns.Count > 0)
                 _columnPreprocessorVm.SelectedColumn = _columnPreprocessorVm.Columns.First();

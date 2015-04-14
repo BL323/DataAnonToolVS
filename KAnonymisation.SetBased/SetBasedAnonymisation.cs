@@ -154,10 +154,12 @@ namespace KAnonymisation.SetBased
                     listDatesToAnonyise.Add(DateTime.Parse(str));
 
                 var clustersToApply = ClusterKMembers<DateTime>(columnModel.K, listDatesToAnonyise);
+
+
                 foreach (DataRow row in dataTable.Rows)
                 {
                     var val = DateTime.Parse(row[columnModel.Header].ToString());
-                    if (valsToBeAnonymised.Contains(val.ToString()))
+                    if (listDatesToAnonyise.Contains(val))
                         foreach (var cluster in clustersToApply)
                             if (cluster.Contains(val))
                             {
@@ -205,7 +207,7 @@ namespace KAnonymisation.SetBased
                 var cluster = new List<T>();
                 cluster.Add(r);
 
-                while (cluster.Count < k)
+                while (cluster.Count < k && shuffledList.Count > k)
                 {
                     r = NearestVal<T>(r, ref shuffledList);
                     if (!cluster.Contains(r))

@@ -64,12 +64,17 @@ namespace AnonTool.Core.DataImport
                 {
                     var sysType = _dataTypeMapperDict[DataFields[index].SelectedDataType];
                     
-                    //hack around for DateTime format
-                    if (sysType == typeof(DateTime))
-                        sysType = typeof(string);
+                    //hack around date presnetation
+                    if(sysType == typeof(DateTime))
+                    {
+                        column = new DataColumn(DataFields[index].Header, typeof(string));
+                        column.Caption = "Date";
+                    }
+                    else
+                        column = new DataColumn(DataFields[index].Header, sysType);
+                    
+                 
 
-                    column = new DataColumn(DataFields[index].Header, sysType);
-               
                     dataTable.Columns.Add(column);
                 }
 

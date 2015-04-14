@@ -6,7 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.Resources>
+            
             <HierarchicalDataTemplate x:Key="ChildTemplate" ItemsSource="{Binding Path=ChildNodes}">
                 <TextBlock FontStyle="Italic" Text="{Binding Path=Value}" />
             </HierarchicalDataTemplate>
@@ -15,11 +19,10 @@
                     <TextBlock Text="{Binding Path=Value}" FontWeight="Bold" />
                 </StackPanel>
             </HierarchicalDataTemplate>
-        </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource RootTemplate}"
+            
+            </Grid.Resources>
+
+            <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource RootTemplate}"
                       SelectedItemChanged="hierarchyTreeView_SelectedItemChanged" x:Name="hierarchyTreeView" />
     </Grid>
 </UserControl>
