@@ -90,7 +90,14 @@ namespace KAnonymisation.SetBased
   
             if (columnModel.DataType == typeof(string))
             {
-                var clustersToApply = ClusterKMembers<string>(columnModel.K, valsToBeAnonymised);
+                var clustersToApply = ClusterKMembers<string>(columnModel.K, valsToBeAnonymised);              
+                if(clustersToApply != null && clustersToApply.Count == 1 && clustersToApply[0].Count == 1)
+                {
+                    //single value cannot be grouped into a set by itself
+                    FullyAnonymiseSingularValue(clustersToApply[0][0].ToString(), ref dataTable, columnModel.Header);
+                    return;
+                }
+
                 foreach (DataRow row in dataTable.Rows)
                 {
                     var val = row[columnModel.Header].ToString();
@@ -111,6 +118,12 @@ namespace KAnonymisation.SetBased
                     listIntsToAnonymise.Add(int.Parse(str));
 
                 var clustersToApply = ClusterKMembers<int>(columnModel.K, listIntsToAnonymise);
+                if (clustersToApply != null && clustersToApply.Count == 1 && clustersToApply[0].Count == 1)
+                {
+                    //single value cannot be grouped into a set by itself
+                    FullyAnonymiseSingularValue(clustersToApply[0][0].ToString(), ref dataTable, columnModel.Header);
+                    return;
+                }
                 foreach (DataRow row in dataTable.Rows)
                 {
                     var val = int.Parse(row[columnModel.Header].ToString());
@@ -133,6 +146,12 @@ namespace KAnonymisation.SetBased
                     listIntsToAnonymise.Add(double.Parse(str));
 
                 var clustersToApply = ClusterKMembers<double>(columnModel.K, listIntsToAnonymise);
+                if (clustersToApply != null && clustersToApply.Count == 1 && clustersToApply[0].Count == 1)
+                {
+                    //single value cannot be grouped into a set by itself
+                    FullyAnonymiseSingularValue(clustersToApply[0][0].ToString(), ref dataTable, columnModel.Header);
+                    return;
+                }
                 foreach (DataRow row in dataTable.Rows)
                 {
                     var val = double.Parse(row[columnModel.Header].ToString());
@@ -154,7 +173,12 @@ namespace KAnonymisation.SetBased
                     listDatesToAnonyise.Add(DateTime.Parse(str));
 
                 var clustersToApply = ClusterKMembers<DateTime>(columnModel.K, listDatesToAnonyise);
-
+                if (clustersToApply != null && clustersToApply.Count == 1 && clustersToApply[0].Count == 1)
+                {
+                    //single value cannot be grouped into a set by itself
+                    FullyAnonymiseSingularValue(clustersToApply[0][0].ToString(), ref dataTable, columnModel.Header);
+                    return;
+                }
 
                 foreach (DataRow row in dataTable.Rows)
                 {
@@ -176,6 +200,18 @@ namespace KAnonymisation.SetBased
 
             }
         }
+
+        private void FullyAnonymiseSingularValue(string val, ref DataTable dataTable, string columnHeader)
+        {
+            foreach(DataRow row in dataTable.Rows)
+            {
+                if (row[columnHeader].ToString() == val)
+                    EditRow(row, columnHeader, "*");
+            }
+        
+        }
+
+
         private void EditRow(DataRow row, string header,string toUpdate)
         {
             row.BeginEdit();
@@ -195,7 +231,7 @@ namespace KAnonymisation.SetBased
             
             if (shuffledList.Count < 1)
                 return clusters;
-
+                
             var r = shuffledList.First();
            // shuffledList.Remove(r);
 
@@ -207,7 +243,7 @@ namespace KAnonymisation.SetBased
                 var cluster = new List<T>();
                 cluster.Add(r);
 
-                while (cluster.Count < k && shuffledList.Count > k)
+                while (cluster.Count < k-1 && shuffledList.Count > k)
                 {
                     r = NearestVal<T>(r, ref shuffledList);
                     if (!cluster.Contains(r))
