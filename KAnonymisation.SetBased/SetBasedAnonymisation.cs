@@ -235,7 +235,7 @@ namespace KAnonymisation.SetBased
             var r = shuffledList.First();
            // shuffledList.Remove(r);
 
-            while (shuffledList.Count > k)
+            while (shuffledList.Count >= k)
             {
                 r = FurthestVal<T>(r, ref shuffledList);
                 shuffledList.Remove(r);
@@ -243,7 +243,7 @@ namespace KAnonymisation.SetBased
                 var cluster = new List<T>();
                 cluster.Add(r);
 
-                while (cluster.Count < k-1 && shuffledList.Count > k)
+                while (cluster.Count < k)
                 {
                     r = NearestVal<T>(r, ref shuffledList);
                     if (!cluster.Contains(r))
