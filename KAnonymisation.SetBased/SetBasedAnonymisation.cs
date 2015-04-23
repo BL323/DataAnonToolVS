@@ -225,15 +225,13 @@ namespace KAnonymisation.SetBased
             var clusters = new List<List<T>>();
             var rand = new Random();
 
-            //shuffle vals
-
+            //shuffled values via LINQ statment
             var shuffledList = values.OrderBy(val => rand.Next()).ToList();
             
             if (shuffledList.Count < 1)
                 return clusters;
                 
             var r = shuffledList.First();
-           // shuffledList.Remove(r);
 
             while (shuffledList.Count >= k)
             {
@@ -241,14 +239,18 @@ namespace KAnonymisation.SetBased
                 shuffledList.Remove(r);
 
                 var cluster = new List<T>();
+                //cluster container used to count number of items, can't expliclty count occurences of numbers
+                //in case the same number is added to the cluster i.e {2, 2, 4} -> {2, 4}
+                int clusterContainer = 1;
                 cluster.Add(r);
 
-                while (cluster.Count < k)
+                while (clusterContainer < k)
                 {
                     r = NearestVal<T>(r, ref shuffledList);
                     if (!cluster.Contains(r))
                         cluster.Add(r);
                     shuffledList.Remove(r);
+                    clusterContainer++;
                 }
                 clusters.Add(cluster);
             }
@@ -257,13 +259,18 @@ namespace KAnonymisation.SetBased
             {
                 r = shuffledList.First();
                 var nearestCluster = NearestCluster<T>(r, ref clusters);
+                
                 if (!nearestCluster.Contains(r))
                   nearestCluster.Add(r);
+
                 shuffledList.Remove(r);
             }
 
             return clusters;
         }
+
+
+
         private T FurthestVal<T>(T r, ref List<T> shuffledArray) where T : IComparable 
         {
             var keyDist = CalcSimilairtyDict(r, shuffledArray);

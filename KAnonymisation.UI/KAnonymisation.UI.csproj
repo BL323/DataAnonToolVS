@@ -67,13 +67,13 @@
     <Compile Include="Output\PostProcessing\DataBasedEvaluation\ILossView.xaml.cs">
       <DependentUpon>ILossView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Output\PostProcessing\PostProcessingQueryPlannerView.xaml.cs">
+    <Compile Include="Output\PostProcessing\TaskBasedEvaluation\PostProcessingQueryPlannerView.xaml.cs">
       <DependentUpon>PostProcessingQueryPlannerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Output\PostProcessing\QueryStatementView.xaml.cs">
+    <Compile Include="Output\PostProcessing\TaskBasedEvaluation\QueryStatementView.xaml.cs">
       <DependentUpon>QueryStatementView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Output\PostProcessing\QueryView.xaml.cs">
+    <Compile Include="Output\PostProcessing\TaskBasedEvaluation\QueryView.xaml.cs">
       <DependentUpon>QueryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Output\ResultsPostProcessingView.xaml.cs">
@@ -96,15 +96,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Output\PostProcessing\PostProcessingQueryPlannerView.xaml">
+    <Page Include="Output\PostProcessing\TaskBasedEvaluation\PostProcessingQueryPlannerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Output\PostProcessing\QueryStatementView.xaml">
+    <Page Include="Output\PostProcessing\TaskBasedEvaluation\QueryStatementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Output\PostProcessing\QueryView.xaml">
+    <Page Include="Output\PostProcessing\TaskBasedEvaluation\QueryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

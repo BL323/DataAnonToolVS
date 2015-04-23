@@ -13,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KAnonymisation.UI.Output.PostProcessing
+namespace KAnonymisation.UI.Output.PostProcessing.TaskBasedEvaluation
 {
     /// <summary>
-    /// Interaction logic for PostProcessingQueryPlannerView.xaml
+    /// Interaction logic for QueryStatementView.xaml
     /// </summary>
-    public partial class PostProcessingQueryPlannerView : UserControl
+    public partial class QueryStatementView : UserControl
     {
-        public PostProcessingQueryPlannerView()
+        public QueryStatementView()
         {
             InitializeComponent();
         }
-
     }
 }

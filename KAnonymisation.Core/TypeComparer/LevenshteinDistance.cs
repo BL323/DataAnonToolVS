@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace KAnonymisation.Core.TypeComparer
 {
-	//Taken from www.dotnetperls.com/levenshtein
+    //Levenshtein distance calculation implemented from www.dotnetperls.com/levenshtein, 
+    //last accessed: 17th April 2015
 
 	public static class LevenshteinDistance
 	{

@@ -26,7 +26,14 @@ namespace AnonTool.Core.Hierarchy
         }
         public ObservableCollection<string> UniqueValues
         {
-            get { return _uniqueValues; }
+            get 
+            {
+                var sortedList = _uniqueValues.ToList();
+                sortedList.Sort();
+                var uniqueValues = new ObservableCollection<string>(sortedList);
+                return uniqueValues;
+            }
+
             set
             {
                 if(_uniqueValues != value)

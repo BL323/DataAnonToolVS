@@ -128,7 +128,7 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
                 double leafNodeDescendents = (node.IsLeaf) ? 1 : hierarchy.LeafNodes(node).Count;
 
                 var result = (leafNodeDescendents - 1) / attributeLeaves;
-                calc.Result = result.ToString();
+                calc.Result = result.ToString("N4");
             }
 
 

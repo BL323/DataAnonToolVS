@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KAnonymisation.UI.Output.PostProcessing
+namespace KAnonymisation.UI.Output.PostProcessing.TaskBasedEvaluation
 {
     /// <summary>
-    /// Interaction logic for QueryStatementView.xaml
+    /// Interaction logic for QueryView.xaml
     /// </summary>
-    public partial class QueryStatementView : UserControl
+    public partial class QueryView : UserControl
     {
-        public QueryStatementView()
+        public QueryView()
         {
             InitializeComponent();
         }
