@@ -34,7 +34,7 @@
             
             <DPViews:DataBasedEvaluationPlannerView DataContext="{Binding PostProcessingVm.SelectedResult.ILossCalcController}" />
             <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Bottom">
-                <Label Content="Results" />
+                <Label Content="Task Based Query Results:" />
                 <TextBox Text="{Binding PostProcessingVm.SelectedResult.ExtractedMetrics}" HorizontalAlignment="Stretch" Margin="5" Height="350"/>
             </StackPanel>
         </Grid>

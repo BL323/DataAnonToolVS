@@ -233,12 +233,12 @@ namespace KAnonymisation.Core.Output
                     return;
 
                 var tblVal = row[statement.Attribute].ToString();
-                if (tblVal.EndsWith("*"))
+                if (statement.Criteria.Contains("%")) 
+                    WildCardMatch(ref attributesSatisfied, row, statement);
+                else if (tblVal.EndsWith("*"))
                     MatchAnonymisedValue(ref attributesSatisfied, tblVal, statement.Criteria);                        
                 else if (row[statement.Attribute].ToString().StartsWith("{"))
                     SetBasedMatch(ref attributesSatisfied, row, statement);
-                else if (statement.Criteria.Contains("%")) 
-                    WildCardMatch(ref attributesSatisfied, row, statement);
                 else if (row[statement.Attribute].ToString() != statement.Criteria) // extact match
                     attributesSatisfied = false;
             }      
@@ -286,8 +286,13 @@ namespace KAnonymisation.Core.Output
         {
             var str = statement.Criteria.Replace("%","");
 
+            if (row[statement.Attribute].ToString().StartsWith("*"))
+                return;
+
             if (!row[statement.Attribute].ToString().StartsWith(str))
                 attributesSatisfied = false;
+
+
         }
     }
 }
