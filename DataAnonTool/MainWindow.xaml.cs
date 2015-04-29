@@ -1,6 +1,7 @@
 ﻿using AnonTool.Core.Shell;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,15 @@ namespace DataAnonTool
         {
             InitializeComponent();
 
+            this.Closing += MainWindow_Closing;
+
             var shellVm = new ShellViewModel();
             shellView.DataContext = shellVm;
+        }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Process.GetCurrentProcess().Kill();
         }
     }
 }
