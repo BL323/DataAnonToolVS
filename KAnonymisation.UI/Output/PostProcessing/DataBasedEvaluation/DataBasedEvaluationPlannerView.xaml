@@ -5,21 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ILossViews="clr-namespace:KAnonymisation.UI.Output.PostProcessing.DataBasedEvaluation"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55" />
+            <RowDefinition Height="100" />
             <RowDefinition />
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <Label Content="Data Based Evaluation" />
-            
+            <Button Content="Extract Metrics" Command="{Binding GoCalcCommand}" HorizontalAlignment="Left"
+                    Height="25" Width="100" Margin="5,5,5,15" />
+
             <StackPanel Orientation="Horizontal">
-                <Button Content="+" Command="{Binding AddCalcCommand}" Width="25" Margin="5,0,5,0"/>
-                <Button Content="-" Command="{Binding RemoveCalcCommand}" Width="25" Margin="5,0,5,0" />
-                <Button Content="Random" Command="{Binding RandomlyGenerateCalcsCommand}" Margin="10, 0,0,0" />
-                <Button Content="Go" Command="{Binding GoCalcCommand}" Margin="95,0,5,0" Width="25" />
+                <Button Content="+" Command="{Binding AddCalcCommand}" Height="25" Width="25" Margin="5,0,5,0"/>
+                <Button Content="-" Command="{Binding RemoveCalcCommand}" Height="25" Width="25" Margin="5,0,5,0" />
+                <Button Content="Random" Command="{Binding RandomlyGenerateCalcsCommand}" Height="25" Width="60" Margin="10, 0,0,0" />
             </StackPanel>
         </StackPanel>
         <ListBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"

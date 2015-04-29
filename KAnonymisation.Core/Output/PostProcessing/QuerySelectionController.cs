@@ -59,6 +59,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
             }
         }
 
+
         //Constructor
         public QuerySelectionController(ObservableCollection<string> inAvailableAttributes)
         {
@@ -78,7 +79,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
         private void RandomlyGenerateQueries()
         {
             DataRow dataRow = null;
-            Queries.Clear();
+            //Queries.Clear();
             var rand = new Random();
             var queryList = new List<QueryViewModel>();
 

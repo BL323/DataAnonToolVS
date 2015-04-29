@@ -8,20 +8,17 @@
              d:DesignHeight="300" d:DesignWidth="350">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
             <RowDefinition Height="40" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
-        <Label Content="Task Based Evaluation" />
-        
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="+" Command="{Binding AddQueryCommand}" Width="25" Height="25" Margin="5" />
             <Button Content="-" Command="{Binding RemoveQueryCommand}" Width="25" Height="25"/>
-            <Button Content="Random Queries" Command="{Binding RandomlyGenerateQueriesCommand}" Height="25" Margin="155,0,0,0"/>
+            <Button Content="Random" Command="{Binding RandomlyGenerateQueriesCommand}" Height="25" Width="60" Margin="15,0,0,0"/>
         </StackPanel>
 
-        <ListBox Grid.Row="2" ItemsSource="{Binding Queries}" SelectedItem="{Binding SelectedQuery}"
+        <ListBox Grid.Row="1" ItemsSource="{Binding Queries}" SelectedItem="{Binding SelectedQuery}"
                  VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListBox.ItemTemplate>
                 <DataTemplate>

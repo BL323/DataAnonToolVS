@@ -180,6 +180,8 @@ namespace KAnonymisation.Core.Output
 
             return result;
         }
+       
+        
         //Extract Meterics
         public void ExtractAnonymisationMetrics() 
         {
