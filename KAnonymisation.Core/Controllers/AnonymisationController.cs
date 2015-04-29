@@ -1,12 +1,9 @@
-﻿using KAnonymisation.Core.ColumnInfo;
-using KAnonymisation.Core.Output;
-using KAnonymisation.UI.Output;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.Output;
+using KAnonymisation.UI.Output;
 
 namespace KAnonymisation.Core.Controllers
 {
@@ -46,6 +43,7 @@ namespace KAnonymisation.Core.Controllers
         }
         private void ConvertTableDataToStrings(ref DataTable dataTable)
         {
+            //table is converted all to strings and then parsed back to original data types later
             DataTable dtClone = dataTable.Clone();
             foreach (DataColumn column in dataTable.Columns)
                 dtClone.Columns[column.ColumnName].DataType = typeof(string);
@@ -78,10 +76,10 @@ namespace KAnonymisation.Core.Controllers
             return dataTable;
         }  
         
-        //Apply Anon to each col induvidually
+        //Apply Anon to each column induvidually
         private void AnonymiseColumn(ref DataTable dataTable, ColumnModel columnModel)
         {
-            //Apply KAnonymisation
+            //Invokes KAnonymisation
             if(columnModel != null && columnModel.KAnonymisation != null)
                 columnModel.KAnonymisation.ApplyAnonymisation(ref dataTable, columnModel);
         }

@@ -1,15 +1,10 @@
-﻿using KAnonymisation.Core.ColumnInfo;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
-using KAnonymisation.Core.Output;
-using KAnonymisation.UI.Output;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KAnonymisation.Hierarchy
 {
@@ -68,7 +63,6 @@ namespace KAnonymisation.Hierarchy
 
             //count occurances of each key
             var valueLookup = new Dictionary<string, int>();
-
             var valsToBeAnonymised = new List<string>();
 
             //count occurances and measure valsToBeAnonymised

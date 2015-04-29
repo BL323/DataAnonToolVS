@@ -1,12 +1,9 @@
-﻿using AnonTool.Infrastructure.DataLoading;
-using AnonTool.MVVM.Updates;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AnonTool.Infrastructure.DataLoading;
+using AnonTool.MVVM.Updates;
 
 namespace AnonTool.Core.DataImport
 {
@@ -64,7 +61,7 @@ namespace AnonTool.Core.DataImport
                 {
                     var sysType = _dataTypeMapperDict[DataFields[index].SelectedDataType];
                     
-                    //hack around date presnetation
+                    //work around to ensure only date is presented while mainitng DateTime data type
                     if(sysType == typeof(DateTime))
                     {
                         column = new DataColumn(DataFields[index].Header, typeof(string));
@@ -72,12 +69,9 @@ namespace AnonTool.Core.DataImport
                     }
                     else
                         column = new DataColumn(DataFields[index].Header, sysType);
-                    
-                 
 
                     dataTable.Columns.Add(column);
                 }
-
                 
                 return dataTable;
             }

@@ -1,11 +1,6 @@
-﻿using AnonTool.MVVM.Updates;
+﻿using System.Collections.ObjectModel;
+using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Output.PostProcessing;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KAnonymisation.Core.Output
 {

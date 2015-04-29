@@ -1,15 +1,8 @@
-﻿using AnonTool.MVVM.Commands;
+﻿using System;
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
 {

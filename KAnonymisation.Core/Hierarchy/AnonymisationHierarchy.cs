@@ -10,7 +10,7 @@ namespace KAnonymisation.Core.Hierarchy
 {
     public class AnonymisationHierarchy : UpdateBase
     {
-        private Node _rootNode;
+        // tree like strucutre which uses recursion to traverse through nodes
         public Node RootNode
         {
             get { return Nodes.First(); }
@@ -19,14 +19,6 @@ namespace KAnonymisation.Core.Hierarchy
                 Nodes.Clear();
                 Nodes.Add(value);
             }
-            //set
-            //{
-            //    if(_rootNode != value)
-            //    {
-            //        _rootNode = value;
-            //        RaisePropertyChanged(() => RootNode);
-            //    }
-            //}
         }
         public Node SelectedTreeNode { get; set; }
 

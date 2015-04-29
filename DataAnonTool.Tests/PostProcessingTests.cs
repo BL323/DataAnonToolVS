@@ -186,10 +186,10 @@ namespace DataAnonTool.Tests
             _resultsVm.ILossCalcController.GoCalcCommand.Execute(null);
 
             // 0 if original leaf value
-            Assert.IsTrue(iCalc0.Result.Equals("0"));
+            Assert.IsTrue(iCalc0.Result.Equals("0.0000"));
             //values above 0 indicate information loss
-            Assert.IsTrue(iCalc1.Result.Equals("0.5"));
-            Assert.IsTrue(iCalc2.Result.Equals("0.75"));
+            Assert.IsTrue(iCalc1.Result.Equals("0.5000"));
+            Assert.IsTrue(iCalc2.Result.Equals("0.7500"));
 
         }
 

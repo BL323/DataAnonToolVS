@@ -1,19 +1,12 @@
-﻿using AnonTool.MVVM.Commands;
+﻿using System;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
+using System.Windows.Input;
+using AnonTool.MVVM.Commands;
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Controllers;
 using KAnonymisation.Core.IdentifierTypes;
-using KAnonymisation.Core.Interfaces;
-using KAnonymisation.Hierarchy;
-using KAnonymisation.SetBased;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Input;
 
 namespace AnonTool.Core.Preprocessing
 {
@@ -84,15 +77,13 @@ namespace AnonTool.Core.Preprocessing
                        K = 3
                 };
 
+                //work around to display only date from DateTime data type
                 if (column.Caption == "Date")
                     colVm.DataType = typeof(DateTime);
 
 
                 _columnPreprocessorVm.Columns.Add(colVm);
             }
-
-
- 
 
             if (_columnPreprocessorVm.Columns.Count > 0)
                 _columnPreprocessorVm.SelectedColumn = _columnPreprocessorVm.Columns.First();
@@ -103,7 +94,7 @@ namespace AnonTool.Core.Preprocessing
         {
             try
             {
-
+                //invokes the anonymisation process via the AnonymisationController class
                 if (ColumnPreprocessorVm != null)
                     OutputDataTableTester = _anonController.InvokeAnonymisation(InputDataTable, ColumnPreprocessorVm.TranslateToColumnModels(), _displayResults);
             }catch(Exception ex)

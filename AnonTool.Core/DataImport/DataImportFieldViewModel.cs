@@ -1,10 +1,6 @@
-﻿using AnonTool.MVVM.Updates;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AnonTool.MVVM.Updates;
 
 namespace AnonTool.Core.DataImport
 {
@@ -13,6 +9,7 @@ namespace AnonTool.Core.DataImport
         private string _header;
         private string _selectedDataType = "string";
         private List<string> _data = new List<string>();
+        // data types supported by the tool
         private ObservableCollection<string> _dataTypes = new ObservableCollection<string>() { "string", "int", "double", "date"};
 
         public string Header

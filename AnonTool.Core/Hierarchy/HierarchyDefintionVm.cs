@@ -1,14 +1,10 @@
-﻿using AnonTool.MVVM.Commands;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using AnonTool.MVVM.Commands;
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Hierarchy;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace AnonTool.Core.Hierarchy
 {
@@ -19,7 +15,6 @@ namespace AnonTool.Core.Hierarchy
         private string _newNodeValue;
         private string _matchString;
         private string _selectedRedactionDirection = "Right to Left";
-        private DataTable _hierarchyCustomDefintions = new DataTable();
         private AnonymisationHierarchy _hierarchyStrRedaction;
         private AnonymisationHierarchy _hierarchyCustom; 
         private HierarchyDefinitionOptionsVm _hierarchyDefintionOptionsVm = new HierarchyDefinitionOptionsVm();
@@ -272,34 +267,5 @@ namespace AnonTool.Core.Hierarchy
         {
             return ((IsCustomHierarchySelected) ? _hierarchyCustom : _hierarchyStrRedaction);
         }
-       /* private Dictionary<string, LinkedList<string>> CollateCustomHierarchy()
-        {
-            return null;
-            //var result = new Dictionary<string, LinkedList<string>>();
-
-            //if (_hierarchyCustomDefintions == null)
-            //    return null;
-
-            //var anonLevels = _hierarchyCustomDefintions.Columns.Count;
-            //foreach(DataRow row in HierarchyCustomDefintions.Rows)
-            //{
-            //    var initVal = row["Level0"].ToString();
-            //    var linkList = new LinkedList<string>();
-            //    var node = linkList.AddFirst(initVal);
-
-
-            //    for(int index = 1; index <anonLevels; index++)
-            //    {
-            //        var colName = string.Format("Level{0}", index);
-            //        var nextVal = row[colName].ToString();
-            //        node = linkList.AddAfter(node, nextVal);
-            //    }
-
-            //    result.Add(initVal, linkList);
-            //}
-
-            //return result;
-        }
-        */
     }
 }

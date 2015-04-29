@@ -1,16 +1,13 @@
-﻿using CsvHelper;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CsvHelper;
 
 namespace AnonTool.Infrastructure.DataLoading
 {
     public static class DataLoader
     {
+        //CsvHelper classes supported by NuGet 3rd party library: http://joshclose.github.io/CsvHelper/ (Last Accessed: 28th April 2015)      
         public static DataMapper LoadCsv(string fName)
             {
                 var init = false;

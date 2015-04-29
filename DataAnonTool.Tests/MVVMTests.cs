@@ -17,6 +17,7 @@ namespace DataAnonTool.Tests
         {
             get { return _testCommand ?? (_testCommand = new RelayCommand(o => TestMethod(), o => true)); }
         }
+        
         private void TestMethod()
         {
             _invokeMethod = true;

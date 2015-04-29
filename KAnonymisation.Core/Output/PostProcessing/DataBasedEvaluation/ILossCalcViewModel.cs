@@ -1,11 +1,8 @@
-﻿using AnonTool.MVVM.Updates;
-using KAnonymisation.Core.Hierarchy;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AnonTool.MVVM.Updates;
+using KAnonymisation.Core.Hierarchy;
 
 namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
 {
@@ -108,9 +105,9 @@ namespace KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation
         public AnonymisationHierarchy SelectedHierarchy { get; set; }
     
         //Constructors
-        public ILossCalcViewModel(Dictionary<string, AnonymisationHierarchy> AnonDict)
+        public ILossCalcViewModel(Dictionary<string, AnonymisationHierarchy> anonDict)
         {
-            _anonDict = AnonDict;
+            _anonDict = anonDict;
 
             foreach(var key in _anonDict.Keys)
             {

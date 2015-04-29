@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnonTool.MVVM.Updates
 {
@@ -23,6 +19,7 @@ namespace AnonTool.MVVM.Updates
             }
         }
 
+        // Use of lambda expression to pass actual variable instead of string, useful for refactoring
         protected void RaisePropertyChanged<T>(Expression<Func<T>> expression)
         {
             if (expression == null)

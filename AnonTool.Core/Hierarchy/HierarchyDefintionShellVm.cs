@@ -1,12 +1,6 @@
-﻿using AnonTool.MVVM.Updates;
+﻿using System.Collections.ObjectModel;
+using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.Hierarchy;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnonTool.Core.Hierarchy
 {
@@ -32,7 +26,6 @@ namespace AnonTool.Core.Hierarchy
             HierarchyDefinitionVm.HierarchyDefintionOptionsVm.ColumnName = columnName;
             HierarchyDefinitionVm.HierarchyDefintionOptionsVm.UniqueValues = uniqueVals;
             HierarchyDefinitionVm.GenerateHierarchy();
-
         }
 
         internal AnonymisationHierarchy ExtractHierarchy()

@@ -1,11 +1,7 @@
-﻿using AnonTool.Core.MenuBar;
+﻿using System.Data;
+using AnonTool.Core.MenuBar;
 using AnonTool.Core.Preprocessing;
 using AnonTool.MVVM.Updates;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnonTool.Core.Shell
 {
@@ -48,7 +44,7 @@ namespace AnonTool.Core.Shell
             _menuBarVm.importedData += _menuBarVm_importedData;
         }
 
-        void _menuBarVm_importedData(object sender, System.Data.DataTable importedDataTable)
+        void _menuBarVm_importedData(object sender, DataTable importedDataTable)
         {
             _preprocessingVm.InputDataTable = importedDataTable;
         }

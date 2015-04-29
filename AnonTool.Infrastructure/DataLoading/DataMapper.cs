@@ -53,15 +53,7 @@ namespace AnonTool.Infrastructure.DataLoading
         {
             _headers = inputHeaders;
             _fields = inputFields;
-        }
-
-        public void Describe()
-        {
-            var desc = string.Join(",", _headers);
-            Console.WriteLine(desc);
-        }
-
-        
+        }       
 
     }
 }

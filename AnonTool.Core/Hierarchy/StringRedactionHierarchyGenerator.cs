@@ -1,10 +1,7 @@
-﻿using KAnonymisation.Core.Hierarchy;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KAnonymisation.Core.Hierarchy;
 
 namespace AnonTool.Core.Hierarchy
 {

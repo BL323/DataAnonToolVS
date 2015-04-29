@@ -15,7 +15,6 @@ namespace DataAnonTool.Tests
         [TestInitialize]
         public void SetupTests()
         {
-            // PreprocessingColumnsVm
             _preprocessorVm = new PreProcessingViewModel(false);
             _preprocessorVm.ColumnPreprocessorVm = new PreprocessingColumnsVm(_preprocessorVm, false);
         }

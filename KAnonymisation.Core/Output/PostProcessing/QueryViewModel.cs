@@ -1,12 +1,8 @@
-﻿using AnonTool.MVVM.Commands;
-using AnonTool.MVVM.Updates;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using AnonTool.MVVM.Commands;
+using AnonTool.MVVM.Updates;
 
 namespace KAnonymisation.Core.Output.PostProcessing
 {
@@ -102,8 +98,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
 
         private void AddQueryStatement()
         {
-            var queryStatement = new QueryStatementViewModel();
-            queryStatement.AvailableAttributes = AvailableAttributes;
+            var queryStatement = new QueryStatementViewModel {AvailableAttributes = AvailableAttributes};
             if (AvailableAttributes != null && AvailableAttributes.Count > 0)
                 queryStatement.Attribute = AvailableAttributes.First();
 

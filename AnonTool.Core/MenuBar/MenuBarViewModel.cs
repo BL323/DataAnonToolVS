@@ -1,17 +1,13 @@
-﻿using AnonTool.MVVM.Commands;
-using AnonTool.MVVM.Updates;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
-using System.Windows.Forms;
-using AnonTool.Infrastructure.DataLoading;
-using AnonTool.Core.DataImport;
-using AnonTool.UI.DataImport;
+﻿using System;
 using System.Data;
+using System.Windows.Forms;
+using System.Windows.Input;
+using AnonTool.Core.DataImport;
+using AnonTool.Infrastructure.DataLoading;
+using AnonTool.MVVM.Commands;
+using AnonTool.MVVM.Updates;
+using AnonTool.UI.DataImport;
+using MessageBox = System.Windows.MessageBox;
 
 namespace AnonTool.Core.MenuBar
 {
@@ -22,6 +18,7 @@ namespace AnonTool.Core.MenuBar
     {
         //Events
         public event ImportedData importedData;
+       
         //Private Fields 
         private ICommand _importDataCommand;
 
@@ -47,16 +44,16 @@ namespace AnonTool.Core.MenuBar
                 }
             }catch(Exception ex)
             {
-                var msgBox = System.Windows.MessageBox.Show(ex.Message, "Error Importing Data");
+                var msgBox = MessageBox.Show(ex.Message, "Error Importing Data");
             }
-        }
-     
+        }     
         private DataTable CreateDataTable(DataMapper dataMapper)
         {
             var disvm = new DataImportShellViewModel(dataMapper);
             var dataImportDialog = new DataImportDialog();
             dataImportDialog.DataContext = disvm;
 
+            //modal dialog window to map data types to relational attributes
             dataImportDialog.ShowDialog();
 
             if (dataImportDialog.DialogResult != true)

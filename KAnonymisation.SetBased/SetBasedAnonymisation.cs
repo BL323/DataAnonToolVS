@@ -1,15 +1,11 @@
-﻿using KAnonymisation.Core.ColumnInfo;
-using KAnonymisation.Core.IdentifierTypes;
-using KAnonymisation.Core.Interfaces;
-using KAnonymisation.Core.Output;
-using KAnonymisation.Core.TypeComparer;
-using KAnonymisation.UI.Output;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
+using KAnonymisation.Core.TypeComparer;
 
 namespace KAnonymisation.SetBased
 {
@@ -102,13 +98,14 @@ namespace KAnonymisation.SetBased
                 {
                     var val = row[columnModel.Header].ToString();
                     if (valsToBeAnonymised.Contains(val))
-                        foreach (var cluster in clustersToApply)
-                            if (cluster.Contains(val))
-                            {
-                                var newcluster = string.Join(", ", cluster);
-                                var strCluster = "{" + newcluster + "}";
-                                EditRow(row, columnModel.Header, strCluster);
-                            }
+                        if (clustersToApply != null)
+                            foreach (var cluster in clustersToApply)
+                                if (cluster.Contains(val))
+                                {
+                                    var newcluster = string.Join(", ", cluster);
+                                    var strCluster = "{" + newcluster + "}";
+                                    EditRow(row, columnModel.Header, strCluster);
+                                }
                 }
             }
             else if (columnModel.DataType == typeof(int))
@@ -128,14 +125,15 @@ namespace KAnonymisation.SetBased
                 {
                     var val = int.Parse(row[columnModel.Header].ToString());
                     if (valsToBeAnonymised.Contains(val.ToString()))
-                        foreach (var cluster in clustersToApply)
-                            if (cluster.Contains(val))
-                            {
-                                var newcluster = string.Join(", ", cluster);
-                                var strCluster =  "{" + newcluster + "}";
-                                EditRow(row, columnModel.Header, strCluster);
+                        if (clustersToApply != null)
+                            foreach (var cluster in clustersToApply)
+                                if (cluster.Contains(val))
+                                {
+                                    var newcluster = string.Join(", ", cluster);
+                                    var strCluster =  "{" + newcluster + "}";
+                                    EditRow(row, columnModel.Header, strCluster);
 
-                            }
+                                }
                 }
 
             }
@@ -156,14 +154,15 @@ namespace KAnonymisation.SetBased
                 {
                     var val = double.Parse(row[columnModel.Header].ToString());
                     if (valsToBeAnonymised.Contains(val.ToString()))
-                        foreach (var cluster in clustersToApply)
-                            if (cluster.Contains(val))
-                            {
-                                var newcluster = string.Join(", ", cluster);
-                                var strCluster = "{" + newcluster + "}";
-                                EditRow(row, columnModel.Header, strCluster);
+                        if (clustersToApply != null)
+                            foreach (var cluster in clustersToApply)
+                                if (cluster.Contains(val))
+                                {
+                                    var newcluster = string.Join(", ", cluster);
+                                    var strCluster = "{" + newcluster + "}";
+                                    EditRow(row, columnModel.Header, strCluster);
 
-                            }
+                                }
                 }
             }
             else if(columnModel.DataType == typeof(DateTime))
@@ -184,18 +183,19 @@ namespace KAnonymisation.SetBased
                 {
                     var val = DateTime.Parse(row[columnModel.Header].ToString());
                     if (listDatesToAnonyise.Contains(val))
-                        foreach (var cluster in clustersToApply)
-                            if (cluster.Contains(val))
-                            {
-                                var strs = new List<string>();
-                                foreach(var d in cluster)
-                                    strs.Add(d.ToShortDateString());   
+                        if (clustersToApply != null)
+                            foreach (var cluster in clustersToApply)
+                                if (cluster.Contains(val))
+                                {
+                                    var strs = new List<string>();
+                                    foreach(var d in cluster)
+                                        strs.Add(d.ToShortDateString());   
 
-                                var newcluster = string.Join(", ", strs);
-                                var strCluster = "{" + newcluster + "}";
-                                EditRow(row, columnModel.Header, strCluster);
+                                    var newcluster = string.Join(", ", strs);
+                                    var strCluster = "{" + newcluster + "}";
+                                    EditRow(row, columnModel.Header, strCluster);
 
-                            }
+                                }
                 }
 
             }
@@ -273,20 +273,22 @@ namespace KAnonymisation.SetBased
 
         private T FurthestVal<T>(T r, ref List<T> shuffledArray) where T : IComparable 
         {
+            //generate dictionary with measurement of values            
             var keyDist = CalcSimilairtyDict(r, shuffledArray);
             var furthestVal = keyDist.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             return furthestVal;
         }
         private T NearestVal<T>(T r, ref List<T> shuffledArray) where T : IComparable
         {
-            //generate ditionary with measurement of values
+            //generate dictionary with measurement of values
             var keyDist = CalcSimilairtyDict<T>(r, shuffledArray);
             var nearestVal = keyDist.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
             return nearestVal;
         }
         private Dictionary<T, double> CalcSimilairtyDict<T>(T r, List<T> shuffledArray)
         {
-            var result = new Dictionary<T, double>();
+            //maps the attribute data type to associated calculation method
+            Dictionary<T, double> result;
 
             if (typeof(T) == typeof(string))
                 result = CalcLevenstheinVals<T>(r, shuffledArray);

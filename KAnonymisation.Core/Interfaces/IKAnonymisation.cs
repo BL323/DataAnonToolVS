@@ -1,18 +1,14 @@
-﻿using KAnonymisation.Core.ColumnInfo;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
+using KAnonymisation.Core.ColumnInfo;
 
 namespace KAnonymisation.Core.Interfaces
 {
     public interface IKAnonymisation
     {
-        //Properties
+        //ReadOnly Properties
         string Name { get; }
-        bool RequiresHierarchy { get; }        
+        bool RequiresHierarchy { get; }  
+        //Methods
         void ApplyAnonymisation(ref DataTable dataTable, ColumnModel columnModel);
     }
 }

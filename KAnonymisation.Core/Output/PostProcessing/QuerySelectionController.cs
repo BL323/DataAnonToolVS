@@ -83,6 +83,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
             var rand = new Random();
             var queryList = new List<QueryViewModel>();
 
+            //create two queries one for input data table and one for output data table
             var queryVmInput = new QueryViewModel(_availableAttributes) { QueryNumber = ++_queryCount, SelectedDataTable = "Input Table" };
             var queryVmOutput = new QueryViewModel(_availableAttributes){ QueryNumber = ++_queryCount, SelectedDataTable = "OutputTable" };
             queryVmOutput.QueryStatements.Clear();
@@ -122,6 +123,7 @@ namespace KAnonymisation.Core.Output.PostProcessing
 
             }
 
+            // append queries to current list
             Queries.Add(queryVmInput);
             Queries.Add(queryVmOutput);
         }

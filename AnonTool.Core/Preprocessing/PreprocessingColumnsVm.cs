@@ -1,24 +1,21 @@
-﻿using AnonTool.Core.Hierarchy;
-using AnonTool.MVVM.Commands;
-using AnonTool.MVVM.Updates;
-using AnonTool.UI.Hierarchy;
-using KAnonymisation.Core.ColumnInfo;
-using KAnonymisation.Core.Hierarchy;
-using KAnonymisation.Core.IdentifierTypes;
-using KAnonymisation.Core.Interfaces;
-using KAnonymisation.Hierarchy;
-using KAnonymisation.SetBased;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using AnonTool.Core.Hierarchy;
+using AnonTool.MVVM.Commands;
+using AnonTool.MVVM.Updates;
+using AnonTool.UI.Hierarchy;
+using KAnonymisation.Core.ColumnInfo;
+using KAnonymisation.Core.IdentifierTypes;
+using KAnonymisation.Core.Interfaces;
+using KAnonymisation.Hierarchy;
+using KAnonymisation.SetBased;
 
 namespace AnonTool.Core.Preprocessing
 {
@@ -29,7 +26,6 @@ namespace AnonTool.Core.Preprocessing
         private PreprocessColumnVm _selectedColumn;
         private HierarchyDefintionShellVm _hierarchyDefintionShellVm;
         private Dictionary<string, HierarchyDefintionShellVm> _hierarchyDefintionDict = new Dictionary<string, HierarchyDefintionShellVm>();
-        private AnonymisationHierarchy _anonymisationHierarchy;
 
         private ObservableCollection<IdentifierType> _availableAttributeTypes = new ObservableCollection<IdentifierType>() 
             { IdentifierType.NonSensitive, IdentifierType.Sensitive, IdentifierType.Quasi, IdentifierType.Explicit };
@@ -151,26 +147,28 @@ namespace AnonTool.Core.Preprocessing
             if (SelectedColumn == null)
                 return;
 
+            //unique values of the selected column map to hierarchy leaves
             var uniqueVals = GetUniqueValues(_parentVm.InputDataTable, SelectedColumn);
 
             if(_hierarchyDefintionDict.ContainsKey(SelectedColumn.Header))
             {
+                //hierarchy has previously been generated and stored in dictionary
                 _hierarchyDefintionShellVm = _hierarchyDefintionDict[SelectedColumn.Header];
             }else
             {
+                //generate new hierarchy and store result in dictionary
                 _hierarchyDefintionShellVm = new HierarchyDefintionShellVm(SelectedColumn.Header, uniqueVals);
                 _hierarchyDefintionDict.Add(SelectedColumn.Header, _hierarchyDefintionShellVm);
             }
             
             var hierarchyDefintionDialog = new HierarchyDefintionDialog();
 
-
             hierarchyDefintionDialog.DataContext = _hierarchyDefintionShellVm;
             hierarchyDefintionDialog.ShowDialog();
 
             SelectedColumn.AnonymisationHierarchy = _hierarchyDefintionShellVm.ExtractHierarchy();
         }
-        private ObservableCollection<string> GetUniqueValues(System.Data.DataTable dataTable, PreprocessColumnVm SelectedColumn)
+        private ObservableCollection<string> GetUniqueValues(DataTable dataTable, PreprocessColumnVm SelectedColumn)
         {
             var uniqueVals = new ObservableCollection<string>();
             var vls = new ObservableCollection<string>();
@@ -186,6 +184,7 @@ namespace AnonTool.Core.Preprocessing
         }
         public List<ColumnModel> TranslateToColumnModels()
         {
+            //map PreprocessColumnVm -> ColumnModel object used by KAnonymisation.Core classes
             var columnModel = new List<ColumnModel>();
 
             foreach(var col in Columns)

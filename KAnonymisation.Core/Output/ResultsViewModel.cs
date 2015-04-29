@@ -1,19 +1,18 @@
-﻿using AnonTool.Infrastructure.DataLoading;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using AnonTool.Infrastructure.DataLoading;
 using AnonTool.MVVM.Commands;
 using AnonTool.MVVM.Updates;
 using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.Hierarchy;
 using KAnonymisation.Core.Output.PostProcessing;
 using KAnonymisation.Core.Output.PostProcessing.DataBasedEvaluation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace KAnonymisation.Core.Output
 {
@@ -130,7 +129,7 @@ namespace KAnonymisation.Core.Output
             {
 
                 var fileName = "";
-                var saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                var saveFileDialog = new SaveFileDialog();
                 saveFileDialog.DefaultExt = ".csv";
                 saveFileDialog.Filter = "CSV | *.csv";
                 saveFileDialog.FileName = "ExportedCsvData";
@@ -217,11 +216,10 @@ namespace KAnonymisation.Core.Output
             result = string.Format("{0}\n{1}: {2}", result, query.QueryNumberTitle, occuranceCount);
         }
 
-        ///<summary>
-        /// {} Denotes Set
-        /// [] Denotes Range
-        /// % Wild Card
-        ///</summary>
+        // supports wild card, set based and anonymised matching, see report for details
+        // {} Denotes Set
+        // % Wild Card
+        // ** anonymised value
         private void EvaluateQueryStatement(ref bool attributesSatisfied, DataRow row, ObservableCollection<QueryStatementViewModel> queryStatements)
         {
             //evaluate each statement induvidually

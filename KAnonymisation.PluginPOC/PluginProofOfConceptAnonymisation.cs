@@ -1,17 +1,15 @@
-﻿using KAnonymisation.Core.ColumnInfo;
+﻿using System.Data;
+using KAnonymisation.Core.ColumnInfo;
 using KAnonymisation.Core.IdentifierTypes;
 using KAnonymisation.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KAnonymisation.PluginPOC
 {
     public class PluginProofOfConceptAnonymisation : IKAnonymisation
     {
+        // Proof of Concept (POC) plugin anonymisation that demostrates the process
+        // to inject a 3rd party algorithm no hard coded in the system.
+        // Simply replaces all quasi identifier attributes with a POC flag
         public string Name
         {
             get { return "Plugin Proof of Concept Anonymisation"; }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AnonTool.MVVM.Commands
@@ -11,7 +7,7 @@ namespace AnonTool.MVVM.Commands
     /// <summary>
     ///  RelayCommand Class used for wiring commands View -> ViewModel
     ///  Predicate used to assess can Execute
-    ///  Class orignally from: http://msdn.microsoft.com/en-us/magazine/dd419663.aspx#id0090051
+    ///  Class orignally from: http://msdn.microsoft.com/en-us/magazine/dd419663.aspx#id0090051 Last Accessed: 29th April
     /// </summary>
     public class RelayCommand : ICommand
     {
